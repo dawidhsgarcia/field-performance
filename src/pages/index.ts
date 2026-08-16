@@ -1,0 +1,6 @@
+export * from './LoginPage'
+export * from './DashboardPage'
+export * from './AcompanhamentoPage'
+export * from './CombustivelPage'
+export * from './BancoHorasPage'
+export * from './ParametrosPage'
