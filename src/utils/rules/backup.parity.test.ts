@@ -8,8 +8,10 @@ import { computeTeamGoalsSummary } from './goals'
 import { computeRanking } from './ranking'
 
 describe('Paridade com backup real (somente leitura)', () => {
-  it('KPIs do Dashboard são consistentes com os dados do backup', () => {
-    const state = migrateState(readBackupFixture())
+  const backup = readBackupFixture()
+
+  it.skipIf(backup === null)('KPIs do Dashboard são consistentes com os dados do backup', () => {
+    const state = migrateState(backup)
     expect(state).not.toBeNull()
     if (!state) return
 

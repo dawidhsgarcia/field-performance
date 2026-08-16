@@ -8,7 +8,7 @@ describe('migrateState', () => {
     expect(migrateState(null)).toBeNull()
   })
 
-  it('normaliza um backup real do Firestore', () => {
+  it.skipIf(readBackupFixture() === null)('normaliza um backup real do Firestore', () => {
     const raw = readBackupFixture()
     const state = migrateState(raw)
     expect(state).not.toBeNull()
