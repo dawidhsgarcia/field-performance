@@ -7,10 +7,11 @@ import { GoalsTable } from '@/components/acompanhamento/GoalsTable'
 import { LockBanner } from '@/components/acompanhamento/LockBanner'
 import { LegendCodes } from '@/components/acompanhamento/LegendCodes'
 import { SbaDialog } from '@/components/acompanhamento/SbaDialog'
+import { DayIndisModal } from '@/components/acompanhamento/DayIndisModal'
 import { ImportResultDialog } from '@/components/shared/ImportResultDialog'
 import { ConfirmDialog } from '@/components/parametros/ConfirmDialog'
 import { ALL_REGION } from '@/lib/constants'
-import { removeColaborador } from '@/services/state'
+import { removeColaborador, periodKeyOf } from '@/services/state'
 import { useAcompanhamentoData } from '@/hooks/useAcompanhamentoData'
 import { useStateStore } from '@/stores/state.store'
 import { MONTHS } from '@/utils/date'
@@ -25,6 +26,7 @@ export function AcompanhamentoPage() {
   const { region, weeks, techs, currentYear, currentMonth } = useAcompanhamentoData()
 
   const [sbaFunci, setSbaFunci] = useState<string | null>(null)
+  const [dayIso, setDayIso] = useState<string | null>(null)
   const [removeTarget, setRemoveTarget] = useState<Technician | null>(null)
   const [importResult, setImportResult] = useState<{ title: string; message: string } | null>(null)
   const [importing, setImporting] = useState(false)
@@ -150,11 +152,22 @@ export function AcompanhamentoPage() {
             "✏️ Pontuação" para digitar a nota do dia. Justificativas não entram na soma dos totais.
           </p>
           <LegendCodes />
-          <GoalsTable region={region} weeks={weeks} />
+          <GoalsTable region={region} weeks={weeks} onOpenDay={setDayIso} />
         </>
       )}
 
       {sbaFunci && <SbaDialog funci={sbaFunci} onOpenChange={(o) => { if (!o) setSbaFunci(null) }} />}
+
+      {dayIso && (
+        <DayIndisModal
+          region={region}
+          pk={periodKeyOf(data)}
+          iso={dayIso}
+          onOpenChange={(o) => {
+            if (!o) setDayIso(null)
+          }}
+        />
+      )}
 
       <ConfirmDialog
         open={removeTarget !== null}

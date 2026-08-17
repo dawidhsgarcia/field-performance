@@ -8,9 +8,10 @@ import type { Region, Week } from '@/types'
 interface GoalsTableProps {
   region: Region
   weeks: Week[]
+  onOpenDay?: (iso: string) => void
 }
 
-export function GoalsTable({ region, weeks }: GoalsTableProps) {
+export function GoalsTable({ region, weeks, onOpenDay }: GoalsTableProps) {
   const data = useStateStore((s) => s.data)
   if (!data) return null
 
@@ -74,9 +75,19 @@ export function GoalsTable({ region, weeks }: GoalsTableProps) {
                 w.map((d) => {
                   const weekend = d.dow === 0 || d.dow === 6
                   return (
-                    <th key={d.iso} className={weekend ? 'day-head weekend' : 'day-head'}>
-                      <span className="dow">{DOW[d.dow]}</span>
-                      <span className="dnum">{pad(d.day)}</span>
+                    <th
+                      key={d.iso}
+                      className={`day-head day-head-clickable${weekend ? ' weekend' : ''}`}
+                    >
+                      <button
+                        type="button"
+                        className="day-head-btn"
+                        title="Ver indisponibilidade do dia"
+                        onClick={() => onOpenDay?.(d.iso)}
+                      >
+                        <span className="dow">{DOW[d.dow]}</span>
+                        <span className="dnum">{pad(d.day)}</span>
+                      </button>
                     </th>
                   )
                 }),

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { computeProjection } from './projection'
-import { computeTeamGoalsSummary, computeTeamOverview } from './goals'
+import { computeDayOverview, computeTeamGoalsSummary, computeTeamOverview } from './goals'
 import { buildWeeks } from '@/utils/date'
 import { DEFAULT_PARAMS } from '@/lib/constants'
 import type { EntryValue, Region } from '@/types'
@@ -84,5 +84,42 @@ describe('computeTeamOverview', () => {
     const businessDays = weeks.flat().filter((d) => d.dow !== 0 && d.dow !== 6).length
     expect(overview.totalTechDays).toBe(businessDays)
     expect(overview.unavailPct).toBe((1 / businessDays) * 100)
+  })
+})
+
+describe('computeDayOverview', () => {
+  it('conta justificativas de um único dia por código', () => {
+    const region = makeRegion({
+      T1: { '2026-07-01': 'BH' },
+      T2: { '2026-07-01': 'BH' },
+      T3: { '2026-07-01': 'DSR' },
+    })
+    const overview = computeDayOverview(region, '2026-07', '2026-07-01')
+    expect(overview.totalJustified).toBe(3)
+    expect(overview.justCounts['BH']).toBe(2)
+    expect(overview.justCounts['DSR']).toBe(1)
+  })
+
+  it('indisponibilidade do dia = justificados ÷ técnicos', () => {
+    const region = makeRegion({
+      T1: { '2026-07-01': 'FE' },
+      T2: {},
+      T3: {},
+    })
+    const overview = computeDayOverview(region, '2026-07', '2026-07-01')
+    expect(overview.techCount).toBe(3)
+    expect(overview.totalJustified).toBe(1)
+    expect(overview.unavailPct).toBe((1 / 3) * 100)
+  })
+
+  it('dia sem justificativa: contagem zerada e pct nulo quando sem técnicos', () => {
+    const region = makeRegion({ T1: { '2026-07-01': 4 } })
+    const overview = computeDayOverview(region, '2026-07', '2026-07-02')
+    expect(overview.totalJustified).toBe(0)
+    expect(overview.justCounts['BH']).toBe(0)
+    const empty = makeRegion({})
+    const emptyOverview = computeDayOverview(empty, '2026-07', '2026-07-02')
+    expect(emptyOverview.techCount).toBe(0)
+    expect(emptyOverview.unavailPct).toBeNull()
   })
 })

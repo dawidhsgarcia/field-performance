@@ -1,4 +1,4 @@
-import type { Params, Region, TeamGoalsSummary, TeamOverview, Week, UnproductiveTech } from '@/types'
+import type { DayOverview, Params, Region, TeamGoalsSummary, TeamOverview, Week, UnproductiveTech } from '@/types'
 import { isoToDate } from '@/utils/date'
 import { importedTechs } from '@/services/state'
 import { minScoreForDow } from './quartis'
@@ -119,4 +119,22 @@ export function computeTeamOverview(region: Region, weeks: Week[], today: Date):
     unproductiveByTech,
     pastBusinessDaysCount: pastBusinessDays.length,
   }
+}
+
+export function computeDayOverview(region: Region, pk: string, iso: string): DayOverview {
+  const techs = importedTechs(region)
+  const justCounts: Record<string, number> = {}
+  JUSTIFICATION_CODES.forEach((c) => {
+    justCounts[c] = 0
+  })
+  let totalJustified = 0
+  techs.forEach((tech) => {
+    const raw = region.entries?.[pk]?.[tech.funci]?.[iso]
+    if (typeof raw === 'string') {
+      if (Object.prototype.hasOwnProperty.call(justCounts, raw)) justCounts[raw]++
+      totalJustified++
+    }
+  })
+  const unavailPct = techs.length > 0 ? (totalJustified / techs.length) * 100 : null
+  return { techCount: techs.length, totalJustified, unavailPct, justCounts }
 }

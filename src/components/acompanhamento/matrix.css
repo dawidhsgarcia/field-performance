@@ -76,6 +76,26 @@
   border-left: 1px solid var(--border);
 }
 
+.matrix-wrap .day-head.day-head-clickable {
+  padding: 0;
+}
+
+.matrix-wrap .day-head .day-head-btn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 6px 2px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.matrix-wrap .day-head .day-head-btn:hover {
+  background: var(--primary-tint);
+}
+
 .matrix-wrap .day-head .dow {
   display: block;
   font-size: 9px;

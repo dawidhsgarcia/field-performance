@@ -45,6 +45,13 @@ export interface TeamOverview {
   pastBusinessDaysCount: number
 }
 
+export interface DayOverview {
+  techCount: number
+  totalJustified: number
+  unavailPct: number | null
+  justCounts: Record<string, number>
+}
+
 export interface ProjectionRow {
   tech: Technician
   sum: number
