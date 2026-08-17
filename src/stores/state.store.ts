@@ -184,14 +184,18 @@ export const useStateStore = create<StateStore>((set, get) => ({
       return { ok: out.newState !== null, message: out.message, summary: out.summary, savedToCloud: false }
     }
     let lastSummary: ActivityReportSummary | null = null
+    let lastMessage: string | undefined
     const apply = () => {
       const current = get().data
       if (!current) return null
       const out = applyActivityReport(rawRows, regionId, current)
+      if (out.message) lastMessage = out.message
       if (out.summary) lastSummary = out.summary
       if (out.newState) set({ data: out.newState })
       return out.newState
     }
+    const applied = apply()
+    if (!applied) return { ok: false, message: lastMessage }
     try {
       await saveWithRebase({
         getState: () => get().data,
