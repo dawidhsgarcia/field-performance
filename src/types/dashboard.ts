@@ -50,6 +50,7 @@ export interface DayOverview {
   totalJustified: number
   unavailPct: number | null
   justCounts: Record<string, number>
+  techs: Array<{ funci: string; nome: string; code: string }>
 }
 
 export interface ProjectionRow {

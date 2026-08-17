@@ -92,6 +92,38 @@ export function DayIndisModal({ region, pk, iso, onOpenChange }: DayIndisModalPr
               </Table>
             </div>
           )}
+          {justCodes.length > 0 && (
+            <div className="pt-2">
+              <h4 className="mb-2 text-sm font-semibold">Técnicos indisponíveis</h4>
+              <div className="overflow-x-auto rounded-lg border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Técnico</TableHead>
+                      <TableHead>Justificativa</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {overview.techs.map((t) => {
+                      const color = JUSTIFICATION_COLORS[t.code]
+                      return (
+                        <TableRow key={t.funci}>
+                          <TableCell className="font-semibold">{t.nome}</TableCell>
+                          <TableCell>
+                            <span
+                              className="mr-1.5 inline-block h-2.5 w-2.5 rounded-sm align-middle"
+                              style={{ background: color.bg, border: `1px solid ${color.text}55` }}
+                            />
+                            {t.code} — {JUSTIFICATION_LABELS[t.code] || ''}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

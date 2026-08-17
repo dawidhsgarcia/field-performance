@@ -127,14 +127,19 @@ export function computeDayOverview(region: Region, pk: string, iso: string): Day
   JUSTIFICATION_CODES.forEach((c) => {
     justCounts[c] = 0
   })
+  const techList: DayOverview['techs'] = []
   let totalJustified = 0
   techs.forEach((tech) => {
     const raw = region.entries?.[pk]?.[tech.funci]?.[iso]
     if (typeof raw === 'string') {
-      if (Object.prototype.hasOwnProperty.call(justCounts, raw)) justCounts[raw]++
+      if (Object.prototype.hasOwnProperty.call(justCounts, raw)) {
+        justCounts[raw]++
+        techList.push({ funci: tech.funci, nome: tech.nome, code: raw })
+      }
       totalJustified++
     }
   })
+  techList.sort((a, b) => a.nome.localeCompare(b.nome))
   const unavailPct = techs.length > 0 ? (totalJustified / techs.length) * 100 : null
-  return { techCount: techs.length, totalJustified, unavailPct, justCounts }
+  return { techCount: techs.length, totalJustified, unavailPct, justCounts, techs: techList }
 }

@@ -117,9 +117,28 @@ describe('computeDayOverview', () => {
     const overview = computeDayOverview(region, '2026-07', '2026-07-02')
     expect(overview.totalJustified).toBe(0)
     expect(overview.justCounts['BH']).toBe(0)
+    expect(overview.techs).toEqual([])
     const empty = makeRegion({})
     const emptyOverview = computeDayOverview(empty, '2026-07', '2026-07-02')
     expect(emptyOverview.techCount).toBe(0)
     expect(emptyOverview.unavailPct).toBeNull()
+  })
+
+  it('lista técnicos indisponíveis com código, ordenados por nome', () => {
+    const region = makeRegion({
+      T1: { '2026-07-01': 'BH' },
+      T2: { '2026-07-01': 'DSR' },
+      T3: { '2026-07-01': 4 },
+    })
+    region.technicians = [
+      { funci: 'T2', nome: 'BETA', imported: true },
+      { funci: 'T1', nome: 'ALFA', imported: true },
+      { funci: 'T3', nome: 'GAMA', imported: true },
+    ]
+    const overview = computeDayOverview(region, '2026-07', '2026-07-01')
+    expect(overview.techs).toEqual([
+      { funci: 'T1', nome: 'ALFA', code: 'BH' },
+      { funci: 'T2', nome: 'BETA', code: 'DSR' },
+    ])
   })
 })
