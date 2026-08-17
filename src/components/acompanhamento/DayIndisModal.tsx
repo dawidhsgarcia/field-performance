@@ -32,6 +32,9 @@ export function DayIndisModal({ region, pk, iso, onOpenChange }: DayIndisModalPr
         <div className="space-y-3">
           <div className="flex flex-wrap gap-6 text-xs text-muted-foreground">
             <span>
+              👥 <strong>{overview.techCount}</strong> técnico(s) no total
+            </span>
+            <span>
               🔴 <strong>{overview.totalJustified}</strong> técnico(s) indisponível(is)
             </span>
             <span>
