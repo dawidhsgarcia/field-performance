@@ -25,17 +25,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   usuarios: {},
 
   init: () => {
-    const unsubUsers = loadUsuarios((usuarios) => {
-      set({ usuarios })
-      const cur = get().user
-      if (cur) {
-        const sessao = applyAuthSession({ uid: cur.uid, email: cur.email }, usuarios)
-        set({ user: sessao.user, perfil: sessao.perfil })
-      }
-    })
+    let unsubUsers: (() => void) | null = null
+    const stopUsers = () => {
+      unsubUsers?.()
+      unsubUsers = null
+    }
     const unsubAuth = watchAuth((firebaseUser) => {
       if (!firebaseUser) {
-        set({ user: null, perfil: null, carregando: false })
+        stopUsers()
+        set({ user: null, perfil: null, carregando: false, usuarios: {} })
         return
       }
       const sessao = applyAuthSession(
@@ -43,10 +41,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         get().usuarios,
       )
       set({ user: sessao.user, perfil: sessao.perfil, carregando: false })
+      if (!unsubUsers) {
+        unsubUsers = loadUsuarios((usuarios) => {
+          set({ usuarios })
+          const cur = get().user
+          if (cur) {
+            const novaSessao = applyAuthSession({ uid: cur.uid, email: cur.email }, usuarios)
+            set({ user: novaSessao.user, perfil: novaSessao.perfil })
+          }
+        })
+      }
     })
     return () => {
       unsubAuth()
-      unsubUsers?.()
+      stopUsers()
     }
   },
 
