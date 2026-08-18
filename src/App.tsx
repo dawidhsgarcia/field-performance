@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { AppLayout } from '@/layouts/AppLayout'
 import { LoadingScreen } from '@/components/layout/LoadingScreen'
 import { useAuthSession } from '@/hooks/useAuthSession'
+import { useLeituraDefaultRegion } from '@/hooks/useLeituraDefaultRegion'
+import { useIdleLogout } from '@/hooks/useIdleLogout'
 import { useAuthStore } from '@/stores/auth.store'
 import { useAppStore } from '@/stores/app.store'
 import { useStateStore } from '@/stores/state.store'
@@ -23,6 +25,8 @@ const PAGES: Record<ActiveTab, () => React.JSX.Element> = {
 
 function App() {
   useAuthSession()
+  useLeituraDefaultRegion()
+  useIdleLogout()
 
   const carregando = useAuthStore((s) => s.carregando)
   const user = useAuthStore((s) => s.user)
