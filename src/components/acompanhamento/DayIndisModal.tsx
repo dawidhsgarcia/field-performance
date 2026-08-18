@@ -17,42 +17,39 @@ interface DayIndisModalProps {
 export function DayIndisModal({ region, pk, iso, onOpenChange }: DayIndisModalProps) {
   const overview = computeDayOverview(region, pk, iso)
   const dow = DOW[isoToDate(iso).getDay()]
-  const title = `Indisponibilidade Técnica — ${bhFmtDate(iso)} (${dow})`
+  const title = `Disponibilidade Técnica — ${bhFmtDate(iso)} (${dow})`
 
   const justCodes = JUSTIFICATION_CODES.filter((c) => (overview.justCounts[c] || 0) > 0).sort(
     (a, b) => (overview.justCounts[b] || 0) - (overview.justCounts[a] || 0),
   )
 
   const available = overview.techCount - overview.totalJustified
-  const unavailPct = overview.unavailPct
-  const pctLabel = unavailPct !== null ? Math.round(unavailPct) + '%' : '–'
+  const availPct = overview.unavailPct !== null ? 100 - overview.unavailPct : null
+  const pctLabel = availPct !== null ? Math.round(availPct) + '%' : '–'
   const pctBadge =
-    unavailPct === null
+    availPct === null
       ? 'bg-muted text-muted-foreground'
-      : unavailPct >= 20
-        ? 'bg-danger/10 text-danger'
-        : unavailPct >= 10
+      : availPct >= 90
+        ? 'bg-success/10 text-success-dark'
+        : availPct >= 80
           ? 'bg-warning/10 text-warning-dark'
-          : 'bg-success/10 text-success-dark'
+          : 'bg-danger/10 text-danger'
 
   const statCards = [
     {
-      icon: '✅',
+      label: 'Total',
+      value: String(overview.techCount),
+      valueClass: 'text-muted-foreground',
+    },
+    {
       label: 'Disponíveis',
       value: String(available),
       valueClass: 'text-success-dark',
     },
     {
-      icon: '🔴',
       label: 'Indisponíveis',
       value: String(overview.totalJustified),
       valueClass: 'text-danger',
-    },
-    {
-      icon: '👥',
-      label: 'Total',
-      value: String(overview.techCount),
-      valueClass: 'text-muted-foreground',
     },
   ]
 
@@ -63,11 +60,11 @@ export function DayIndisModal({ region, pk, iso, onOpenChange }: DayIndisModalPr
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <div className="space-y-3">
+          <h4 className="text-sm font-semibold">Resumo do dia</h4>
           <div className="grid grid-cols-3 gap-2">
             {statCards.map((card) => (
               <div key={card.label} className="rounded-lg border bg-card p-3 text-center">
-                <div className="text-lg leading-none">{card.icon}</div>
-                <div className={cn('mt-1 font-display text-2xl font-bold tabular-nums', card.valueClass)}>
+                <div className={cn('font-display text-2xl font-bold tabular-nums', card.valueClass)}>
                   {card.value}
                 </div>
                 <div className="mt-0.5 text-[11px] text-muted-foreground">{card.label}</div>
@@ -75,7 +72,7 @@ export function DayIndisModal({ region, pk, iso, onOpenChange }: DayIndisModalPr
             ))}
           </div>
           <div className="flex items-center justify-between rounded-lg border bg-muted/40 px-3 py-2 text-xs">
-            <span className="font-semibold text-muted-foreground">Indisponibilidade do dia</span>
+            <span className="font-semibold text-muted-foreground">Disponibilidade do dia</span>
             <span className={cn('inline-flex rounded-md px-2 py-0.5 text-sm font-bold', pctBadge)}>{pctLabel}</span>
           </div>
           {justCodes.length === 0 ? (

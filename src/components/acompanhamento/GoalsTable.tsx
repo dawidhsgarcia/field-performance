@@ -82,7 +82,7 @@ export function GoalsTable({ region, weeks, onOpenDay }: GoalsTableProps) {
                       <button
                         type="button"
                         className="day-head-btn"
-                        title="Ver indisponibilidade do dia"
+                        title="Ver disponibilidade do dia"
                         onClick={() => onOpenDay?.(d.iso)}
                       >
                         <span className="dow">{DOW[d.dow]}</span>
