@@ -11,7 +11,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const toggleCollapsed = useAppStore((s) => s.toggleSidebarCollapsed)
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex min-h-screen flex-col bg-background">
       <a
         href="#conteudo"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
@@ -43,6 +43,10 @@ export function AppLayout({ children }: { children: ReactNode }) {
           {children}
         </main>
       </div>
+      <footer className="border-t px-4 py-3 text-center text-xs text-muted-foreground">
+        © {new Date().getFullYear()} Alloha Fibra — Field Performance - Gestão de Desempenho Operacional
+        <br />Desenvolvido por David Garcia
+      </footer>
     </div>
   )
 }

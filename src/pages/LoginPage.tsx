@@ -40,8 +40,9 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
+    <div className="flex min-h-screen flex-col bg-background">
+      <div className="flex flex-1 items-center justify-center p-4">
+        <Card className="w-full max-w-md">
         <CardHeader className="items-center justify-items-center text-center">
           <span className="flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="size-6" aria-hidden="true">
@@ -97,7 +98,12 @@ export function LoginPage() {
             Acesso restrito à equipe de gestão
           </p>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
+      <footer className="px-4 pb-4 text-center text-xs text-muted-foreground">
+        © {new Date().getFullYear()} Alloha Fibra — Field Performance - Gestão de Desempenho Operacional
+        <br />Desenvolvido por David Garcia
+      </footer>
     </div>
   )
 }
