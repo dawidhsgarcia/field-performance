@@ -1,0 +1,53 @@
+rules_version = '2';
+
+// Regras de segurança do Field Performance (Firebase Firestore)
+// Aplicar no console do Firebase (produtividade-regionalnorte) ou via:
+//   firebase deploy --only firestore:rules
+//
+// IMPORTANTE — ANTES DE APLICAR estas regras, são necessários 2 ajustes:
+//
+// 1) Backup diário (gestao-desempenho, .github/scripts/backup-firestore.mjs)
+//    faz leitura ANÔNIMA do documento — passar a autenticar (service account
+//    / token) antes de ler, pois a leitura deixa de ser anônima.
+//
+// 2) O app React carrega a collection `usuarios` via onSnapshot logo no
+//    `init()` do auth.store, ANTES da autenticação estar estabelecida
+//    (useAuthSession). Com leitura restrita a isSignedIn(), essa chamada
+//    anônima falha. Postergar loadUsuarios para depois do login (ou ajustar
+//    o fluxo) antes de aplicar as regras.
+//
+// Este arquivo é a referência de produção; a aplicação das regras é ação
+// manual no console do Firebase após os ajustes acima.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function perfilDoUsuario() {
+      return get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.perfil;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && perfilDoUsuario() == 'admin';
+    }
+
+    function isGestorOuAdmin() {
+      return isSignedIn() && (perfilDoUsuario() == 'gestor' || perfilDoUsuario() == 'admin');
+    }
+
+    // Documento de estado (produtividade/estado)
+    match /produtividade/{doc} {
+      allow read: if isSignedIn();
+      allow write: if isGestorOuAdmin();
+    }
+
+    // Usuários e permissões — leitura autenticada, escrita só admin
+    match /usuarios/{uid} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+  }
+}
