@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { fmtNum } from '@/utils/format'
-import { computeProjection } from '@/utils/rules/projection'
+import { computeProjection, pointsToQ1 } from '@/utils/rules/projection'
 import { computeTeamGoalsSummary } from '@/utils/rules/goals'
 import { quartilOf } from '@/utils/rules/quartis'
 import { quartilBadgeClass } from '@/utils/quartilColors'
@@ -139,23 +139,15 @@ export function ProjectionSection({ region, weeks, params }: ProjectionSectionPr
             </TableHeader>
             <TableBody>
               {rows.map((r) => {
-                const metaAtingida = ptsPerDayNeeded !== null && ptsPerDayNeeded <= 0
-                const gapPerDay =
-                  !metaAtingida && ptsPerDayNeeded !== null && r.projectedAvg !== null
-                    ? Math.ceil(r.projectedAvg - ptsPerDayNeeded)
-                    : null
+                const gapQ1 = pointsToQ1(r, params.quartil.q1, remaining)
                 const gapCls =
-                  gapPerDay !== null && gapPerDay > 0
-                    ? 'bg-success/10 text-success-dark'
-                    : gapPerDay !== null && gapPerDay < 0
-                      ? 'bg-danger/10 text-danger'
-                      : 'bg-warning/10 text-warning-dark'
+                  gapQ1 !== null && gapQ1 > 0
+                    ? 'bg-warning/15 text-warning-dark'
+                    : gapQ1 === 0
+                      ? 'bg-success/15 text-success-dark'
+                      : 'bg-muted text-muted-foreground'
                 const gapLabel =
-                  gapPerDay !== null && gapPerDay > 0
-                    ? `+${gapPerDay} ✓`
-                    : gapPerDay !== null && gapPerDay < 0
-                      ? `${gapPerDay} 🚨`
-                      : '—'
+                  gapQ1 === null ? '—' : gapQ1 === 0 ? '✓' : `+${gapQ1}`
                 const trendCls =
                   r.trendAvg !== null && r.currentAvg !== null && r.trendAvg > r.currentAvg
                     ? 'text-success-dark'

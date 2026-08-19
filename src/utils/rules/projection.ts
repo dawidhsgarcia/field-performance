@@ -1,7 +1,15 @@
-import type { Params, ProjectionResult, Region, Week } from '@/types'
+import type { Params, ProjectionResult, ProjectionRow, Region, Week } from '@/types'
 import { isoToDate } from '@/utils/date'
 import { importedTechs } from '@/services/state'
 import { quartilOf } from './quartis'
+
+export function pointsToQ1(row: ProjectionRow, q1: number, remaining: number): number | null {
+  if (remaining <= 0 || row.days <= 0 || row.currentAvg === null) return null
+  if (row.currentQuartil === 1) return 0
+  const totalDays = row.days + remaining
+  const need = (q1 * totalDays - row.sum) / remaining
+  return Math.max(1, Math.ceil(need))
+}
 
 export function computeProjection(
   region: Region,
