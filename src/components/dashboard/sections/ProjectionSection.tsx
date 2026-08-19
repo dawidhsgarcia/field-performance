@@ -6,6 +6,7 @@ import { fmtNum } from '@/utils/format'
 import { computeProjection } from '@/utils/rules/projection'
 import { computeTeamGoalsSummary } from '@/utils/rules/goals'
 import { quartilOf } from '@/utils/rules/quartis'
+import { quartilBadgeClass } from '@/utils/quartilColors'
 import type { Params, Region, Week } from '@/types'
 
 interface ProjectionSectionProps {
@@ -172,7 +173,7 @@ export function ProjectionSection({ region, weeks, params }: ProjectionSectionPr
                       {r.projectedAvg !== null ? fmtNum(r.projectedAvg) : '–'}
                     </TableCell>
                     <TableCell className="text-center">
-                      <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-semibold">
+                      <span className={cn('rounded-md px-2 py-0.5 text-xs font-semibold', quartilBadgeClass(q))}>
                         {q ? `${q}º` : '—'}
                       </span>
                     </TableCell>

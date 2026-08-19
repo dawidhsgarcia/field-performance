@@ -6,6 +6,7 @@ import { entryOf, periodKeyOf } from '@/services/state'
 import { useAcompanhamentoData } from '@/hooks/useAcompanhamentoData'
 import { useStateStore } from '@/stores/state.store'
 import { Sparkline } from './Sparkline'
+import { quartilBadgeClass, quartilBarClass, quartilTextClass } from '@/utils/quartilColors'
 import type { DayInfo, Params, RankingRow } from '@/types'
 
 interface TechCardsProps {
@@ -14,51 +15,6 @@ interface TechCardsProps {
   pastBusinessDays: DayInfo[]
   onOpenMom: (funci: string) => void
   onOpenOs: (funci: string) => void
-}
-
-function qText(q: number | null): string {
-  switch (q) {
-    case 1:
-      return 'text-success-dark'
-    case 2:
-      return 'text-primary'
-    case 3:
-      return 'text-warning-dark'
-    case 4:
-      return 'text-danger'
-    default:
-      return 'text-muted-foreground'
-  }
-}
-
-function qBadge(q: number | null): string {
-  switch (q) {
-    case 1:
-      return 'bg-success/15 text-success-dark'
-    case 2:
-      return 'bg-primary/15 text-primary'
-    case 3:
-      return 'bg-warning/15 text-warning-dark'
-    case 4:
-      return 'bg-danger/15 text-danger'
-    default:
-      return 'bg-muted text-muted-foreground'
-  }
-}
-
-function qBar(q: number | null): string {
-  switch (q) {
-    case 1:
-      return 'bg-success'
-    case 2:
-      return 'bg-primary'
-    case 3:
-      return 'bg-warning'
-    case 4:
-      return 'bg-danger'
-    default:
-      return 'bg-muted'
-  }
 }
 
 export function TechCards({ params, rankingRows, pastBusinessDays, onOpenMom, onOpenOs }: TechCardsProps) {
@@ -145,19 +101,19 @@ export function TechCards({ params, rankingRows, pastBusinessDays, onOpenMom, on
               </button>
               <div className="text-xs text-muted-foreground">{c.tech.funci}</div>
             </div>
-            <div className={cn('font-display text-xl font-bold tabular-nums', qText(c.quartil))}>
+            <div className={cn('font-display text-xl font-bold tabular-nums', quartilTextClass(c.quartil))}>
               {c.avgLabel}
             </div>
           </div>
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span>{c.days} dia(s) com produção</span>
-            <span className={cn('rounded-md px-2 py-0.5 text-xs font-semibold', qBadge(c.quartil))}>
+            <span className={cn('rounded-md px-2 py-0.5 text-xs font-semibold', quartilBadgeClass(c.quartil))}>
               {c.badgeLabel}
             </span>
           </div>
           <div className="h-1.5 overflow-hidden rounded-full bg-muted">
             <div
-              className={cn('h-full rounded-full', qBar(c.quartil))}
+              className={cn('h-full rounded-full', quartilBarClass(c.quartil))}
               style={{ width: `${c.progressPct}%` }}
             />
           </div>
