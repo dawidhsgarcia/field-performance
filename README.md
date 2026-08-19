@@ -4,7 +4,7 @@ Aplicação de **Gestão de Desempenho Operacional** (Alloha Fibra) para acompan
 
 Construída em **React + Vite + TypeScript + Tailwind CSS v4 + shadcn/ui (tema Citrus)**, com dados compartilhados no **Firebase Firestore** e autenticação por e-mail/senha com perfis (Admin / Gestor / Leitura).
 
-> **Status:** produção definitiva. Esta aplicação substitui o sistema legado em HTML/CSS/JS puro.
+> **Status:** produção definitiva. Esta aplicação substitui o sistema legado em HTML/CSS/JS puro, que está **arquivado** (read-only) no repositório `gestao-desempenho` para consulta futura.
 
 ## Scripts
 
@@ -27,9 +27,10 @@ npm run test:watch   # Vitest (watch)
 
 - **GitHub Pages:** o workflow `.github/workflows/deploy.yml` (typecheck + lint + test + build) publica o `dist/` em cada push para `main`.
 - **Vercel:** as mesmas 6 variáveis `VITE_FIREBASE_*` são aplicadas em Production/Preview/Development.
-- Backup diário do Firestore: mantido no repositório privado `gestao-desempenho` (`.github/workflows/backup-firestore.yml`).
+- **Backup diário do Firestore:** mantido neste repositório (`.github/workflows/backup-firestore.yml`), autenticado com credenciais dedicadas (secrets `FIREBASE_BACKUP_*`), salvando em `backups/estado-*.json` (retenção de 90 dias).
 
 ## Segurança
 
 - Autenticação obrigatória (Firebase Auth) com perfis Admin / Gestor / Leitura.
-- Regras do Firestore restringem escrita por perfil — ver `firestore.rules`.
+- Regras do Firestore **aplicadas em produção** (RBAC por perfil) — ver `firestore.rules` (deploy: `firebase deploy --only firestore:rules`).
+- A conta `davidsgarcia.dev@gmail.com` é o admin bootstrap (`ADMIN_BOOTSTRAP_EMAIL`) e possui documento em `usuarios/{uid}` com perfil `admin`.

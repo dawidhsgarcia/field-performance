@@ -2,7 +2,7 @@
 
 Documento de arquitetura da nova aplicação **Field Performance** (React + Vite + TypeScript), criada dentro de `react/` como cópia de migração do sistema legado em HTML/CSS/JS puro que permanece intacto na raiz do repositório.
 
-> **Estado atual:** Fases 1–8 concluídas — **todos os módulos migrados** (Parâmetros, Acompanhamento, Dashboard, Combustível e Banco de Horas). Restam: polimento Citrus, paridade completa e swap de produção.
+> **Estado atual:** **PRODUÇÃO DEFINITIVA.** Migração completa — todas as fases concluídas, paridade validada (108 testes), regras de segurança do Firestore aplicadas, backup diário migrado para este repositório e sistema legado **arquivado** (read-only) em `gestao-desempenho`.
 
 ---
 
@@ -196,13 +196,12 @@ Citrus é o **design system oficial** da nova aplicação.
 - Tipagem estrita (TS 6, `noUnusedLocals`, `verbatimModuleSyntax`, `erasableSyntaxOnly`).
 - Componentes shadcn respeitam o padrão gerado pelo CLI (data-slot, cva).
 
-## 10. Próxima etapa recomendada
+## 10. Estado final (produção)
 
-**Fase 9 — Polimento, paridade e swap:**
-1. Refino visual Citrus (tipografia/radius/dark mode), responsividade e a11y.
-2. Paridade completa React × legado (comparação com backups reais e telas).
-3. Remoção/arquivamento do legado, build/deploy (GitHub Pages) e atualização do workflow.
+1. **Swap de produção concluído** — a app React é a versão definitiva (GitHub Pages + Vercel).
+2. **Legado descontinuado e arquivado** no repositório privado `gestao-desempenho` (read-only, preservado para consulta).
+3. **Regras de segurança do Firestore aplicadas** em `produtividade-regionalnorte` (RBAC admin/gestor/leitura).
+4. **Backup diário migrado** para este repositório (`.github/workflows/backup-firestore.yml`), autenticado.
+5. **Testes de paridade** rodando contra o backup real (`backups/` local no CI).
 
-> Regra crítica: o legado na raiz não deve ser alterado/removido até o swap aprovado.
-
-> Regra crítica: o legado na raiz não deve ser alterado/removido. A nova app coexistirá com ele durante toda a migração.
+> Histórico: as fases 1–9 da migração foram concluídas; o legado na raiz foi removido (movido para `gestao-desempenho`) conforme planejado, sem perda de dados.
