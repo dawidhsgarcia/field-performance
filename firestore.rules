@@ -1,23 +1,20 @@
 rules_version = '2';
 
-// Regras de segurança do Field Performance (Firebase Firestore)
-// Aplicar no console do Firebase (produtividade-regionalnorte) ou via:
+// Regras de segurança do Field Performance (Firebase Firestore) — PRODUÇÃO
+// Projeto: produtividade-regionalnorte
+// Aplicar via Firebase CLI:
 //   firebase deploy --only firestore:rules
 //
-// IMPORTANTE — ANTES DE APLICAR estas regras, são necessários 2 ajustes:
-//
-// 1) Backup diário (gestao-desempenho, .github/scripts/backup-firestore.mjs)
-//    faz leitura ANÔNIMA do documento — passar a autenticar (service account
-//    / token) antes de ler, pois a leitura deixa de ser anônima.
-//
-// 2) O app React carrega a collection `usuarios` via onSnapshot logo no
-//    `init()` do auth.store, ANTES da autenticação estar estabelecida
-//    (useAuthSession). Com leitura restrita a isSignedIn(), essa chamada
-//    anônima falha. Postergar loadUsuarios para depois do login (ou ajustar
-//    o fluxo) antes de aplicar as regras.
-//
-// Este arquivo é a referência de produção; a aplicação das regras é ação
-// manual no console do Firebase após os ajustes acima.
+// Pré-requisitos já atendidos:
+// 1) Backup diário autenticado — .github/scripts/backup-firestore.mjs usa
+//    signInWithPassword (FIREBASE_BACKUP_EMAIL/PASSWORD) e lê com Bearer token.
+//    A leitura de `produtividade/estado` exige apenas isSignedIn(), então a
+//    conta de backup (davidsgarcia.dev@gmail.com) funciona.
+// 2) `usuarios` carregada só após o login — auth.store.init() inicia
+//    loadUsuarios apenas quando existe firebaseUser (ver src/stores/auth.store.ts).
+// 3) Admin bootstrap — a app trata ADMIN_BOOTSTRAP_EMAIL como admin sem
+//    documento em `usuarios` (src/lib/constants.ts), MAS as regras exigem o
+//    documento para escrita. O doc usuarios/{uid} do admin foi criado via seed.
 
 service cloud.firestore {
   match /databases/{database}/documents {
