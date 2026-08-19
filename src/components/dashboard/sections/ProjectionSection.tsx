@@ -139,21 +139,22 @@ export function ProjectionSection({ region, weeks, params }: ProjectionSectionPr
             </TableHeader>
             <TableBody>
               {rows.map((r) => {
+                const metaAtingida = ptsPerDayNeeded !== null && ptsPerDayNeeded <= 0
                 const gapPerDay =
-                  ptsPerDayNeeded !== null && r.projectedAvg !== null
-                    ? Math.ceil(ptsPerDayNeeded - r.projectedAvg)
+                  !metaAtingida && ptsPerDayNeeded !== null && r.projectedAvg !== null
+                    ? Math.ceil(r.projectedAvg - ptsPerDayNeeded)
                     : null
                 const gapCls =
                   gapPerDay !== null && gapPerDay > 0
-                    ? 'bg-danger/10 text-danger'
+                    ? 'bg-success/10 text-success-dark'
                     : gapPerDay !== null && gapPerDay < 0
-                      ? 'bg-success/10 text-success-dark'
+                      ? 'bg-danger/10 text-danger'
                       : 'bg-warning/10 text-warning-dark'
                 const gapLabel =
                   gapPerDay !== null && gapPerDay > 0
-                    ? `+${gapPerDay} 🚨`
+                    ? `+${gapPerDay} ✓`
                     : gapPerDay !== null && gapPerDay < 0
-                      ? `${gapPerDay} ✓`
+                      ? `${gapPerDay} 🚨`
                       : '—'
                 const trendCls =
                   r.trendAvg !== null && r.currentAvg !== null && r.trendAvg > r.currentAvg
