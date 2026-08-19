@@ -59,16 +59,44 @@ const fields = doc.fields || {};
 const plain = {};
 for(const k of Object.keys(fields).sort()) plain[k] = convert(fields[k]);
 
+const USERS_URL = `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents:runQuery`;
+const usersRes = await fetch(USERS_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'usuarios' }], limit: 1000 } }),
+});
+if(!usersRes.ok) throw new Error(`Falha ao baixar usuarios (HTTP ${usersRes.status}): ${await usersRes.text()}`);
+const usersDocs = await usersRes.json();
+const usuarios = usersDocs
+  .filter((r) => r && r.document)
+  .map((r) => {
+    const id = r.document.name.split('/').pop();
+    const f = r.document.fields || {};
+    return {
+      uid: id,
+      email: f.email && f.email.stringValue !== undefined ? f.email.stringValue : '',
+      nome: f.nome && f.nome.stringValue !== undefined ? f.nome.stringValue : '',
+      perfil: f.perfil && f.perfil.stringValue !== undefined ? f.perfil.stringValue : '',
+    };
+  })
+  .sort((a, b) => (a.email || '').localeCompare(b.email || ''));
+
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const date = new Date().toISOString().slice(0, 10);
 const file = path.join(OUT_DIR, `estado-${date}.json`);
 fs.writeFileSync(file, JSON.stringify(plain, null, 2) + '\n');
 console.log(`Backup salvo: ${file} (${fs.statSync(file).size} bytes)`);
 
-const files = fs.readdirSync(OUT_DIR)
-  .filter(f => /^estado-\d{4}-\d{2}-\d{2}\.json$/.test(f))
-  .sort();
-while(files.length > KEEP){
-  fs.rmSync(path.join(OUT_DIR, files.shift()));
-}
-console.log(`Retenção: ${files.length} backup(s) mantidos (máx ${KEEP})`);
+const usersFile = path.join(OUT_DIR, `usuarios-${date}.json`);
+fs.writeFileSync(usersFile, JSON.stringify(usuarios, null, 2) + '\n');
+console.log(`Backup salvo: ${usersFile} (${fs.statSync(usersFile).size} bytes, ${usuarios.length} usuário(s))`);
+
+['estado', 'usuarios'].forEach((prefix) => {
+  const files = fs.readdirSync(OUT_DIR)
+    .filter(f => new RegExp(`^${prefix}-\\d{4}-\\d{2}-\\d{2}\\.json$`).test(f))
+    .sort();
+  while(files.length > KEEP){
+    fs.rmSync(path.join(OUT_DIR, files.shift()));
+  }
+  console.log(`Retenção ${prefix}: ${files.length} backup(s) mantidos (máx ${KEEP})`);
+});

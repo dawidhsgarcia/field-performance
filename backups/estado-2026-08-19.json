@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "updatedAt": "2026-08-19T13:21:45.468Z",
-    "version": 525
+    "updatedAt": "2026-08-19T14:33:22.885Z",
+    "version": 529
   },
   "bh": {
     "base": [
@@ -1770,7 +1770,7 @@
       ],
       "18-00013416": []
     },
-    "period": "2026-09"
+    "period": "2026-10"
   },
   "colaboradores": {
     "18-00007628": {
@@ -1864,6 +1864,20 @@
       "regiao": "r_1785258747479",
       "telefone": "88994299076"
     },
+    "18-00009371": {
+      "funcao": "TÉCNICO DE FIBRA",
+      "funci": "18-00009371",
+      "nome": "MARCOS JOSE PEREIRA DA SILVA",
+      "regiao": "r_1785262516150",
+      "telefone": null
+    },
+    "18-00009386": {
+      "funcao": "TÉCNICO DE FIBRA",
+      "funci": "18-00009386",
+      "nome": "PAULO HENRIQUE DOS RAMOS LIMA",
+      "regiao": "r_1785262516150",
+      "telefone": null
+    },
     "18-00009388": {
       "funcao": "OFICIAL DE REDE",
       "funci": "18-00009388",
@@ -1905,6 +1919,13 @@
       "nome": "EUGENIO FERREIRA DE ARAUJO",
       "regiao": "r_1785262516150",
       "telefone": "8888553317"
+    },
+    "18-00009998": {
+      "funcao": "TÉCNICO DE FIBRA",
+      "funci": "18-00009998",
+      "nome": "BRUNO SIQUEIRA PINHEIRO",
+      "regiao": "r_1785262516150",
+      "telefone": null
     },
     "18-00013066": {
       "funcao": "OFICIAL DE REDE",
@@ -18449,9 +18470,9 @@
       0
     ],
     "quartil": {
-      "q1": 3.5,
-      "q2": 2.5,
-      "q3": 1
+      "q1": 6.01,
+      "q2": 5.01,
+      "q3": 4.01
     },
     "trendWindow": 7
   },
@@ -18674,7 +18695,7 @@
         },
         "2026-08": {
           "18-00009190": {
-            "2026-08-01": 8,
+            "2026-08-01": 9,
             "2026-08-02": "DSR",
             "2026-08-03": 0.9,
             "2026-08-04": "FE",
@@ -18716,9 +18737,10 @@
             "2026-08-11": 2.5,
             "2026-08-12": 4.3,
             "2026-08-13": 5.6,
-            "2026-08-14": 8.6,
+            "2026-08-14": 7.1,
             "2026-08-16": "DSR",
             "2026-08-17": "BH",
+            "2026-08-18": 1.5,
             "2026-08-25": "BH",
             "2026-08-27": "BH",
             "2026-08-30": "DSR"
@@ -18758,6 +18780,7 @@
             "2026-08-14": "MV",
             "2026-08-16": "DSR",
             "2026-08-17": 5.1,
+            "2026-08-18": 2.7,
             "2026-08-26": "BH",
             "2026-08-30": "DSR"
           },
@@ -18825,7 +18848,7 @@
             "2026-08-14": 8.4,
             "2026-08-16": "DSR",
             "2026-08-17": 1.8,
-            "2026-08-18": 1.2,
+            "2026-08-18": 3.6,
             "2026-08-30": "DSR"
           }
         },
@@ -21623,17 +21646,8 @@
               "atividade": "REPARO CORRETIVO (APOIO)",
               "avaliada": false,
               "baremo": 1,
-              "dataAbertura": "2026-07-31 19:43",
-              "dataFechamento": "2026-08-01 09:56",
-              "noPrazo": false,
-              "os": "12285758"
-            },
-            {
-              "atividade": "REPARO CORRETIVO (APOIO)",
-              "avaliada": false,
-              "baremo": 1,
-              "dataAbertura": "2026-07-31 19:11",
-              "dataFechamento": "2026-08-01 11:23",
+              "dataAbertura": "2026-08-01 09:02",
+              "dataFechamento": "2026-08-01 09:40",
               "noPrazo": false,
               "os": "12287247"
             },
@@ -21645,6 +21659,24 @@
               "dataFechamento": "2026-08-01 12:14",
               "noPrazo": false,
               "os": "12281082"
+            },
+            {
+              "atividade": "REPARO CORRETIVO (APOIO)",
+              "avaliada": false,
+              "baremo": 1,
+              "dataAbertura": "2026-08-01 09:50",
+              "dataFechamento": "2026-08-01 13:56",
+              "noPrazo": false,
+              "os": "12285758"
+            },
+            {
+              "atividade": "REPARO CORRETIVO (APOIO)",
+              "avaliada": false,
+              "baremo": 1,
+              "dataAbertura": "2026-08-01 09:04",
+              "dataFechamento": "2026-08-01 13:57",
+              "noPrazo": false,
+              "os": "12287247"
             },
             {
               "atividade": "MUDANÇA DE ENDEREÇO",
@@ -21663,15 +21695,6 @@
               "dataFechamento": "2026-08-01 16:20",
               "noPrazo": false,
               "os": "ATRIX-325695"
-            },
-            {
-              "atividade": "UPGRADE/DOWNGRADE (APOIO)",
-              "avaliada": false,
-              "baremo": 0.9,
-              "dataAbertura": "2026-08-01 15:54",
-              "dataFechamento": "2026-08-03 10:47",
-              "noPrazo": false,
-              "os": "12264683"
             }
           ],
           "18-00009325": [
@@ -21757,22 +21780,22 @@
               "os": "BDESK-600041432300102"
             },
             {
-              "atividade": "ATIVAÇÃO (APOIO)",
-              "avaliada": false,
-              "baremo": 1.6,
-              "dataAbertura": "2026-08-10 15:26",
-              "dataFechamento": "2026-08-11 12:40",
-              "noPrazo": false,
-              "os": "12312062"
-            },
-            {
               "atividade": "UPGRADE/DOWNGRADE (APOIO)",
               "avaliada": false,
               "baremo": 0.9,
-              "dataAbertura": "2026-08-10 14:43",
-              "dataFechamento": "2026-08-11 13:54",
+              "dataAbertura": "2026-08-11 08:13",
+              "dataFechamento": "2026-08-11 12:22",
               "noPrazo": false,
               "os": "12303854"
+            },
+            {
+              "atividade": "ATIVAÇÃO (APOIO)",
+              "avaliada": false,
+              "baremo": 1.6,
+              "dataAbertura": "2026-08-11 08:14",
+              "dataFechamento": "2026-08-11 12:38",
+              "noPrazo": false,
+              "os": "12312062"
             },
             {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
@@ -21829,15 +21852,6 @@
               "os": "ATRIX-337915"
             },
             {
-              "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
-              "avaliada": false,
-              "baremo": 1.5,
-              "dataAbertura": "2026-08-13 17:50",
-              "dataFechamento": "2026-08-14 13:59",
-              "noPrazo": false,
-              "os": "ATRIX-337011"
-            },
-            {
               "atividade": "MANUTENÇÃO PREVENTIVA DE REDE",
               "avaliada": false,
               "baremo": 2.8,
@@ -21845,6 +21859,15 @@
               "dataFechamento": "2026-08-14 16:59",
               "noPrazo": false,
               "os": "ATRIX-337921"
+            },
+            {
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
+              "avaliada": true,
+              "baremo": 1.5,
+              "dataAbertura": "2026-08-18 08:19",
+              "dataFechamento": "2026-08-18 20:03",
+              "noPrazo": false,
+              "os": "ATRIX-340727"
             }
           ],
           "18-00009354": [
@@ -22032,8 +22055,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-13 12:13",
-              "dataFechamento": "2026-08-13 16:50",
+              "dataAbertura": "2026-08-13 13:19",
+              "dataFechamento": "2026-08-13 16:53",
               "noPrazo": false,
               "os": "BDESK-601109375820102"
             },
@@ -22142,8 +22165,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-03 21:54",
-              "dataFechamento": "2026-08-04 14:22",
+              "dataAbertura": "2026-08-04 12:50",
+              "dataFechamento": "2026-08-04 13:52",
               "noPrazo": false,
               "os": "ATRIX-327175"
             },
@@ -22223,8 +22246,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-06 13:20",
-              "dataFechamento": "2026-08-06 20:25",
+              "dataAbertura": "2026-08-06 19:45",
+              "dataFechamento": "2026-08-06 20:23",
               "noPrazo": false,
               "os": "BDESK-600120239960102"
             },
@@ -22259,19 +22282,19 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-09 11:35",
-              "dataFechamento": "2026-08-09 17:26",
+              "dataAbertura": "2026-08-09 13:25",
+              "dataFechamento": "2026-08-09 17:18",
               "noPrazo": false,
-              "os": "BDESK-600135096110102"
+              "os": "BDESK-600130593170102"
             },
             {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-09 11:31",
-              "dataFechamento": "2026-08-09 17:29",
+              "dataAbertura": "2026-08-09 13:25",
+              "dataFechamento": "2026-08-09 17:18",
               "noPrazo": false,
-              "os": "BDESK-600130593170102"
+              "os": "BDESK-600135096110102"
             },
             {
               "atividade": "MANUTENÇÃO PREVENTIVA DE REDE",
@@ -22335,6 +22358,24 @@
               "dataFechamento": "2026-08-17 23:03",
               "noPrazo": true,
               "os": "ATRIX-340375"
+            },
+            {
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
+              "avaliada": true,
+              "baremo": 1.5,
+              "dataAbertura": "2026-08-18 12:16",
+              "dataFechamento": "2026-08-18 17:57",
+              "noPrazo": true,
+              "os": "ATRIX-341295"
+            },
+            {
+              "atividade": "MANUTENÇÃO DE REDE FIELD (APOIO)",
+              "avaliada": false,
+              "baremo": 1.2,
+              "dataAbertura": "2026-08-18 17:17",
+              "dataFechamento": "2026-08-18 23:19",
+              "noPrazo": false,
+              "os": "12352418"
             }
           ],
           "18-00009379": [
@@ -22796,8 +22837,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-13 12:14",
-              "dataFechamento": "2026-08-13 16:53",
+              "dataAbertura": "2026-08-13 13:17",
+              "dataFechamento": "2026-08-13 16:54",
               "noPrazo": false,
               "os": "BDESK-601112094740102"
             },
@@ -22845,6 +22886,24 @@
               "dataFechamento": "2026-08-18 00:24",
               "noPrazo": false,
               "os": "12347705"
+            },
+            {
+              "atividade": "MANUTENÇÃO DE REDE FIELD",
+              "avaliada": true,
+              "baremo": 1.2,
+              "dataAbertura": "2026-08-18 08:49",
+              "dataFechamento": "2026-08-18 16:15",
+              "noPrazo": true,
+              "os": "12350755"
+            },
+            {
+              "atividade": "MANUTENÇÃO DE REDE FIELD",
+              "avaliada": true,
+              "baremo": 1.2,
+              "dataAbertura": "2026-08-18 13:50",
+              "dataFechamento": "2026-08-18 23:18",
+              "noPrazo": false,
+              "os": "12352418"
             }
           ]
         }
@@ -22934,14 +22993,14 @@
               "total": 1
             },
             "MANUTENÇÃO CORRETIVA DE REDE": {
-              "evaluated": 34,
-              "onTime": 23,
-              "total": 34
+              "evaluated": 36,
+              "onTime": 24,
+              "total": 36
             },
             "MANUTENÇÃO DE REDE FIELD": {
-              "evaluated": 7,
-              "onTime": 2,
-              "total": 7
+              "evaluated": 9,
+              "onTime": 3,
+              "total": 9
             },
             "MANUTENÇÃO PREVENTIVA DE REDE": {
               "evaluated": 0,
@@ -22960,8 +23019,8 @@
             }
           },
           "slaCounts": {
-            "evaluated": 56,
-            "onTime": 31
+            "evaluated": 60,
+            "onTime": 33
           },
           "techSla": {
             "18-00009190": {
@@ -22970,7 +23029,7 @@
               "totalOS": 6
             },
             "18-00009325": {
-              "evaluated": 7,
+              "evaluated": 8,
               "onTime": 1,
               "totalOS": 19
             },
@@ -22980,9 +23039,9 @@
               "totalOS": 29
             },
             "18-00009356": {
-              "evaluated": 10,
-              "onTime": 5,
-              "totalOS": 25
+              "evaluated": 11,
+              "onTime": 6,
+              "totalOS": 27
             },
             "18-00009423": {
               "evaluated": 4,
@@ -22990,12 +23049,12 @@
               "totalOS": 9
             },
             "18-00013284": {
-              "evaluated": 15,
-              "onTime": 8,
-              "totalOS": 27
+              "evaluated": 17,
+              "onTime": 9,
+              "totalOS": 29
             }
           },
-          "totalOS": 115
+          "totalOS": 119
         }
       },
       "technicians": [
@@ -23414,7 +23473,7 @@
             "2026-08-15": 2.7,
             "2026-08-16": "DSR",
             "2026-08-17": 8.5,
-            "2026-08-18": 1.5
+            "2026-08-18": 5.8
           },
           "18-00009314": {
             "2026-08-03": "FE",
@@ -23432,7 +23491,7 @@
             "2026-08-15": "FE",
             "2026-08-16": "FE",
             "2026-08-17": 3.3,
-            "2026-08-18": 1.5
+            "2026-08-18": 4.3
           },
           "18-00009339": {
             "2026-08-02": 3,
@@ -23450,25 +23509,26 @@
             "2026-08-14": 8.5,
             "2026-08-15": "DSR",
             "2026-08-16": 4.3,
-            "2026-08-17": 1.8,
+            "2026-08-17": 3.3,
             "2026-08-18": 9.9
           },
           "18-00009347": {
             "2026-08-02": 1.5,
             "2026-08-03": 0,
-            "2026-08-04": 3,
+            "2026-08-04": 4.5,
             "2026-08-05": "DSR",
-            "2026-08-06": 4.5,
+            "2026-08-06": 3,
             "2026-08-07": 2.8,
             "2026-08-09": "DSR",
             "2026-08-10": 5.8,
             "2026-08-11": 9.5,
             "2026-08-12": 4.8,
             "2026-08-13": 1.5,
-            "2026-08-14": 4.5,
-            "2026-08-15": 15.1,
+            "2026-08-14": 7.5,
+            "2026-08-15": 13.6,
             "2026-08-16": 2.8,
             "2026-08-17": "DSR",
+            "2026-08-18": 0,
             "2026-08-23": "DSR"
           },
           "18-00009350": {
@@ -23487,7 +23547,7 @@
             "2026-08-15": 4.8,
             "2026-08-16": 2.8,
             "2026-08-17": "DSR",
-            "2026-08-18": 2.8
+            "2026-08-18": 4.6
           },
           "18-00009371": {
             "2026-08-02": 1.5,
@@ -23501,7 +23561,8 @@
             "2026-08-11": 3,
             "2026-08-12": 1.2,
             "2026-08-13": 4.2,
-            "2026-08-14": 1.5
+            "2026-08-14": 1.5,
+            "2026-08-18": 2.7
           },
           "18-00009386": {
             "2026-08-03": 11.1,
@@ -23518,7 +23579,7 @@
             "2026-08-14": 1.5,
             "2026-08-16": "DSR",
             "2026-08-17": 3,
-            "2026-08-18": 3
+            "2026-08-18": 7.8
           },
           "18-00009502": {
             "2026-08-02": 3,
@@ -23553,7 +23614,8 @@
             "2026-08-14": 6,
             "2026-08-15": 7.5,
             "2026-08-16": "DSR",
-            "2026-08-17": 2.4
+            "2026-08-17": 2.4,
+            "2026-08-18": 7.1
           },
           "18-00009998": {
             "2026-08-03": "AT",
@@ -23583,7 +23645,8 @@
             "2026-08-14": 4.2,
             "2026-08-15": 1.5,
             "2026-08-16": "DSR",
-            "2026-08-17": 3.3
+            "2026-08-17": 1.8,
+            "2026-08-18": 3.3
           }
         }
       },
@@ -27454,8 +27517,8 @@
               "atividade": "MANUTENÇÃO DE REDE FIELD (APOIO)",
               "avaliada": false,
               "baremo": 1.2,
-              "dataAbertura": "2026-08-10 16:29",
-              "dataFechamento": "2026-08-10 18:40",
+              "dataAbertura": "2026-08-10 16:46",
+              "dataFechamento": "2026-08-10 19:20",
               "noPrazo": false,
               "os": "12322537"
             },
@@ -27721,6 +27784,24 @@
               "os": "ATRIX-339903"
             },
             {
+              "atividade": "MANUTENÇÃO PREVENTIVA DE REDE",
+              "avaliada": false,
+              "baremo": 2.8,
+              "dataAbertura": "2026-08-17 12:39",
+              "dataFechamento": "2026-08-18 17:29",
+              "noPrazo": false,
+              "os": "ATRIX-339905"
+            },
+            {
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
+              "avaliada": true,
+              "baremo": 1.5,
+              "dataAbertura": "2026-08-18 18:17",
+              "dataFechamento": "2026-08-18 18:30",
+              "noPrazo": true,
+              "os": "ATRIX-341711"
+            },
+            {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
               "avaliada": true,
               "baremo": 1.5,
@@ -27733,8 +27814,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-06 18:21",
-              "dataFechamento": "2026-08-06 19:18",
+              "dataAbertura": "2026-08-06 18:58",
+              "dataFechamento": "2026-08-06 19:02",
               "noPrazo": false,
               "os": "BDESK-600121477490102"
             },
@@ -27805,8 +27886,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-12 14:23",
-              "dataFechamento": "2026-08-14 14:32",
+              "dataAbertura": "2026-08-14 10:07",
+              "dataFechamento": "2026-08-14 14:22",
               "noPrazo": false,
               "os": "BDESK-601123147340102"
             },
@@ -27832,8 +27913,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-10 17:45",
-              "dataFechamento": "2026-08-10 19:18",
+              "dataAbertura": "2026-08-10 18:59",
+              "dataFechamento": "2026-08-10 19:21",
               "noPrazo": false,
               "os": "BDESK-601145073180102"
             }
@@ -27847,6 +27928,15 @@
               "dataFechamento": "2026-08-17 15:26",
               "noPrazo": false,
               "os": "ATRIX-339411"
+            },
+            {
+              "atividade": "MANUTENÇÃO PREVENTIVA DE REDE",
+              "avaliada": false,
+              "baremo": 2.8,
+              "dataAbertura": "2026-08-18 11:51",
+              "dataFechamento": "2026-08-18 18:10",
+              "noPrazo": false,
+              "os": "ATRIX-341259"
             },
             {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
@@ -28031,9 +28121,9 @@
               "os": "ATRIX-338805"
             },
             {
-              "atividade": "APOIO",
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
-              "baremo": 0,
+              "baremo": 1.5,
               "dataAbertura": "2026-08-17 12:14",
               "dataFechamento": "2026-08-17 17:42",
               "noPrazo": false,
@@ -28234,7 +28324,7 @@
               "atividade": "MANUTENÇÃO DE REDE FIELD (APOIO)",
               "avaliada": false,
               "baremo": 1.2,
-              "dataAbertura": "2026-08-11 11:38",
+              "dataAbertura": "2026-08-11 11:56",
               "dataFechamento": "2026-08-11 15:01",
               "noPrazo": false,
               "os": "12325138"
@@ -28243,8 +28333,8 @@
               "atividade": "MANUTENÇÃO DE REDE FIELD (APOIO)",
               "avaliada": false,
               "baremo": 1.2,
-              "dataAbertura": "2026-08-11 17:53",
-              "dataFechamento": "2026-08-11 19:56",
+              "dataAbertura": "2026-08-11 17:57",
+              "dataFechamento": "2026-08-11 19:57",
               "noPrazo": false,
               "os": "12327122"
             },
@@ -28288,8 +28378,17 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-03 08:59",
-              "dataFechamento": "2026-08-04 11:26",
+              "dataAbertura": "2026-08-03 09:15",
+              "dataFechamento": "2026-08-04 08:22",
+              "noPrazo": false,
+              "os": "ATRIX-326329"
+            },
+            {
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
+              "avaliada": false,
+              "baremo": 1.5,
+              "dataAbertura": "2026-08-04 08:46",
+              "dataFechamento": "2026-08-04 11:23",
               "noPrazo": false,
               "os": "ATRIX-326329"
             },
@@ -28369,8 +28468,8 @@
               "atividade": "REPARO CORRETIVO B2B (APOIO)",
               "avaliada": false,
               "baremo": 1.8,
-              "dataAbertura": "2026-08-12 15:09",
-              "dataFechamento": "2026-08-12 21:14",
+              "dataAbertura": "2026-08-12 16:18",
+              "dataFechamento": "2026-08-12 21:16",
               "noPrazo": false,
               "os": "ATRIX-335605"
             },
@@ -28378,8 +28477,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-13 08:03",
-              "dataFechamento": "2026-08-13 20:26",
+              "dataAbertura": "2026-08-13 12:05",
+              "dataFechamento": "2026-08-13 22:02",
               "noPrazo": false,
               "os": "ATRIX-335939"
             },
@@ -28387,8 +28486,17 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-14 08:33",
-              "dataFechamento": "2026-08-15 00:26",
+              "dataAbertura": "2026-08-14 10:06",
+              "dataFechamento": "2026-08-14 14:32",
+              "noPrazo": false,
+              "os": "ATRIX-337359"
+            },
+            {
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
+              "avaliada": false,
+              "baremo": 1.5,
+              "dataAbertura": "2026-08-14 16:32",
+              "dataFechamento": "2026-08-14 21:55",
               "noPrazo": false,
               "os": "ATRIX-337359"
             },
@@ -28420,6 +28528,15 @@
               "os": "ATRIX-338799"
             },
             {
+              "atividade": "APOIO",
+              "avaliada": false,
+              "baremo": 0,
+              "dataAbertura": "2026-08-18 14:44",
+              "dataFechamento": "2026-08-18 16:41",
+              "noPrazo": false,
+              "os": "ATRIX-341507"
+            },
+            {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
               "avaliada": true,
               "baremo": 1.5,
@@ -28429,11 +28546,11 @@
               "os": "BDESK-600112189290102"
             },
             {
-              "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
+              "atividade": "APOIO",
               "avaliada": false,
-              "baremo": 1.5,
-              "dataAbertura": "2026-08-04 12:12",
-              "dataFechamento": "2026-08-06 16:52",
+              "baremo": 0,
+              "dataAbertura": "2026-08-04 15:02",
+              "dataFechamento": "2026-08-04 16:59",
               "noPrazo": false,
               "os": "BDESK-600112189290102"
             },
@@ -28450,8 +28567,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-02 11:41",
-              "dataFechamento": "2026-08-02 18:27",
+              "dataAbertura": "2026-08-02 13:16",
+              "dataFechamento": "2026-08-02 18:24",
               "noPrazo": false,
               "os": "BDESK-600141110220102"
             },
@@ -28459,8 +28576,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-14 12:03",
-              "dataFechamento": "2026-08-14 14:47",
+              "dataAbertura": "2026-08-14 14:28",
+              "dataFechamento": "2026-08-14 14:32",
               "noPrazo": false,
               "os": "BDESK-601103410390102"
             },
@@ -28468,8 +28585,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-14 12:06",
-              "dataFechamento": "2026-08-14 14:48",
+              "dataAbertura": "2026-08-14 14:30",
+              "dataFechamento": "2026-08-14 14:47",
               "noPrazo": false,
               "os": "BDESK-601105567330102"
             },
@@ -28486,7 +28603,7 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-12 19:25",
+              "dataAbertura": "2026-08-12 22:30",
               "dataFechamento": "2026-08-12 23:03",
               "noPrazo": false,
               "os": "BDESK-601125512970102"
@@ -28569,8 +28686,8 @@
               "atividade": "MANUTENÇÃO DE REDE FIELD (APOIO)",
               "avaliada": false,
               "baremo": 1.2,
-              "dataAbertura": "2026-08-14 11:29",
-              "dataFechamento": "2026-08-15 18:27",
+              "dataAbertura": "2026-08-15 15:54",
+              "dataFechamento": "2026-08-15 18:32",
               "noPrazo": false,
               "os": "12337838"
             },
@@ -28587,8 +28704,8 @@
               "atividade": "MANUTENÇÃO DE REDE FIELD (APOIO)",
               "avaliada": false,
               "baremo": 1.2,
-              "dataAbertura": "2026-08-15 12:14",
-              "dataFechamento": "2026-08-15 20:21",
+              "dataAbertura": "2026-08-15 15:54",
+              "dataFechamento": "2026-08-15 20:23",
               "noPrazo": false,
               "os": "12342622"
             },
@@ -28596,8 +28713,8 @@
               "atividade": "MANUTENÇÃO DE REDE FIELD (APOIO)",
               "avaliada": false,
               "baremo": 1.2,
-              "dataAbertura": "2026-08-15 16:26",
-              "dataFechamento": "2026-08-15 21:51",
+              "dataAbertura": "2026-08-15 18:30",
+              "dataFechamento": "2026-08-15 21:55",
               "noPrazo": false,
               "os": "12343403"
             },
@@ -28614,8 +28731,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-04 15:53",
-              "dataFechamento": "2026-08-04 17:19",
+              "dataAbertura": "2026-08-04 15:59",
+              "dataFechamento": "2026-08-04 17:32",
               "noPrazo": false,
               "os": "ATRIX-328173"
             },
@@ -28632,8 +28749,8 @@
               "atividade": "REPARO CORRETIVO B2B (APOIO)",
               "avaliada": false,
               "baremo": 1.8,
-              "dataAbertura": "2026-08-06 10:17",
-              "dataFechamento": "2026-08-06 15:23",
+              "dataAbertura": "2026-08-06 13:40",
+              "dataFechamento": "2026-08-06 15:04",
               "noPrazo": false,
               "os": "ATRIX-329841"
             },
@@ -28650,8 +28767,8 @@
               "atividade": "REPARO CORRETIVO B2B (APOIO)",
               "avaliada": false,
               "baremo": 1.8,
-              "dataAbertura": "2026-08-10 01:32",
-              "dataFechamento": "2026-08-10 13:25",
+              "dataAbertura": "2026-08-10 11:13",
+              "dataFechamento": "2026-08-10 13:27",
               "noPrazo": false,
               "os": "ATRIX-332109"
             },
@@ -28686,8 +28803,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-13 08:03",
-              "dataFechamento": "2026-08-13 20:26",
+              "dataAbertura": "2026-08-13 12:06",
+              "dataFechamento": "2026-08-13 22:07",
               "noPrazo": false,
               "os": "ATRIX-335939"
             },
@@ -28699,6 +28816,15 @@
               "dataFechamento": "2026-08-16 15:42",
               "noPrazo": false,
               "os": "ATRIX-338801"
+            },
+            {
+              "atividade": "REPARO CORRETIVO B2B (APOIO)",
+              "avaliada": false,
+              "baremo": 1.8,
+              "dataAbertura": "2026-08-18 14:25",
+              "dataFechamento": "2026-08-18 16:57",
+              "noPrazo": false,
+              "os": "ATRIX-340413"
             },
             {
               "atividade": "MANUTENÇÃO PREVENTIVA DE REDE",
@@ -28713,8 +28839,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-04 12:12",
-              "dataFechamento": "2026-08-06 16:52",
+              "dataAbertura": "2026-08-06 16:49",
+              "dataFechamento": "2026-08-06 18:56",
               "noPrazo": false,
               "os": "BDESK-600112189290102"
             },
@@ -28782,6 +28908,15 @@
               "dataFechamento": "2026-08-13 20:39",
               "noPrazo": true,
               "os": "12335181"
+            },
+            {
+              "atividade": "MANUTENÇÃO DE REDE FIELD",
+              "avaliada": true,
+              "baremo": 1.2,
+              "dataAbertura": "2026-08-18 11:07",
+              "dataFechamento": "2026-08-18 17:29",
+              "noPrazo": true,
+              "os": "12351574"
             },
             {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
@@ -28854,6 +28989,15 @@
               "dataFechamento": "2026-08-05 12:39",
               "noPrazo": false,
               "os": "BDESK-600228296580102"
+            },
+            {
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
+              "avaliada": true,
+              "baremo": 1.5,
+              "dataAbertura": "2026-08-18 14:09",
+              "dataFechamento": "2026-08-18 20:03",
+              "noPrazo": true,
+              "os": "BDESK-601108559170102"
             },
             {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
@@ -29119,6 +29263,15 @@
               "os": "ATRIX-339753"
             },
             {
+              "atividade": "REPARO CORRETIVO B2B",
+              "avaliada": true,
+              "baremo": 1.8,
+              "dataAbertura": "2026-08-18 00:23",
+              "dataFechamento": "2026-08-18 18:17",
+              "noPrazo": false,
+              "os": "ATRIX-340399"
+            },
+            {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
               "avaliada": true,
               "baremo": 1.5,
@@ -29209,11 +29362,29 @@
               "os": "BDESK-601027319090102"
             },
             {
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
+              "avaliada": true,
+              "baremo": 1.5,
+              "dataAbertura": "2026-08-18 18:03",
+              "dataFechamento": "2026-08-18 21:58",
+              "noPrazo": true,
+              "os": "BDESK-601103005990102"
+            },
+            {
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
+              "avaliada": true,
+              "baremo": 1.5,
+              "dataAbertura": "2026-08-18 17:15",
+              "dataFechamento": "2026-08-18 19:28",
+              "noPrazo": true,
+              "os": "BDESK-601114549990102"
+            },
+            {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-13 13:40",
-              "dataFechamento": "2026-08-14 12:35",
+              "dataAbertura": "2026-08-14 08:38",
+              "dataFechamento": "2026-08-14 12:39",
               "noPrazo": false,
               "os": "BDESK-601140417570102"
             },
@@ -29241,8 +29412,8 @@
               "atividade": "MANUTENÇÃO DE REDE FIELD (APOIO)",
               "avaliada": false,
               "baremo": 1.2,
-              "dataAbertura": "2026-08-11 16:53",
-              "dataFechamento": "2026-08-13 00:38",
+              "dataAbertura": "2026-08-13 00:19",
+              "dataFechamento": "2026-08-13 01:44",
               "noPrazo": false,
               "os": "12326839"
             },
@@ -29286,8 +29457,8 @@
               "atividade": "MANUTENÇÃO PREVENTIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 2.8,
-              "dataAbertura": "2026-08-04 12:13",
-              "dataFechamento": "2026-08-04 19:34",
+              "dataAbertura": "2026-08-04 17:52",
+              "dataFechamento": "2026-08-04 20:50",
               "noPrazo": false,
               "os": "ATRIX-327899"
             },
@@ -29349,8 +29520,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-12 16:13",
-              "dataFechamento": "2026-08-12 21:56",
+              "dataAbertura": "2026-08-12 19:40",
+              "dataFechamento": "2026-08-12 21:59",
               "noPrazo": false,
               "os": "ATRIX-335715"
             },
@@ -29358,8 +29529,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-13 08:03",
-              "dataFechamento": "2026-08-13 20:26",
+              "dataAbertura": "2026-08-13 14:03",
+              "dataFechamento": "2026-08-13 23:48",
               "noPrazo": false,
               "os": "ATRIX-335939"
             },
@@ -29547,8 +29718,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-14 14:57",
-              "dataFechamento": "2026-08-14 19:07",
+              "dataAbertura": "2026-08-14 16:49",
+              "dataFechamento": "2026-08-14 19:25",
               "noPrazo": false,
               "os": "BDESK-601157162030102"
             },
@@ -29837,8 +30008,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-14 21:57",
-              "dataFechamento": "2026-08-15 00:51",
+              "dataAbertura": "2026-08-15 00:03",
+              "dataFechamento": "2026-08-15 00:49",
               "noPrazo": false,
               "os": "ATRIX-338445"
             },
@@ -29846,10 +30017,37 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-14 23:55",
-              "dataFechamento": "2026-08-15 00:53",
+              "dataAbertura": "2026-08-15 00:04",
+              "dataFechamento": "2026-08-15 00:49",
               "noPrazo": false,
               "os": "ATRIX-338461"
+            },
+            {
+              "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
+              "avaliada": true,
+              "baremo": 1.5,
+              "dataAbertura": "2026-08-17 10:38",
+              "dataFechamento": "2026-08-18 16:14",
+              "noPrazo": false,
+              "os": "ATRIX-339679"
+            },
+            {
+              "atividade": "MANUTENÇÃO PREVENTIVA DE REDE",
+              "avaliada": false,
+              "baremo": 2.8,
+              "dataAbertura": "2026-08-18 16:16",
+              "dataFechamento": "2026-08-18 16:54",
+              "noPrazo": false,
+              "os": "ATRIX-341609"
+            },
+            {
+              "atividade": "MANUTENÇÃO PREVENTIVA DE REDE",
+              "avaliada": false,
+              "baremo": 2.8,
+              "dataAbertura": "2026-08-18 16:18",
+              "dataFechamento": "2026-08-18 17:51",
+              "noPrazo": false,
+              "os": "ATRIX-341611"
             },
             {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
@@ -29873,8 +30071,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-06 13:35",
-              "dataFechamento": "2026-08-06 16:20",
+              "dataAbertura": "2026-08-06 13:58",
+              "dataFechamento": "2026-08-06 16:15",
               "noPrazo": false,
               "os": "BDESK-600135339010102"
             },
@@ -29891,8 +30089,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-12 09:06",
-              "dataFechamento": "2026-08-12 21:59",
+              "dataAbertura": "2026-08-12 15:13",
+              "dataFechamento": "2026-08-12 21:07",
               "noPrazo": false,
               "os": "BDESK-601005535580102"
             },
@@ -29936,8 +30134,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-14 11:38",
-              "dataFechamento": "2026-08-14 14:37",
+              "dataAbertura": "2026-08-14 14:03",
+              "dataFechamento": "2026-08-14 14:48",
               "noPrazo": false,
               "os": "BDESK-601138261860102"
             },
@@ -29954,8 +30152,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-14 20:05",
-              "dataFechamento": "2026-08-15 00:49",
+              "dataAbertura": "2026-08-15 00:02",
+              "dataFechamento": "2026-08-15 00:48",
               "noPrazo": false,
               "os": "BDESK-601205327400102"
             },
@@ -29963,8 +30161,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-14 20:09",
-              "dataFechamento": "2026-08-15 00:46",
+              "dataAbertura": "2026-08-15 00:01",
+              "dataFechamento": "2026-08-15 00:27",
               "noPrazo": false,
               "os": "BDESK-601209108420102"
             },
@@ -30183,8 +30381,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-10 17:54",
-              "dataFechamento": "2026-08-11 18:42",
+              "dataAbertura": "2026-08-11 10:04",
+              "dataFechamento": "2026-08-11 17:35",
               "noPrazo": false,
               "os": "ATRIX-333301"
             },
@@ -30210,10 +30408,19 @@
               "atividade": "REPARO CORRETIVO B2B (APOIO)",
               "avaliada": false,
               "baremo": 1.8,
-              "dataAbertura": "2026-08-17 09:18",
-              "dataFechamento": "2026-08-17 15:26",
+              "dataAbertura": "2026-08-17 11:53",
+              "dataFechamento": "2026-08-17 15:29",
               "noPrazo": false,
               "os": "ATRIX-339411"
+            },
+            {
+              "atividade": "REPARO CORRETIVO B2B",
+              "avaliada": true,
+              "baremo": 1.8,
+              "dataAbertura": "2026-08-18 00:49",
+              "dataFechamento": "2026-08-18 16:14",
+              "noPrazo": false,
+              "os": "ATRIX-340415"
             },
             {
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE",
@@ -30282,8 +30489,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-11 02:25",
-              "dataFechamento": "2026-08-11 10:09",
+              "dataAbertura": "2026-08-11 10:02",
+              "dataFechamento": "2026-08-11 13:28",
               "noPrazo": false,
               "os": "BDESK-601024570510102"
             },
@@ -30318,8 +30525,8 @@
               "atividade": "MANUTENÇÃO CORRETIVA DE REDE (APOIO)",
               "avaliada": false,
               "baremo": 1.5,
-              "dataAbertura": "2026-08-17 16:55",
-              "dataFechamento": "2026-08-17 19:34",
+              "dataAbertura": "2026-08-17 17:57",
+              "dataFechamento": "2026-08-18 00:17",
               "noPrazo": false,
               "os": "BDESK-601155179520102"
             },
@@ -30430,40 +30637,40 @@
         "2026-08": {
           "activitySla": {
             "MANUTENÇÃO CORRETIVA DE REDE": {
-              "evaluated": 141,
-              "onTime": 110,
-              "total": 141
+              "evaluated": 146,
+              "onTime": 114,
+              "total": 146
             },
             "MANUTENÇÃO DE REDE FIELD": {
-              "evaluated": 43,
-              "onTime": 35,
-              "total": 43
+              "evaluated": 44,
+              "onTime": 36,
+              "total": 44
             },
             "MANUTENÇÃO PREVENTIVA DE REDE": {
               "evaluated": 0,
               "onTime": 0,
-              "total": 66
+              "total": 70
             },
             "REPARO CORRETIVO B2B": {
-              "evaluated": 30,
+              "evaluated": 32,
               "onTime": 16,
-              "total": 30
+              "total": 32
             }
           },
           "slaCounts": {
-            "evaluated": 214,
-            "onTime": 161
+            "evaluated": 222,
+            "onTime": 166
           },
           "techSla": {
             "18-00007628": {
-              "evaluated": 26,
-              "onTime": 22,
-              "totalOS": 48
+              "evaluated": 27,
+              "onTime": 23,
+              "totalOS": 50
             },
             "18-00009314": {
               "evaluated": 3,
               "onTime": 2,
-              "totalOS": 3
+              "totalOS": 4
             },
             "18-00009339": {
               "evaluated": 24,
@@ -30473,22 +30680,22 @@
             "18-00009347": {
               "evaluated": 16,
               "onTime": 12,
-              "totalOS": 34
+              "totalOS": 37
             },
             "18-00009350": {
               "evaluated": 13,
               "onTime": 10,
-              "totalOS": 25
+              "totalOS": 26
             },
             "18-00009371": {
-              "evaluated": 13,
-              "onTime": 9,
-              "totalOS": 14
+              "evaluated": 15,
+              "onTime": 11,
+              "totalOS": 16
             },
             "18-00009386": {
-              "evaluated": 32,
-              "onTime": 17,
-              "totalOS": 38
+              "evaluated": 35,
+              "onTime": 19,
+              "totalOS": 41
             },
             "18-00009502": {
               "evaluated": 28,
@@ -30496,9 +30703,9 @@
               "totalOS": 37
             },
             "18-00009517": {
-              "evaluated": 30,
+              "evaluated": 31,
               "onTime": 23,
-              "totalOS": 46
+              "totalOS": 49
             },
             "18-00009998": {
               "evaluated": 10,
@@ -30506,12 +30713,12 @@
               "totalOS": 14
             },
             "18-00013251": {
-              "evaluated": 19,
+              "evaluated": 20,
               "onTime": 15,
-              "totalOS": 25
+              "totalOS": 26
             }
           },
-          "totalOS": 323
+          "totalOS": 339
         }
       },
       "technicians": [
@@ -30584,6 +30791,21 @@
           "funci": "18-00009388",
           "imported": false,
           "nome": "LEANDERSON EZEQUIEL DANTAS DA SILVA"
+        },
+        {
+          "funci": "18-00009371",
+          "imported": true,
+          "nome": "MARCOS JOSE PEREIRA DA SILVA"
+        },
+        {
+          "funci": "18-00009386",
+          "imported": true,
+          "nome": "PAULO HENRIQUE DOS RAMOS LIMA"
+        },
+        {
+          "funci": "18-00009998",
+          "imported": true,
+          "nome": "BRUNO SIQUEIRA PINHEIRO"
         }
       ]
     }
