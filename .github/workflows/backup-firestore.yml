@@ -1,0 +1,36 @@
+name: Backup Firestore
+
+on:
+  schedule:
+    - cron: '30 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Gerar backup do Firestore
+        run: node .github/scripts/backup-firestore.mjs
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_BACKUP_EMAIL: ${{ secrets.FIREBASE_BACKUP_EMAIL }}
+          FIREBASE_BACKUP_PASSWORD: ${{ secrets.FIREBASE_BACKUP_PASSWORD }}
+
+      - name: Commit e push do backup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout main
+          git add backups
+          git diff --cached --quiet || git commit -m "chore: backup Firestore $(date -u +%F)"
+          git pull --rebase origin main || true
+          git push origin main
