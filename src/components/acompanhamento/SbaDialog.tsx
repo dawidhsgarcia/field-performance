@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { ALL_REGION } from '@/lib/constants'
-import { currentRegion, importedTechs, sobreavisoDays, toggleSobreaviso } from '@/services/state'
+import { currentRegion, importedTechs, sobreavisoDays } from '@/services/state'
 import { useStateStore } from '@/stores/state.store'
 import { useAuthStore } from '@/stores/auth.store'
 import { MONTHS, pad } from '@/utils/date'
@@ -16,8 +17,9 @@ const DOW_HEADER = ['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom']
 
 export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
   const data = useStateStore((s) => s.data)
-  const commit = useStateStore((s) => s.commit)
+  const commitSobreaviso = useStateStore((s) => s.commitSobreaviso)
   const can = useAuthStore((s) => s.can)
+  const [pending, setPending] = useState<string[]>([])
 
   if (!data) return null
 
@@ -44,7 +46,7 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
   }
   for (let day = 1; day <= daysInMonth; day++) {
     const iso = `${y}-${pad(m + 1)}-${pad(day)}`
-    const marked = list.includes(iso)
+    const marked = pending.includes(iso) ? !list.includes(iso) : list.includes(iso)
     const cls = ['cal-day', marked ? 'cal-marked' : '', iso === todayIso ? 'cal-today' : '']
       .filter(Boolean)
       .join(' ')
@@ -55,11 +57,19 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
         className={cls}
         disabled={!canEdit}
         title={marked ? 'Sobreaviso marcado — clique para remover' : 'Clique para marcar sobreaviso'}
-        onClick={() => commit((s) => toggleSobreaviso(s, funci, iso))}
+        onClick={() =>
+          setPending((prev) => (prev.includes(iso) ? prev.filter((x) => x !== iso) : [...prev, iso]))
+        }
       >
         {day}
       </button>,
     )
+  }
+
+  async function handleConfirm() {
+    await commitSobreaviso(funci, pending)
+    setPending([])
+    onOpenChange(false)
   }
 
   return (
@@ -85,10 +95,18 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
             </span>
           </div>
         </div>
-        <DialogFooter>
-          <Button type="button" onClick={() => onOpenChange(false)}>
-            Fechar
-          </Button>
+        <DialogFooter className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">
+            {pending.length > 0 ? `${pending.length} alteração(ões) pendente(s) — clique em Salvar` : 'Clique nos dias e depois em Salvar'}
+          </span>
+          <div className="flex gap-2">
+            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+              Cancelar
+            </Button>
+            <Button type="button" disabled={!canEdit || pending.length === 0} onClick={() => void handleConfirm()}>
+              Salvar
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
