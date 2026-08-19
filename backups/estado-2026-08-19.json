@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "updatedAt": "2026-08-19T14:33:22.885Z",
-    "version": 529
+    "updatedAt": "2026-08-19T17:16:02.125Z",
+    "version": 532
   },
   "bh": {
     "base": [
@@ -1864,20 +1864,6 @@
       "regiao": "r_1785258747479",
       "telefone": "88994299076"
     },
-    "18-00009371": {
-      "funcao": "TÉCNICO DE FIBRA",
-      "funci": "18-00009371",
-      "nome": "MARCOS JOSE PEREIRA DA SILVA",
-      "regiao": "r_1785262516150",
-      "telefone": null
-    },
-    "18-00009386": {
-      "funcao": "TÉCNICO DE FIBRA",
-      "funci": "18-00009386",
-      "nome": "PAULO HENRIQUE DOS RAMOS LIMA",
-      "regiao": "r_1785262516150",
-      "telefone": null
-    },
     "18-00009388": {
       "funcao": "OFICIAL DE REDE",
       "funci": "18-00009388",
@@ -1919,13 +1905,6 @@
       "nome": "EUGENIO FERREIRA DE ARAUJO",
       "regiao": "r_1785262516150",
       "telefone": "8888553317"
-    },
-    "18-00009998": {
-      "funcao": "TÉCNICO DE FIBRA",
-      "funci": "18-00009998",
-      "nome": "BRUNO SIQUEIRA PINHEIRO",
-      "regiao": "r_1785262516150",
-      "telefone": null
     },
     "18-00013066": {
       "funcao": "OFICIAL DE REDE",
@@ -30791,21 +30770,6 @@
           "funci": "18-00009388",
           "imported": false,
           "nome": "LEANDERSON EZEQUIEL DANTAS DA SILVA"
-        },
-        {
-          "funci": "18-00009371",
-          "imported": true,
-          "nome": "MARCOS JOSE PEREIRA DA SILVA"
-        },
-        {
-          "funci": "18-00009386",
-          "imported": true,
-          "nome": "PAULO HENRIQUE DOS RAMOS LIMA"
-        },
-        {
-          "funci": "18-00009998",
-          "imported": true,
-          "nome": "BRUNO SIQUEIRA PINHEIRO"
         }
       ]
     }
