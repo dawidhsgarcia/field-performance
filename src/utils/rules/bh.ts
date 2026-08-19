@@ -11,12 +11,11 @@ export function filterBhBase(  base: BhBaseEntry[],
   allMode: boolean,
 ): BhBaseEntry[] {
   return base
-    .filter(
-      (b) =>
-        b.limiteComp &&
-        b.limiteComp.slice(0, 7) === period &&
-        (allMode || (state.colaboradores ? state.colaboradores[b.funci]?.regiao : undefined) === state.currentRegion),
-    )
+    .filter((b) => {
+      if (!b.limiteComp || b.limiteComp.slice(0, 7) !== period) return false
+      const colab = state.colaboradores ? state.colaboradores[b.funci] : undefined
+      return allMode ? Boolean(colab) : colab?.regiao === state.currentRegion
+    })
     .sort((a, b) => (b.horas || 0) - (a.horas || 0))
 }
 

@@ -42,15 +42,30 @@ describe('filterBhBase', () => {
     expect(filtered[0].funci).toBe('B1')
   })
 
-  it('allMode ignora a região', () => {
+  it('allMode exige cadastro em colaboradores', () => {
     const state = seedState()
     state.colaboradores['B1'] = { funci: 'B1', nome: 'BEN 1', regiao: 'norte', funcao: 'TÉCNICO DE FIBRA', telefone: null }
     const base = [makeBase({ funci: 'B1' })]
     expect(filterBhBase(base, '2026-08', state, true)).toHaveLength(1)
   })
 
+  it('allMode oculta técnico não cadastrado', () => {
+    const state = seedState()
+    state.colaboradores['B1'] = { funci: 'B1', nome: 'BEN 1', regiao: 'norte', funcao: 'TÉCNICO DE FIBRA', telefone: null }
+    const base = [
+      makeBase({ funci: 'B1' }),
+      makeBase({ funci: 'B2' }),
+      makeBase({ funci: 'B3' }),
+    ]
+    const filtered = filterBhBase(base, '2026-08', state, true)
+    expect(filtered).toHaveLength(1)
+    expect(filtered[0].funci).toBe('B1')
+  })
+
   it('ordena por horas desc', () => {
     const state = seedState()
+    state.colaboradores['B1'] = { funci: 'B1', nome: 'BEN 1', regiao: 'norte', funcao: 'TÉCNICO DE FIBRA', telefone: null }
+    state.colaboradores['B2'] = { funci: 'B2', nome: 'BEN 2', regiao: 'norte', funcao: 'TÉCNICO DE FIBRA', telefone: null }
     const base = [
       makeBase({ funci: 'B1', horas: 600 }),
       makeBase({ funci: 'B2', horas: 1200 }),
