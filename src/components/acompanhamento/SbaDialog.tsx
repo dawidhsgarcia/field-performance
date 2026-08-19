@@ -78,7 +78,7 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
 
   return (
     <Dialog open onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="min-w-[340px]">
         <DialogHeader>
           <DialogTitle>{name}</DialogTitle>
         </DialogHeader>
