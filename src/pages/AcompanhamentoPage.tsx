@@ -86,7 +86,7 @@ export function AcompanhamentoPage() {
           title: 'Relatório importado',
           message:
             `Relatório importado para "${summary.regionName}":\n` +
-            `• ${summary.updatedTechs} técnico(s) atualizado(s) (${summary.newTechs} novo(s) cadastrado(s) automaticamente)\n` +
+            `• ${summary.updatedTechs} técnico(s) atualizado(s) (${summary.newTechs} novo(s) adicionado(s) à região — cadastre-os em Parâmetros → Cadastro de Colaboradores se necessário)\n` +
             `• ${summary.updatedDays} dia(s) de produção preenchidos\n` +
             `• ${summary.validRows} linha(s) consideradas, ${summary.skippedRows} ignorada(s) (rodapé, sem baremo ou expurgadas)\n` +
             `A tela foi ajustada para o período com mais dados: ${MONTHS[current?.currentMonth ?? 0]} de ${current?.currentYear ?? 0}.\n` +

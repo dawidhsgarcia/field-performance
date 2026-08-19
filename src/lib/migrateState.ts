@@ -80,7 +80,7 @@ export function migrateState(parsedRaw: unknown): AppState | null {
         : Number(v.orcamento)
   })
   if (!parsed.colaboradores || typeof parsed.colaboradores !== 'object') parsed.colaboradores = {}
-  Object.entries(regions || {}).forEach(([rid, r]) => {
+  Object.entries(regions || {}).forEach(([_rid, r]) => {
     const funcsWithEntries = new Set<string>()
     Object.values(r.entries || {}).forEach((byFunci) => {
       Object.keys(byFunci || {}).forEach((f) => funcsWithEntries.add(String(f).trim()))
@@ -95,14 +95,6 @@ export function migrateState(parsedRaw: unknown): AppState | null {
       if (colab) {
         if (!colab.funcao) colab.funcao = FUNCAO_DEFAULT
         if (!colab.telefone) colab.telefone = null
-      } else {
-        parsed.colaboradores[f] = {
-          funci: f,
-          nome: t.nome ? String(t.nome).trim().toUpperCase() : f,
-          regiao: rid,
-          funcao: FUNCAO_DEFAULT,
-          telefone: null,
-        }
       }
     })
   })

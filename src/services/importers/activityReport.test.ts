@@ -83,7 +83,7 @@ describe('applyActivityReport', () => {
     expect(region.locked).toBe(true)
     expect(next.currentYear).toBe(2026)
     expect(next.currentMonth).toBe(6)
-    expect(next.colaboradores['T1']).toBeDefined()
+    expect(next.colaboradores['T1']).toBeUndefined()
   })
 
   it('retorna erro quando não há linhas válidas', () => {

@@ -1,5 +1,5 @@
 import { produce } from '@/lib/immutable'
-import { ALL_REGION, FUNCAO_DEFAULT } from '@/lib/constants'
+import { ALL_REGION } from '@/lib/constants'
 import type { AppState, OsDetail, RegionSla } from '@/types'
 import type { ActivityReportSummary, ImportOutcome } from '@/types/imports'
 import { normalizeRowKeys, parseBaremo, parseYesNo } from '@/utils/numbers'
@@ -150,15 +150,6 @@ export function applyActivityReport(
           region.technicians.push(tech)
         } else {
           tech.imported = true
-        }
-        if (!draft.colaboradores[funci]) {
-          draft.colaboradores[funci] = {
-            funci,
-            nome: tech.nome,
-            regiao: targetId,
-            funcao: FUNCAO_DEFAULT,
-            telefone: null,
-          }
         }
         if (!region.entries[period]) region.entries[period] = {}
         if (!region.entries[period][funci]) region.entries[period][funci] = {}

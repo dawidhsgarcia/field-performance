@@ -70,7 +70,7 @@ describe('migrateState', () => {
     expect(state!.regions.r1.technicians[0].imported).toBe(false)
   })
 
-  it('faz backfill de colaboradores a partir dos technicians', () => {
+  it('não faz backfill de colaboradores a partir dos technicians', () => {
     const state = migrateState({
       regions: {
         r1: {
@@ -81,10 +81,26 @@ describe('migrateState', () => {
         },
       },
     })
+    expect(state!.colaboradores['A']).toBeUndefined()
+  })
+
+  it('mantém e normaliza colaboradores já cadastrados', () => {
+    const state = migrateState({
+      colaboradores: {
+        A: { funci: 'A', nome: 'nome a', regiao: 'r1' },
+      },
+      regions: {
+        r1: {
+          name: 'R1',
+          locked: false,
+          technicians: [{ funci: 'A', nome: 'A', imported: true }],
+          entries: {},
+        },
+      },
+    })
     const colab = state!.colaboradores['A']
     expect(colab).toBeDefined()
-    expect(colab.nome).toBe('NOME A')
-    expect(colab.regiao).toBe('r1')
+    expect(colab.nome).toBe('nome a')
     expect(colab.funcao).toBe('TÉCNICO DE FIBRA')
     expect(colab.telefone).toBeNull()
   })
