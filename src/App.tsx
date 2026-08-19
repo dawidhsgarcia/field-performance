@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { AppLayout } from '@/layouts/AppLayout'
 import { LoadingScreen } from '@/components/layout/LoadingScreen'
 import { useAuthSession } from '@/hooks/useAuthSession'
@@ -8,14 +8,25 @@ import { useAuthStore } from '@/stores/auth.store'
 import { useAppStore } from '@/stores/app.store'
 import { useStateStore } from '@/stores/state.store'
 import { LoginPage } from '@/pages/LoginPage'
-import { DashboardPage } from '@/pages/DashboardPage'
-import { AcompanhamentoPage } from '@/pages/AcompanhamentoPage'
-import { CombustivelPage } from '@/pages/CombustivelPage'
-import { BancoHorasPage } from '@/pages/BancoHorasPage'
-import { ParametrosPage } from '@/pages/ParametrosPage'
 import type { ActiveTab } from '@/stores/app.store'
 
-const PAGES: Record<ActiveTab, () => React.JSX.Element> = {
+const DashboardPage = lazy(() =>
+  import('@/pages/DashboardPage').then((m) => ({ default: m.DashboardPage })),
+)
+const AcompanhamentoPage = lazy(() =>
+  import('@/pages/AcompanhamentoPage').then((m) => ({ default: m.AcompanhamentoPage })),
+)
+const CombustivelPage = lazy(() =>
+  import('@/pages/CombustivelPage').then((m) => ({ default: m.CombustivelPage })),
+)
+const BancoHorasPage = lazy(() =>
+  import('@/pages/BancoHorasPage').then((m) => ({ default: m.BancoHorasPage })),
+)
+const ParametrosPage = lazy(() =>
+  import('@/pages/ParametrosPage').then((m) => ({ default: m.ParametrosPage })),
+)
+
+const PAGES: Record<ActiveTab, React.LazyExoticComponent<React.ComponentType>> = {
   dashboard: DashboardPage,
   acompanhamento: AcompanhamentoPage,
   combustivel: CombustivelPage,
@@ -51,7 +62,9 @@ function App() {
 
   return (
     <AppLayout>
-      <Page />
+      <Suspense fallback={<LoadingScreen />}>
+        <Page />
+      </Suspense>
     </AppLayout>
   )
 }
