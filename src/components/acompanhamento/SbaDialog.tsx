@@ -20,6 +20,7 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
   const commitSobreaviso = useStateStore((s) => s.commitSobreaviso)
   const can = useAuthStore((s) => s.can)
   const [pending, setPending] = useState<string[]>([])
+  const [saving, setSaving] = useState(false)
 
   if (!data) return null
 
@@ -46,7 +47,8 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
   }
   for (let day = 1; day <= daysInMonth; day++) {
     const iso = `${y}-${pad(m + 1)}-${pad(day)}`
-    const marked = pending.includes(iso) ? !list.includes(iso) : list.includes(iso)
+    const toggled = pending.includes(iso)
+    const marked = saving ? list.includes(iso) || toggled : toggled ? !list.includes(iso) : list.includes(iso)
     const cls = ['cal-day', marked ? 'cal-marked' : '', iso === todayIso ? 'cal-today' : '']
       .filter(Boolean)
       .join(' ')
@@ -55,7 +57,7 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
         key={iso}
         type="button"
         className={cls}
-        disabled={!canEdit}
+        disabled={!canEdit || saving}
         title={marked ? 'Sobreaviso marcado — clique para remover' : 'Clique para marcar sobreaviso'}
         onClick={() =>
           setPending((prev) => (prev.includes(iso) ? prev.filter((x) => x !== iso) : [...prev, iso]))
@@ -67,8 +69,10 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
   }
 
   async function handleConfirm() {
+    setSaving(true)
     await commitSobreaviso(funci, pending)
     setPending([])
+    setSaving(false)
     onOpenChange(false)
   }
 
@@ -97,14 +101,22 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
         </div>
         <DialogFooter className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">
-            {pending.length > 0 ? `${pending.length} alteração(ões) pendente(s) — clique em Salvar` : 'Clique nos dias e depois em Salvar'}
+            {saving
+              ? 'Salvando…'
+              : pending.length > 0
+                ? `${pending.length} alteração(ões) pendente(s) — clique em Salvar`
+                : 'Clique nos dias e depois em Salvar'}
           </span>
           <div className="flex gap-2">
-            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+            <Button type="button" variant="ghost" disabled={saving} onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
-            <Button type="button" disabled={!canEdit || pending.length === 0} onClick={() => void handleConfirm()}>
-              Salvar
+            <Button
+              type="button"
+              disabled={!canEdit || pending.length === 0 || saving}
+              onClick={() => void handleConfirm()}
+            >
+              {saving ? 'Salvando…' : 'Salvar'}
             </Button>
           </div>
         </DialogFooter>
