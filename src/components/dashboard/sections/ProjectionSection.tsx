@@ -175,6 +175,7 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
                     <TableCell className="text-center">
                       {r.projectedAvg !== null ? (
                         <span className="inline-flex items-center justify-center gap-1.5">
+                          <span>{fmtNum(r.projectedAvg)}</span>
                           {variacao !== null && (
                             <span
                               className={cn(
@@ -191,7 +192,6 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
                               {fmtNum(variacao)}%
                             </span>
                           )}
-                          <span>{fmtNum(r.projectedAvg)}</span>
                         </span>
                       ) : (
                         '–'
