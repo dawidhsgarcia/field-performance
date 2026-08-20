@@ -17,10 +17,10 @@ export function ActivitySlaTable({ rows }: { rows: ActivitySlaRow[] }) {
     <div className="space-y-3">
       <div className="flex flex-wrap gap-6 text-xs text-muted-foreground">
         <span>
-          📋 <strong>{summary.count}</strong> tipos de atividade
+          <strong>{summary.count}</strong> tipos de atividade
         </span>
         <span>
-          ✅ <strong>{summary.onTime}</strong> de <strong>{summary.evaluated}</strong> OS no prazo (
+          <strong>{summary.onTime}</strong> de <strong>{summary.evaluated}</strong> OS no prazo (
           {summary.pct ?? 0}%)
         </span>
       </div>

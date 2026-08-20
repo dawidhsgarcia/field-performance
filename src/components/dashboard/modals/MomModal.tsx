@@ -119,7 +119,7 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
         <section className="mt-6">
           <h4 className="font-display text-base font-bold">Comparativo Mensal</h4>
           <p className="text-xs text-muted-foreground">
-            📅 <strong>{labelAnterior}</strong> → <strong>{labelAtual}</strong> · Mês atual parcial (até D-1)
+            <strong>{labelAnterior}</strong> → <strong>{labelAtual}</strong> · Mês atual parcial (até D-1)
           </p>
           <div className="mt-2 overflow-x-auto rounded-lg border">
             <Table>
