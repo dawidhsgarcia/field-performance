@@ -174,14 +174,11 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
                     <TableCell className="text-center">{r.currentAvg !== null ? fmtNum(r.currentAvg) : '–'}</TableCell>
                     <TableCell className="text-center">
                       {r.projectedAvg !== null ? (
-                        <div className="flex flex-col items-center leading-tight">
-                          <span className="text-sm font-semibold tabular-nums">
-                            {fmtNum(r.projectedAvg)}
-                          </span>
+                        <span className="inline-flex items-center justify-center gap-1.5">
                           {variacao !== null && (
                             <span
                               className={cn(
-                                'mt-0.5 inline-flex rounded px-1.5 py-0.5 text-[11px] font-bold tabular-nums',
+                                'inline-flex rounded px-1.5 py-0.5 text-[11px] font-bold tabular-nums',
                                 variacao > 0
                                   ? 'bg-success/15 text-success-dark'
                                   : variacao < 0
@@ -194,7 +191,8 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
                               {fmtNum(variacao)}%
                             </span>
                           )}
-                        </div>
+                          <span>{fmtNum(r.projectedAvg)}</span>
+                        </span>
                       ) : (
                         '–'
                       )}
