@@ -92,7 +92,7 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
         <CardTitle className="font-display text-lg">Projeção de Fechamento</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           <div className={statCls}>
             <span className="text-xs text-muted-foreground">Realizado</span>
             <span className={statValueCls}>
