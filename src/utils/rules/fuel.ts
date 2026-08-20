@@ -24,7 +24,7 @@ export function vehicleRegiao(
     const rids = Object.keys(state.regions)
     for (let i = 0; i < rids.length; i++) {
       const rid = rids[i]
-      if (importedTechs(state.regions[rid]).some((t) => String(t.nome).trim().toUpperCase() === n)) {
+      if (importedTechs(state.regions[rid], state.colaboradores).some((t) => String(t.nome).trim().toUpperCase() === n)) {
         return rid
       }
     }
@@ -46,14 +46,14 @@ export function vehicleFunci(
     for (let i = 0; i < rids.length; i++) {
       const rid = rids[i]
       if (!state.regions[rid]) continue
-      const tech = importedTechs(state.regions[rid]).find(
+      const tech = importedTechs(state.regions[rid], state.colaboradores).find(
         (t) => String(t.nome).trim().toUpperCase() === n,
       )
       if (tech) return tech.funci
     }
     if (regiaoAtiva) {
       for (const rid of Object.keys(state.regions)) {
-        const tech = importedTechs(state.regions[rid]).find(
+        const tech = importedTechs(state.regions[rid], state.colaboradores).find(
           (t) => String(t.nome).trim().toUpperCase() === n,
         )
         if (tech) return tech.funci
@@ -143,9 +143,10 @@ export function computeFuelProductivityRows(
 
   regionIds.forEach((rid) => {
     const region = state.regions[rid]
-    if (!importedTechs(region).length) return
-    const ranking = computeRanking(region, weeks, state.params, today)
-    ;[...importedTechs(region)]
+    const regionTechs = importedTechs(region, state.colaboradores)
+    if (!regionTechs.length) return
+    const ranking = computeRanking(region, weeks, state.params, today, state.colaboradores)
+    ;[...regionTechs]
       .sort((a, b) => a.nome.localeCompare(b.nome))
       .forEach((tech) => {
         let abast = 0

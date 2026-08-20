@@ -85,7 +85,7 @@ export function PresentationOverlay({ dash, onClose }: PresentationOverlayProps)
     {
       h1: 'Projeção de Fechamento',
       sub: 'Projeção baseada na tendência dos técnicos',
-      body: <ProjectionSection region={dash.region} weeks={dash.weeks} params={dash.params} />,
+      body: <ProjectionSection region={dash.region} weeks={dash.weeks} params={dash.params} colaboradores={dash.colaboradores} />,
     },
   ]
 

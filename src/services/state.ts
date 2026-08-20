@@ -3,15 +3,21 @@ import { ALL_REGION, FUNCAO_DEFAULT, FUNCOES } from '@/lib/constants'
 import type { AppState, Colaborador, EntryValue, Params, Region, Technician, Veiculo } from '@/types'
 import { periodKey } from '@/utils/date'
 
-export function importedTechs(region: Region | null | undefined): Technician[] {
-  return (region && region.technicians ? region.technicians : []).filter((t) => t && t.imported === true)
+export function importedTechs(
+  region: Region | null | undefined,
+  colaboradores?: AppState['colaboradores'] | undefined,
+): Technician[] {
+  const techs = (region && region.technicians ? region.technicians : []).filter(
+    (t) => t && t.imported === true,
+  )
+  return colaboradores ? techs.filter((t) => colaboradores[t.funci]) : techs
 }
 
 export function importedTechsCadastrados(
   region: Region | null | undefined,
   colaboradores: AppState['colaboradores'] | undefined,
 ): Technician[] {
-  return importedTechs(region).filter((t) => colaboradores?.[t.funci])
+  return importedTechs(region, colaboradores)
 }
 
 export function getVeiculo(state: AppState, placa: string | null | undefined): Veiculo | null {

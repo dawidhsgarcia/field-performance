@@ -8,16 +8,17 @@ import { isoToDate } from '@/utils/date'
 import { fmtNum } from '@/utils/format'
 import { importedTechs } from '@/services/state'
 import { minScoreForDow } from '@/utils/rules/quartis'
-import type { Params, Region, Week } from '@/types'
+import type { AppState, Params, Region, Week } from '@/types'
 
 interface EvolucaoChartProps {
   region: Region
   weeks: Week[]
   params: Params
   currentMonth: number
+  colaboradores?: AppState['colaboradores']
 }
 
-export function EvolucaoChart({ region, weeks, params, currentMonth }: EvolucaoChartProps) {
+export function EvolucaoChart({ region, weeks, params, currentMonth, colaboradores }: EvolucaoChartProps) {
   const { theme } = useTheme()
   const wrapRef = useRef<HTMLDivElement | null>(null)
 
@@ -47,7 +48,7 @@ export function EvolucaoChart({ region, weeks, params, currentMonth }: EvolucaoC
     pastBizDays.forEach((d) => {
       let achieved = 0
       let available = 0
-      importedTechs(region).forEach((tech) => {
+      importedTechs(region, colaboradores).forEach((tech) => {
         const raw = region.entries?.[pk]?.[tech.funci]?.[d.iso]
         if (typeof raw === 'string') return
         available++
@@ -78,7 +79,7 @@ export function EvolucaoChart({ region, weeks, params, currentMonth }: EvolucaoC
     )
 
     return { labels, data, colors, primary, success, textMut, surface, yMax }
-  }, [region, weeks, params, currentMonth, theme])
+  }, [region, weeks, params, currentMonth, theme, colaboradores])
 
   if (!result) {
     return (

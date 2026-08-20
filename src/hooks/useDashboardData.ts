@@ -16,16 +16,17 @@ export function useDashboardData() {
     const region = currentRegion(data)
     const weeks = buildWeeks(data.currentYear, data.currentMonth)
     const params = data.params
-    const techs = importedTechs(region)
+    const colaboradores = data.colaboradores
+    const techs = importedTechs(region, colaboradores)
     const allDays = weeks.flat() as DayInfo[]
     const businessDaysPast = allDays.filter(
       (d) => d.dow !== 0 && d.dow !== 6 && isoToDate(d.iso) < today,
     )
-    const rankingRows = computeRanking(region, weeks, params, today)
-    const goals = computeTeamGoalsSummary(region, weeks, params, today)
-    const overview = computeTeamOverview(region, weeks, today)
-    const kpis = computeDashboardKpis(region, weeks, params, today)
-    const alerts = computeAlerts(region, weeks, params, today)
+    const rankingRows = computeRanking(region, weeks, params, today, colaboradores)
+    const goals = computeTeamGoalsSummary(region, weeks, params, today, techs)
+    const overview = computeTeamOverview(region, weeks, today, techs)
+    const kpis = computeDashboardKpis(region, weeks, params, today, colaboradores)
+    const alerts = computeAlerts(region, weeks, params, today, colaboradores)
     const pk = periodKeyOf(data)
     const monthLabel = `${MONTHS[data.currentMonth].charAt(0).toUpperCase()}${MONTHS[
       data.currentMonth
@@ -35,6 +36,7 @@ export function useDashboardData() {
       weeks,
       params,
       techs,
+      colaboradores,
       today,
       businessDaysPast,
       rankingRows,

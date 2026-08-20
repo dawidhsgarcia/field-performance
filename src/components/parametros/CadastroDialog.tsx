@@ -167,7 +167,7 @@ function VeiculoForm({ editKey, onDone }: { editKey: string | null; onDone: () =
   const [motorista, setMotorista] = useState(existing?.motorista ?? '')
   const [orcamento, setOrcamento] = useState(existing?.orcamento != null ? String(existing.orcamento) : '')
 
-  const techs = regiao ? importedTechs(regions[regiao]) : []
+  const techs = regiao ? importedTechs(regions[regiao], data?.colaboradores) : []
   const motoristaValido = motorista && techs.some((t) => t.funci === motorista) ? motorista : ''
 
   function handleRegionChange(value: string) {

@@ -1,9 +1,15 @@
-import type { Params, Region, RankingRow, Week } from '@/types'
+import type { AppState, Params, Region, RankingRow, Week } from '@/types'
 import { isoToDate } from '@/utils/date'
 import { quartilOf } from './quartis'
 import { importedTechs } from '@/services/state'
 
-export function computeRanking(region: Region, weeks: Week[], params: Params, today: Date): RankingRow[] {
+export function computeRanking(
+  region: Region,
+  weeks: Week[],
+  params: Params,
+  today: Date,
+  colaboradores?: AppState['colaboradores'],
+): RankingRow[] {
   const allDays: Week[number][] = []
   weeks.forEach((w) => w.forEach((d) => allDays.push(d)))
   const pk = weeks[0][0].iso.slice(0, 7)
@@ -13,7 +19,7 @@ export function computeRanking(region: Region, weeks: Week[], params: Params, to
     return isoToDate(d.iso) < today
   })
 
-  const rows: RankingRow[] = importedTechs(region).map((tech) => {
+  const rows: RankingRow[] = importedTechs(region, colaboradores).map((tech) => {
     let sum = 0
     let days = 0
     businessDays.forEach((d) => {

@@ -8,7 +8,7 @@ import { isoDate, isoToDate, isoWeekOf } from '@/utils/date'
 import { fmtNum } from '@/utils/format'
 import { importedTechs } from '@/services/state'
 import { teamDailyTrend } from '@/utils/rules/goals'
-import type { Params, Region, Week } from '@/types'
+import type { AppState, Params, Region, Week } from '@/types'
 
 interface TendenciaChartProps {
   region: Region
@@ -16,9 +16,17 @@ interface TendenciaChartProps {
   params: Params
   currentYear: number
   currentMonth: number
+  colaboradores?: AppState['colaboradores']
 }
 
-export function TendenciaChart({ region, weeks, params, currentYear, currentMonth }: TendenciaChartProps) {
+export function TendenciaChart({
+  region,
+  weeks,
+  params,
+  currentYear,
+  currentMonth,
+  colaboradores,
+}: TendenciaChartProps) {
   const { theme } = useTheme()
   const wrapRef = useRef<HTMLDivElement | null>(null)
 
@@ -35,7 +43,7 @@ export function TendenciaChart({ region, weeks, params, currentYear, currentMont
     const todayIso = isoDate(today.getFullYear(), today.getMonth(), today.getDate())
     const pk = weeks[0][0].iso.slice(0, 7)
     const pastBizDays = allDays.filter((d) => d.dow !== 0 && d.dow !== 6 && isoToDate(d.iso) < today)
-    const projTrend = teamDailyTrend(region, pastBizDays, params)
+    const projTrend = teamDailyTrend(region, pastBizDays, params, importedTechs(region, colaboradores))
 
     const primary = getCSSVar('--primary') || '#2794EB'
     const success = getCSSVar('--success') || '#198754'
@@ -50,7 +58,7 @@ export function TendenciaChart({ region, weeks, params, currentYear, currentMont
       let totalPts = 0
       let totalAvail = 0
       bizDays.forEach((d) => {
-        importedTechs(region).forEach((tech) => {
+        importedTechs(region, colaboradores).forEach((tech) => {
           const raw = region.entries?.[pk]?.[tech.funci]?.[d.iso]
           if (typeof raw !== 'string') {
             totalAvail++
@@ -62,7 +70,7 @@ export function TendenciaChart({ region, weeks, params, currentYear, currentMont
       if (w.some((d) => d.iso === todayIso)) {
         const remainingBiz = w.filter((d) => d.dow !== 0 && d.dow !== 6 && isoToDate(d.iso) >= today).length
         if (remainingBiz > 0 && projTrend != null) {
-          const avgAvail = elapsed > 0 ? totalAvail / elapsed : importedTechs(region).length
+          const avgAvail = elapsed > 0 ? totalAvail / elapsed : importedTechs(region, colaboradores).length
           const estAvail = avgAvail * remainingBiz
           const projPts = totalPts + projTrend * estAvail
           const projAvail = totalAvail + estAvail
@@ -121,7 +129,7 @@ export function TendenciaChart({ region, weeks, params, currentYear, currentMont
       textMut,
       textColor,
     }
-  }, [region, weeks, params, currentYear, currentMonth, theme])
+  }, [region, weeks, params, currentYear, currentMonth, theme, colaboradores])
 
   if (!result) return null
 

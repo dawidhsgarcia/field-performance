@@ -6,23 +6,25 @@ import { fmtNum } from '@/utils/format'
 import { computeProjection, pointsAboveMeta } from '@/utils/rules/projection'
 import { computeTeamGoalsSummary } from '@/utils/rules/goals'
 import { MIN_SCORE, quartilOf } from '@/utils/rules/quartis'
+import { importedTechs } from '@/services/state'
 import { quartilBadgeClass } from '@/utils/quartilColors'
-import type { Params, Region, Week } from '@/types'
+import type { AppState, Params, Region, Week } from '@/types'
 
 interface ProjectionSectionProps {
   region: Region
   weeks: Week[]
   params: Params
+  colaboradores?: AppState['colaboradores']
 }
 
-export function ProjectionSection({ region, weeks, params }: ProjectionSectionProps) {
+export function ProjectionSection({ region, weeks, params, colaboradores }: ProjectionSectionProps) {
   const result = useMemo(() => {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
-    const goals = computeTeamGoalsSummary(region, weeks, params, today)
-    const { rows, remaining } = computeProjection(region, weeks, params, today)
+    const goals = computeTeamGoalsSummary(region, weeks, params, today, importedTechs(region, colaboradores))
+    const { rows, remaining } = computeProjection(region, weeks, params, today, colaboradores)
     return { goals, rows, remaining }
-  }, [region, weeks, params])
+  }, [region, weeks, params, colaboradores])
 
   if (region.technicians.length === 0 || result.goals.totalExpected === 0) return null
 

@@ -1,4 +1,4 @@
-import type { Params, ProjectionResult, ProjectionRow, Region, Week } from '@/types'
+import type { AppState, Params, ProjectionResult, ProjectionRow, Region, Week } from '@/types'
 import { isoToDate } from '@/utils/date'
 import { importedTechs } from '@/services/state'
 import { quartilOf } from './quartis'
@@ -21,6 +21,7 @@ export function computeProjection(
   weeks: Week[],
   params: Params,
   today: Date,
+  colaboradores?: AppState['colaboradores'],
 ): ProjectionResult {
   const allDays: Week[number][] = []
   weeks.forEach((w) => w.forEach((d) => allDays.push(d)))
@@ -32,7 +33,7 @@ export function computeProjection(
   const remaining = futureBusinessDays.length
   const trendWindow = params.trendWindow
 
-  const rows = importedTechs(region).map((tech) => {
+  const rows = importedTechs(region, colaboradores).map((tech) => {
     let sum = 0
     let days = 0
     pastBusinessDays.forEach((d) => {

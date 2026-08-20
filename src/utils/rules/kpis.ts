@@ -1,5 +1,6 @@
 import type {
   AlertItem,
+  AppState,
   DashboardKpis,
   MomStats,
   Params,
@@ -27,10 +28,12 @@ export function computeDashboardKpis(
   weeks: Week[],
   params: Params,
   today: Date,
+  colaboradores?: AppState['colaboradores'],
 ): DashboardKpis {
-  const rankingRows = computeRanking(region, weeks, params, today)
-  const goals = computeTeamGoalsSummary(region, weeks, params, today)
-  const overview = computeTeamOverview(region, weeks, today)
+  const techs = importedTechs(region, colaboradores)
+  const rankingRows = computeRanking(region, weeks, params, today, colaboradores)
+  const goals = computeTeamGoalsSummary(region, weeks, params, today, techs)
+  const overview = computeTeamOverview(region, weeks, today, techs)
   const pk = weeks[0][0].iso.slice(0, 7)
 
   const totalSum = rankingRows.reduce((s, r) => s + (r.sum || 0), 0)
@@ -60,14 +63,21 @@ export function computeDashboardKpis(
   }
 }
 
-export function computeAlerts(region: Region, weeks: Week[], params: Params, today: Date): AlertItem[] {
+export function computeAlerts(
+  region: Region,
+  weeks: Week[],
+  params: Params,
+  today: Date,
+  colaboradores?: AppState['colaboradores'],
+): AlertItem[] {
   const allDays = flatten(weeks)
   const pk = weeks[0][0].iso.slice(0, 7)
   const businessDaysPast = allDays.filter((d) => d.dow !== 0 && d.dow !== 6 && isoToDate(d.iso) < today)
   const alerts: AlertItem[] = []
+  const techs = importedTechs(region, colaboradores)
 
   const atb = params.alertTech
-  importedTechs(region).forEach((tech) => {
+  techs.forEach((tech) => {
     let consecutiveLow = 0
     for (let i = businessDaysPast.length - 1; i >= 0; i--) {
       const raw = region.entries?.[pk]?.[tech.funci]?.[businessDaysPast[i].iso]
@@ -93,7 +103,7 @@ export function computeAlerts(region: Region, weeks: Week[], params: Params, tod
     let dayAvail = 0
     let dayAch = 0
     let dayHasEntry = false
-    importedTechs(region).forEach((tech) => {
+    techs.forEach((tech) => {
       const raw = region.entries?.[pk]?.[tech.funci]?.[d.iso] ?? null
       if (raw !== null) dayHasEntry = true
       if (typeof raw !== 'string') {
@@ -119,9 +129,9 @@ export function computeAlerts(region: Region, weeks: Week[], params: Params, tod
   }
 
   const apj = params.alertProjection
-  const goals: TeamGoalsSummary = computeTeamGoalsSummary(region, weeks, params, today)
-  const overview: TeamOverview = computeTeamOverview(region, weeks, today)
-  const { rows: projRows, remaining } = computeProjection(region, weeks, params, today)
+  const goals: TeamGoalsSummary = computeTeamGoalsSummary(region, weeks, params, today, techs)
+  const overview: TeamOverview = computeTeamOverview(region, weeks, today, techs)
+  const { rows: projRows, remaining } = computeProjection(region, weeks, params, today, colaboradores)
   if (goals.totalExpected > 0 && remaining > 0) {
     const teamProjectedSum = projRows.reduce((s, r) => s + (r.projectedSum || 0), 0)
     const projectedPct = (teamProjectedSum / goals.totalExpected) * 100

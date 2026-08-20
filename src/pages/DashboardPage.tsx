@@ -127,7 +127,13 @@ export function DashboardPage() {
             <div className="rounded-xl border bg-card p-4">
               <h3 className="font-display text-base font-bold">Evolução Diária da Equipe</h3>
               <div className="mt-2">
-                <EvolucaoChart region={region} weeks={weeks} params={params} currentMonth={currentMonth} />
+                <EvolucaoChart
+                  region={region}
+                  weeks={weeks}
+                  params={params}
+                  currentMonth={currentMonth}
+                  colaboradores={data.colaboradores}
+                />
               </div>
             </div>
             <div className="rounded-xl border bg-card p-4">
@@ -139,6 +145,7 @@ export function DashboardPage() {
                   params={params}
                   currentYear={currentYear}
                   currentMonth={currentMonth}
+                  colaboradores={data.colaboradores}
                 />
               </div>
             </div>
@@ -155,7 +162,7 @@ export function DashboardPage() {
               />
             </div>
           </div>
-          <ProjectionSection region={region} weeks={weeks} params={params} />
+          <ProjectionSection region={region} weeks={weeks} params={params} colaboradores={data.colaboradores} />
         </>
       )}
 

@@ -42,6 +42,7 @@ describe('vehicleRegiao / vehicleFunci', () => {
     const state = seedState()
     state.veiculos['XYZ9999'] = { placa: 'XYZ9999', motorista: null, regiao: null, orcamento: null }
     state.regions.norte.technicians.push({ funci: 'T8', nome: 'MARIA SILVA', imported: true })
+    state.colaboradores['T8'] = { funci: 'T8', nome: 'MARIA SILVA', regiao: 'norte', funcao: 'TÉCNICO DE FIBRA', telefone: null }
     expect(vehicleFunci(state, 'XYZ9999', 'MARIA SILVA', 'norte')).toBe('T8')
     expect(vehicleRegiao(state, 'XYZ9999', 'MARIA SILVA')).toBe('norte')
   })
@@ -88,6 +89,8 @@ describe('computeFuelProductivityRows / sortFuelProductivity', () => {
       { funci: 'T1', nome: 'TEC 1', imported: true },
       { funci: 'T2', nome: 'TEC 2', imported: true },
     ]
+    state.colaboradores['T1'] = { funci: 'T1', nome: 'TEC 1', regiao: 'norte', funcao: 'TÉCNICO DE FIBRA', telefone: null }
+    state.colaboradores['T2'] = { funci: 'T2', nome: 'TEC 2', regiao: 'norte', funcao: 'TÉCNICO DE FIBRA', telefone: null }
     state.regions.norte.sla = {
       '2026-07': {
         activitySla: {},
