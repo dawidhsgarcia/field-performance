@@ -7,6 +7,13 @@ export function importedTechs(region: Region | null | undefined): Technician[] {
   return (region && region.technicians ? region.technicians : []).filter((t) => t && t.imported === true)
 }
 
+export function importedTechsCadastrados(
+  region: Region | null | undefined,
+  colaboradores: AppState['colaboradores'] | undefined,
+): Technician[] {
+  return importedTechs(region).filter((t) => colaboradores?.[t.funci])
+}
+
 export function getVeiculo(state: AppState, placa: string | null | undefined): Veiculo | null {
   if (!placa) return null
   return state.veiculos[String(placa).trim().toUpperCase()] || null

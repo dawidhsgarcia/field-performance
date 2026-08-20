@@ -1,4 +1,4 @@
-import type { DayOverview, Params, Region, TeamGoalsSummary, TeamOverview, Week, UnproductiveTech } from '@/types'
+import type { DayOverview, Params, Region, TeamGoalsSummary, TeamOverview, Technician, Week, UnproductiveTech } from '@/types'
 import { isoToDate } from '@/utils/date'
 import { importedTechs } from '@/services/state'
 import { minScoreForDow } from './quartis'
@@ -9,10 +9,12 @@ export function computeTeamGoalsSummary(
   weeks: Week[],
   params: Params,
   today: Date,
+  techs?: Technician[],
 ): TeamGoalsSummary {
   const allDays: Week[number][] = []
   weeks.forEach((w) => w.forEach((d) => allDays.push(d)))
   const pk = weeks[0][0].iso.slice(0, 7)
+  const effective = techs ?? importedTechs(region)
 
   let totalExpected = 0
   let totalExpectedPast = 0
@@ -20,7 +22,7 @@ export function computeTeamGoalsSummary(
   allDays.forEach((d) => {
     let available = 0
     let achieved = 0
-    importedTechs(region).forEach((tech) => {
+    effective.forEach((tech) => {
       const raw = region.entries?.[pk]?.[tech.funci]?.[d.iso]
       if (typeof raw === 'string') return
       available++
@@ -37,15 +39,16 @@ export function computeTeamGoalsSummary(
   return { pct, totalAchieved, totalExpected, totalExpectedPast, businessDays }
 }
 
-export function teamDailyTrend(region: Region, days: Week, params: Params): number | null {
+export function teamDailyTrend(region: Region, days: Week, params: Params, techs?: Technician[]): number | null {
   const pk = days[0]?.iso.slice(0, 7) ?? ''
   const trendWindow = params.trendWindow
   const vals: number[] = []
+  const effective = techs ?? importedTechs(region)
   for (let i = days.length - 1; i >= 0 && vals.length < trendWindow; i--) {
     const d = days[i]
     let dayPts = 0
     let dayAvail = 0
-    importedTechs(region).forEach((tech) => {
+    effective.forEach((tech) => {
       const raw = region.entries?.[pk]?.[tech.funci]?.[d.iso]
       if (typeof raw !== 'string') {
         dayAvail++
@@ -57,14 +60,15 @@ export function teamDailyTrend(region: Region, days: Week, params: Params): numb
   return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : null
 }
 
-export function computeTeamOverview(region: Region, weeks: Week[], today: Date): TeamOverview {
+export function computeTeamOverview(region: Region, weeks: Week[], today: Date, techs?: Technician[]): TeamOverview {
   const allDays: Week[number][] = []
   weeks.forEach((w) => w.forEach((d) => allDays.push(d)))
   const pk = weeks[0][0].iso.slice(0, 7)
   const businessDays = allDays.filter((d) => d.dow !== 0 && d.dow !== 6)
   const pastBusinessDays = businessDays.filter((d) => isoToDate(d.iso) < today)
 
-  const techCount = importedTechs(region).length
+  const effective = techs ?? importedTechs(region)
+  const techCount = effective.length
   const totalTechDays = techCount * businessDays.length
   const totalTechDaysPast = techCount * pastBusinessDays.length
 
@@ -76,7 +80,7 @@ export function computeTeamOverview(region: Region, weeks: Week[], today: Date):
   let unproductiveDays = 0
   const unproductiveByTech: UnproductiveTech[] = []
 
-  importedTechs(region).forEach((tech) => {
+  effective.forEach((tech) => {
     businessDays.forEach((d) => {
       const raw = region.entries?.[pk]?.[tech.funci]?.[d.iso]
       if (typeof raw === 'string') {
@@ -121,15 +125,20 @@ export function computeTeamOverview(region: Region, weeks: Week[], today: Date):
   }
 }
 
-export function computeDayOverview(region: Region, pk: string, iso: string): DayOverview {
-  const techs = importedTechs(region)
+export function computeDayOverview(
+  region: Region,
+  pk: string,
+  iso: string,
+  techs?: Technician[],
+): DayOverview {
+  const effective = techs ?? importedTechs(region)
   const justCounts: Record<string, number> = {}
   JUSTIFICATION_CODES.forEach((c) => {
     justCounts[c] = 0
   })
   const techList: DayOverview['techs'] = []
   let totalJustified = 0
-  techs.forEach((tech) => {
+  effective.forEach((tech) => {
     const raw = region.entries?.[pk]?.[tech.funci]?.[iso]
     if (typeof raw === 'string') {
       if (Object.prototype.hasOwnProperty.call(justCounts, raw)) {
@@ -140,6 +149,6 @@ export function computeDayOverview(region: Region, pk: string, iso: string): Day
     }
   })
   techList.sort((a, b) => a.nome.localeCompare(b.nome))
-  const unavailPct = techs.length > 0 ? (totalJustified / techs.length) * 100 : null
-  return { techCount: techs.length, totalJustified, unavailPct, justCounts, techs: techList }
+  const unavailPct = effective.length > 0 ? (totalJustified / effective.length) * 100 : null
+  return { techCount: effective.length, totalJustified, unavailPct, justCounts, techs: techList }
 }

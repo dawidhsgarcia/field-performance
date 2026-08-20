@@ -1,22 +1,24 @@
-import { importedTechs, periodKeyOf } from '@/services/state'
+import { periodKeyOf } from '@/services/state'
 import { useStateStore } from '@/stores/state.store'
 import { minScoreForDow } from '@/utils/rules/quartis'
 import { DOW, isoWeekOf, pad } from '@/utils/date'
 import { fmtNum } from '@/utils/format'
-import type { Region, Week } from '@/types'
+import type { Region, Technician, Week } from '@/types'
 
 interface GoalsTableProps {
   region: Region
   weeks: Week[]
+  techs?: Technician[]
   onOpenDay?: (iso: string) => void
 }
 
-export function GoalsTable({ region, weeks, onOpenDay }: GoalsTableProps) {
+export function GoalsTable({ region, weeks, techs, onOpenDay }: GoalsTableProps) {
   const data = useStateStore((s) => s.data)
   if (!data) return null
 
   const pk = periodKeyOf(data)
-  const techCount = importedTechs(region).length
+  const effective = techs ?? region.technicians.filter((t) => t.imported === true)
+  const techCount = effective.length
   const allDays = weeks.flat()
   const dayMeta = data.params.dayMeta
   const alertBelowPct = data.params.alertTeam.belowPct
@@ -24,7 +26,7 @@ export function GoalsTable({ region, weeks, onOpenDay }: GoalsTableProps) {
   const perDay = allDays.map((d) => {
     let available = 0
     let achieved = 0
-    importedTechs(region).forEach((tech) => {
+    effective.forEach((tech) => {
       const raw = region.entries?.[pk]?.[tech.funci]?.[d.iso]
       if (typeof raw === 'string') return
       available++

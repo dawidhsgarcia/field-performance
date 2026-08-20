@@ -152,7 +152,7 @@ export function AcompanhamentoPage() {
             "✏️ Pontuação" para digitar a nota do dia. Justificativas não entram na soma dos totais.
           </p>
           <LegendCodes />
-          <GoalsTable region={region} weeks={weeks} onOpenDay={setDayIso} />
+          <GoalsTable region={region} weeks={weeks} techs={techs} onOpenDay={setDayIso} />
         </>
       )}
 
@@ -163,6 +163,7 @@ export function AcompanhamentoPage() {
           region={region}
           pk={periodKeyOf(data)}
           iso={dayIso}
+          techs={techs}
           onOpenChange={(o) => {
             if (!o) setDayIso(null)
           }}

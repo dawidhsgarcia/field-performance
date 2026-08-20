@@ -5,17 +5,18 @@ import { JUSTIFICATION_CODES, JUSTIFICATION_COLORS, JUSTIFICATION_LABELS } from 
 import { computeDayOverview } from '@/utils/rules/goals'
 import { DOW, isoToDate } from '@/utils/date'
 import { bhFmtDate } from '@/utils/format'
-import type { Region } from '@/types'
+import type { Region, Technician } from '@/types'
 
 interface DayIndisModalProps {
   region: Region
   pk: string
   iso: string
+  techs?: Technician[]
   onOpenChange: (open: boolean) => void
 }
 
-export function DayIndisModal({ region, pk, iso, onOpenChange }: DayIndisModalProps) {
-  const overview = computeDayOverview(region, pk, iso)
+export function DayIndisModal({ region, pk, iso, techs, onOpenChange }: DayIndisModalProps) {
+  const overview = computeDayOverview(region, pk, iso, techs)
   const dow = DOW[isoToDate(iso).getDay()]
   const title = `Disponibilidade Técnica — ${bhFmtDate(iso)} (${dow})`
 
