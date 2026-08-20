@@ -164,12 +164,37 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
                       : 'bg-muted text-muted-foreground'
                 const gapLabel = gapQ1 === null ? '—' : gapQ1 === 0 ? '✓' : `+${fmtNum(gapQ1)}`
                 const q = quartilOf(r.projectedAvg, params.quartil)
+                const variacao =
+                  r.currentAvg !== null && r.currentAvg > 0 && r.projectedAvg !== null
+                    ? ((r.projectedAvg - r.currentAvg) / r.currentAvg) * 100
+                    : null
                 return (
                   <TableRow key={r.tech.funci}>
                     <TableCell className="font-semibold">{r.tech.nome}</TableCell>
                     <TableCell className="text-center">{r.currentAvg !== null ? fmtNum(r.currentAvg) : '–'}</TableCell>
                     <TableCell className="text-center">
-                      {r.projectedAvg !== null ? fmtNum(r.projectedAvg) : '–'}
+                      {r.projectedAvg !== null ? (
+                        <>
+                          {fmtNum(r.projectedAvg)}
+                          {variacao !== null && (
+                            <span
+                              className={cn(
+                                'ml-1 text-xs font-semibold',
+                                variacao > 0
+                                  ? 'text-success-dark'
+                                  : variacao < 0
+                                    ? 'text-danger'
+                                    : 'text-muted-foreground',
+                              )}
+                            >
+                              {variacao > 0 ? '+' : ''}
+                              {fmtNum(variacao)}%
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        '–'
+                      )}
                     </TableCell>
                     <TableCell className="text-center">
                       <span className={cn('rounded-md px-2 py-0.5 text-xs font-semibold', quartilBadgeClass(q))}>
