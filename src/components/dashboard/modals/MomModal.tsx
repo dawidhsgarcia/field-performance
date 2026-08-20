@@ -78,21 +78,52 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
       : '—'
 
   async function baixarPdf() {
-    if (!printRef.current) return
+    const fonte = printRef.current
+    if (!fonte) return
     setGerando(true)
     const nome = tech?.nome ?? funci
     const arquivo = `detalhamento-${nome.replace(/[^a-zA-Z0-9]+/g, '-')}-${labelAtual.replace(/[/ ]+/g, '-')}.pdf`
     try {
-      await html2pdf()
-        .set({
-          margin: 8,
-          filename: arquivo,
-          image: { type: 'jpeg', quality: 0.95 },
-          html2canvas: { scale: 2, useCORS: true },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        })
-        .from(printRef.current)
-        .save()
+      const clone = fonte.cloneNode(true) as HTMLDivElement
+      const titulo = document.createElement('h2')
+      titulo.textContent = `Detalhamento Técnico — ${tech?.nome ?? funci}`
+      titulo.style.fontSize = '18px'
+      titulo.style.fontWeight = '700'
+      titulo.style.marginBottom = '12px'
+      clone.prepend(titulo)
+      const canvases = clone.querySelectorAll('canvas')
+      canvases.forEach((canvas) => {
+        try {
+          const img = document.createElement('img')
+          img.src = canvas.toDataURL('image/png')
+          img.style.width = `${canvas.offsetWidth || canvas.clientWidth}px`
+          img.style.maxWidth = '100%'
+          canvas.parentNode?.replaceChild(img, canvas)
+        } catch (e) {
+          console.error('Falha ao exportar gráfico para imagem:', e)
+        }
+      })
+      clone.style.position = 'absolute'
+      clone.style.left = '-10000px'
+      clone.style.top = '0'
+      clone.style.width = `${fonte.offsetWidth}px`
+      document.body.appendChild(clone)
+      try {
+        await html2pdf()
+          .set({
+            margin: 8,
+            filename: arquivo,
+            image: { type: 'jpeg', quality: 0.95 },
+            html2canvas: { scale: 2, useCORS: false, logging: false, backgroundColor: '#ffffff' },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          })
+          .from(clone)
+          .save()
+      } finally {
+        clone.remove()
+      }
+    } catch (e) {
+      console.error('Erro ao gerar o PDF:', e)
     } finally {
       setGerando(false)
     }
