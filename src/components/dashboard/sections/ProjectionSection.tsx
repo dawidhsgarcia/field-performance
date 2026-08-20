@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { fmtNum } from '@/utils/format'
 import { computeProjection, pointsAboveMeta } from '@/utils/rules/projection'
-import { computeTeamGoalsSummary } from '@/utils/rules/goals'
+import { computeTeamGoalsSummary, computeTeamOverview } from '@/utils/rules/goals'
 import { MIN_SCORE, quartilOf } from '@/utils/rules/quartis'
 import { importedTechs } from '@/services/state'
 import { quartilBadgeClass } from '@/utils/quartilColors'
@@ -22,13 +22,14 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
     const today = new Date()
     today.setHours(0, 0, 0, 0)
     const goals = computeTeamGoalsSummary(region, weeks, params, today, importedTechs(region, colaboradores))
+    const overview = computeTeamOverview(region, weeks, today, importedTechs(region, colaboradores))
     const { rows, remaining } = computeProjection(region, weeks, params, today, colaboradores)
-    return { goals, rows, remaining }
+    return { goals, rows, remaining, overview }
   }, [region, weeks, params, colaboradores])
 
   if (region.technicians.length === 0 || result.goals.totalExpected === 0) return null
 
-  const { goals, rows, remaining } = result
+  const { goals, rows, remaining, overview } = result
 
   if (remaining === 0) {
     const pct =
@@ -116,6 +117,19 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
           <div className={statCls}>
             <span className="text-xs text-muted-foreground">Dias úteis restantes</span>
             <span className={statValueCls}>{remaining}</span>
+          </div>
+          <div className={statCls}>
+            <span className="text-xs text-muted-foreground">Dias úteis do mês</span>
+            <span className={statValueCls}>{goals.businessDays}</span>
+          </div>
+          <div className={statCls}>
+            <span className="text-xs text-muted-foreground">Dias/técnico (total · disp.)</span>
+            <span className={statValueCls}>
+              {overview.totalTechDays}
+              <span className="text-[13px] font-medium text-muted-foreground">
+                {' '}· {overview.totalTechDays - overview.totalJustified}
+              </span>
+            </span>
           </div>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-muted">
