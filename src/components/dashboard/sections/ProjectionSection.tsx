@@ -78,7 +78,7 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
   } else if (projectedPct !== null && projectedPct >= 100) {
     gapHtml = (
       <div className="rounded-lg border-l-4 border-l-success bg-success/10 p-3 text-[13px] text-success-dark">
-        ✅ Projeção indica atingimento da meta ✓
+        Projeção indica atingimento da meta ✓
       </div>
     )
   }

@@ -27,9 +27,9 @@ export function FuelProductivityTable({ rows, allMode }: FuelProductivityTablePr
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap gap-6 px-1 text-xs text-muted-foreground">
-        <span>⛽ Consumo atribuído por vínculo (cadastro de veículos) ou nome do motorista</span>
+        <span>Consumo atribuído por vínculo (cadastro de veículos) ou nome do motorista</span>
         <span>
-          🎯 <strong>{label}</strong>
+          <strong>{label}</strong>
           {allMode ? ` · ${rows.length} técnico(s)` : ''}
         </span>
       </div>
