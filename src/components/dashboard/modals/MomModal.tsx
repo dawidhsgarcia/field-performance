@@ -1,6 +1,5 @@
-import { useMemo, useRef, useState } from 'react'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+import { useMemo } from 'react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import { MONTHS } from '@/utils/date'
@@ -8,9 +7,6 @@ import { fmtHrs, fmtNum } from '@/utils/format'
 import { computeTechInsights, techActivitySlaRows, techMonthStats } from '@/utils/rules/kpis'
 import { MomTechChart } from '@/components/dashboard/charts/MomTechChart'
 import { ActivitySlaTable } from './ActivitySlaTable'
-import { useAuthStore } from '@/stores/auth.store'
-import html2canvas from 'html2canvas-pro'
-import { jsPDF } from 'jspdf'
 import type { Params, Region } from '@/types'
 
 interface MomModalProps {
@@ -24,10 +20,6 @@ interface MomModalProps {
 
 export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange }: MomModalProps) {
   const tech = region.technicians.find((t) => t.funci === funci)
-  const can = useAuthStore((s) => s.can)
-  const canBaixar = can('gerenciarColaboradores')
-  const printRef = useRef<HTMLDivElement | null>(null)
-  const [gerando, setGerando] = useState(false)
   const y = Number(pk.slice(0, 4))
   const m = Number(pk.slice(5, 7)) - 1
 
@@ -78,70 +70,6 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
           : '— igual'
       : '—'
 
-  async function baixarPdf() {
-    const fonte = printRef.current
-    if (!fonte) return
-    setGerando(true)
-    const nome = tech?.nome ?? funci
-    const arquivo = `detalhamento-${nome.replace(/[^a-zA-Z0-9]+/g, '-')}-${labelAtual.replace(/[/ ]+/g, '-')}.pdf`
-    try {
-      const clone = fonte.cloneNode(true) as HTMLDivElement
-      const titulo = document.createElement('h2')
-      titulo.textContent = `Detalhamento Técnico — ${tech?.nome ?? funci}`
-      titulo.style.fontSize = '18px'
-      titulo.style.fontWeight = '700'
-      titulo.style.marginBottom = '12px'
-      clone.prepend(titulo)
-      const canvases = clone.querySelectorAll('canvas')
-      canvases.forEach((canvas) => {
-        try {
-          const img = document.createElement('img')
-          img.src = canvas.toDataURL('image/png')
-          img.style.width = `${canvas.offsetWidth || canvas.clientWidth}px`
-          img.style.maxWidth = '100%'
-          canvas.parentNode?.replaceChild(img, canvas)
-        } catch (e) {
-          console.error('Falha ao exportar gráfico para imagem:', e)
-        }
-      })
-      clone.style.position = 'absolute'
-      clone.style.left = '-10000px'
-      clone.style.top = '0'
-      clone.style.width = `${fonte.offsetWidth}px`
-      document.body.appendChild(clone)
-      try {
-        const canvas = await html2canvas(clone, {
-          scale: 2,
-          useCORS: false,
-          logging: false,
-          backgroundColor: '#ffffff',
-        })
-        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
-        const imgData = canvas.toDataURL('image/jpeg', 0.95)
-        const pageW = pdf.internal.pageSize.getWidth()
-        const pageH = pdf.internal.pageSize.getHeight()
-        const imgW = canvas.width / 2
-        const imgH = canvas.height / 2
-        const ratio = imgH / imgW
-        const margin = 8
-        let w = pageW - margin * 2
-        let h = w * ratio
-        if (h > pageH - margin * 2) {
-          h = pageH - margin * 2
-          w = h / ratio
-        }
-        pdf.addImage(imgData, 'JPEG', margin, margin, w, h)
-        pdf.save(arquivo)
-      } finally {
-        clone.remove()
-      }
-    } catch (e) {
-      console.error('Erro ao gerar o PDF:', e)
-    } finally {
-      setGerando(false)
-    }
-  }
-
   return (
     <Dialog open onOpenChange={onOpenChange}>
       <DialogContent>
@@ -149,7 +77,7 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
           <DialogTitle>Detalhamento Técnico — {tech?.nome ?? funci}</DialogTitle>
         </DialogHeader>
 
-        <div ref={printRef} className="space-y-4">
+        <div className="space-y-4">
         <section>
           <h4 className="font-display text-base font-bold">Insights</h4>
           <p className="text-xs text-muted-foreground">Análise automática — {labelAtual}</p>
@@ -244,14 +172,6 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
           </div>
         </section>
         </div>
-
-        <DialogFooter className="pt-2">
-          {canBaixar && (
-            <Button type="button" disabled={gerando} onClick={() => void baixarPdf()}>
-              {gerando ? 'Gerando PDF…' : 'Baixar PDF'}
-            </Button>
-          )}
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
