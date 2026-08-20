@@ -22,16 +22,10 @@ export function FuelProductivityTable({ rows, allMode }: FuelProductivityTablePr
     )
   }
 
-  const label = allMode ? 'Todas as regiões' : rows[0].region
-
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap gap-6 px-1 text-xs text-muted-foreground">
         <span>Consumo atribuído por vínculo (cadastro de veículos) ou nome do motorista</span>
-        <span>
-          <strong>{label}</strong>
-          {allMode ? ` · ${rows.length} técnico(s)` : ''}
-        </span>
       </div>
       <div className="overflow-x-auto rounded-lg border">
         <Table>
