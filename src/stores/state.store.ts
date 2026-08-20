@@ -12,7 +12,6 @@ import {
 } from '@/services/firebase/persistence'
 import { loadFromStorage, saveToStorage } from '@/services/storage'
 import { seedState } from '@/lib/seed'
-import { toggleSobreavisoMany } from '@/services/state'
 import { applyActivityReport } from '@/services/importers/activityReport'
 import { applyFuelReport } from '@/services/importers/fuelReport'
 import { applyBhReport } from '@/services/importers/bhReport'
@@ -33,7 +32,6 @@ interface StateStore {
   refreshFromCloud: () => Promise<void>
   reset: () => void
   commit: (transform: (s: AppState) => AppState) => void
-  commitSobreaviso: (funci: string, isos: string[]) => Promise<{ ok: boolean }>
   applyMutation: (mutator: (draft: AppState) => void) => void
   scheduleSave: () => void
   setRegion: (region: string) => void
@@ -133,47 +131,6 @@ export const useStateStore = create<StateStore>((set, get) => ({
     if (!data) return
     set({ data: transform(data) })
     get().scheduleSave()
-  },
-
-  commitSobreaviso: async (funci, isos) => {
-    const data = get().data
-    if (!data) return { ok: false }
-    if (isos.length === 0) return { ok: true }
-    const apply = () => {
-      const current = get().data
-      if (!current) return null
-      const next = toggleSobreavisoMany(current, funci, isos)
-      set({ data: next, dirty: true, saveStatus: 'saving' })
-      return next
-    }
-    const applied = apply()
-    if (!applied) return { ok: false }
-    if (!hasStateDoc()) {
-      const current = get().data
-      if (!current) return { ok: false }
-      const res = await saveToStorage(current)
-      if (res.saved) set({ saveStatus: 'saved', dirty: false })
-      return { ok: res.saved }
-    }
-    try {
-      await saveWithRebase({
-        getState: () => get().data,
-        setState: (s) => set({ data: s }),
-        reapply: () => {
-          const cur = get().data
-          if (!cur) return null
-          const next = toggleSobreavisoMany(cur, funci, isos)
-          set({ data: next })
-          return next
-        },
-      })
-      set({ saveStatus: 'saved', dirty: false })
-      return { ok: true }
-    } catch (e) {
-      console.error('Falha ao salvar sobreaviso no Firestore:', e)
-      set({ saveStatus: 'error', dirty: true })
-      return { ok: false }
-    }
   },
 
   applyMutation: (mutator) => {

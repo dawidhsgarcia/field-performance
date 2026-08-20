@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react'
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { ALL_REGION } from '@/lib/constants'
-import { currentRegion, importedTechs, sobreavisoDays } from '@/services/state'
+import { currentRegion, importedTechs, sobreavisoDays, toggleSobreaviso } from '@/services/state'
 import { useStateStore } from '@/stores/state.store'
 import { useAuthStore } from '@/stores/auth.store'
 import { MONTHS, pad } from '@/utils/date'
@@ -17,10 +16,8 @@ const DOW_HEADER = ['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom']
 
 export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
   const data = useStateStore((s) => s.data)
-  const commitSobreaviso = useStateStore((s) => s.commitSobreaviso)
+  const applyMutation = useStateStore((s) => s.applyMutation)
   const can = useAuthStore((s) => s.can)
-  const [pending, setPending] = useState<string[]>([])
-  const [saving, setSaving] = useState(false)
 
   if (!data) return null
 
@@ -41,14 +38,21 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
   const todayIso = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`
 
   const monthLabel = `${MONTHS[m].charAt(0).toUpperCase()}${MONTHS[m].slice(1)} de ${y}`
+
+  function handleToggle(iso: string) {
+    applyMutation((d) => {
+      const next = toggleSobreaviso(d as typeof d, funci, iso)
+      d.sobreaviso = next.sobreaviso
+    })
+  }
+
   const cells: ReactNode[] = []
   for (let i = 0; i < offset; i++) {
     cells.push(<span key={`e${i}`} className="cal-day cal-empty" />)
   }
   for (let day = 1; day <= daysInMonth; day++) {
     const iso = `${y}-${pad(m + 1)}-${pad(day)}`
-    const toggled = pending.includes(iso)
-    const marked = saving ? list.includes(iso) || toggled : toggled ? !list.includes(iso) : list.includes(iso)
+    const marked = list.includes(iso)
     const cls = ['cal-day', marked ? 'cal-marked' : '', iso === todayIso ? 'cal-today' : '']
       .filter(Boolean)
       .join(' ')
@@ -57,23 +61,13 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
         key={iso}
         type="button"
         className={cls}
-        disabled={!canEdit || saving}
+        disabled={!canEdit}
         title={marked ? 'Sobreaviso marcado — clique para remover' : 'Clique para marcar sobreaviso'}
-        onClick={() =>
-          setPending((prev) => (prev.includes(iso) ? prev.filter((x) => x !== iso) : [...prev, iso]))
-        }
+        onClick={() => handleToggle(iso)}
       >
         {day}
       </button>,
     )
-  }
-
-  async function handleConfirm() {
-    setSaving(true)
-    await commitSobreaviso(funci, pending)
-    setPending([])
-    setSaving(false)
-    onOpenChange(false)
   }
 
   return (
@@ -85,7 +79,7 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
         <p className="text-sm">
           Sobreaviso no mês: <strong>{inMonth.length}</strong> dia(s) · {monthLabel}
         </p>
-        <div className="acomp-cal">
+        <div className="acomp-cal cal-primary">
           <div className="cal-month-title">{monthLabel}</div>
           <div className="cal-dow">
             {DOW_HEADER.map((d) => (
@@ -99,26 +93,10 @@ export function SbaDialog({ funci, onOpenChange }: SbaDialogProps) {
             </span>
           </div>
         </div>
-        <DialogFooter className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">
-            {saving
-              ? 'Salvando…'
-              : pending.length > 0
-                ? `${pending.length} alteração(ões) pendente(s) — clique em Salvar`
-                : 'Clique nos dias e depois em Salvar'}
-          </span>
-          <div className="flex gap-2">
-            <Button type="button" variant="ghost" disabled={saving} onClick={() => onOpenChange(false)}>
-              Cancelar
-            </Button>
-            <Button
-              type="button"
-              disabled={!canEdit || pending.length === 0 || saving}
-              onClick={() => void handleConfirm()}
-            >
-              {saving ? 'Salvando…' : 'Salvar'}
-            </Button>
-          </div>
+        <DialogFooter>
+          <Button type="button" onClick={() => onOpenChange(false)}>
+            Fechar
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

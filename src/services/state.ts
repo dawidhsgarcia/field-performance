@@ -113,20 +113,6 @@ export function toggleSobreaviso(state: AppState, funci: string, iso: string): A
   })
 }
 
-export function toggleSobreavisoMany(state: AppState, funci: string, isos: string[]): AppState {
-  if (isos.length === 0) return state
-  return produce(state, (draft) => {
-    if (!draft.sobreaviso) draft.sobreaviso = {}
-    const list = Array.isArray(draft.sobreaviso[funci]) ? [...draft.sobreaviso[funci]] : []
-    isos.forEach((iso) => {
-      const idx = list.indexOf(iso)
-      if (idx === -1) list.push(iso)
-      else list.splice(idx, 1)
-    })
-    draft.sobreaviso[funci] = list
-  })
-}
-
 export function setBhPeriod(state: AppState, period: string | null): AppState {
   return produce(state, (draft) => {
     if (!draft.bh) draft.bh = { base: [], folgas: {}, period: null }
