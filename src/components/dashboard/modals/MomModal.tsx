@@ -1,5 +1,6 @@
-import { useMemo } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { useMemo, useRef, useState } from 'react'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import { MONTHS } from '@/utils/date'
@@ -7,6 +8,8 @@ import { fmtHrs, fmtNum } from '@/utils/format'
 import { computeTechInsights, techActivitySlaRows, techMonthStats } from '@/utils/rules/kpis'
 import { MomTechChart } from '@/components/dashboard/charts/MomTechChart'
 import { ActivitySlaTable } from './ActivitySlaTable'
+import { useAuthStore } from '@/stores/auth.store'
+import html2pdf from 'html2pdf.js'
 import type { Params, Region } from '@/types'
 
 interface MomModalProps {
@@ -20,6 +23,10 @@ interface MomModalProps {
 
 export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange }: MomModalProps) {
   const tech = region.technicians.find((t) => t.funci === funci)
+  const can = useAuthStore((s) => s.can)
+  const canBaixar = can('gerenciarColaboradores')
+  const printRef = useRef<HTMLDivElement | null>(null)
+  const [gerando, setGerando] = useState(false)
   const y = Number(pk.slice(0, 4))
   const m = Number(pk.slice(5, 7)) - 1
 
@@ -70,6 +77,27 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
           : '— igual'
       : '—'
 
+  async function baixarPdf() {
+    if (!printRef.current) return
+    setGerando(true)
+    const nome = tech?.nome ?? funci
+    const arquivo = `detalhamento-${nome.replace(/[^a-zA-Z0-9]+/g, '-')}-${labelAtual.replace(/[/ ]+/g, '-')}.pdf`
+    try {
+      await html2pdf()
+        .set({
+          margin: 8,
+          filename: arquivo,
+          image: { type: 'jpeg', quality: 0.95 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        })
+        .from(printRef.current)
+        .save()
+    } finally {
+      setGerando(false)
+    }
+  }
+
   return (
     <Dialog open onOpenChange={onOpenChange}>
       <DialogContent>
@@ -77,6 +105,7 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
           <DialogTitle>Detalhamento Técnico — {tech?.nome ?? funci}</DialogTitle>
         </DialogHeader>
 
+        <div ref={printRef} className="space-y-4">
         <section>
           <h4 className="font-display text-base font-bold">Insights</h4>
           <p className="text-xs text-muted-foreground">Análise automática — {labelAtual}</p>
@@ -170,6 +199,15 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
             </Table>
           </div>
         </section>
+        </div>
+
+        <DialogFooter className="pt-2">
+          {canBaixar && (
+            <Button type="button" disabled={gerando} onClick={() => void baixarPdf()}>
+              {gerando ? 'Gerando PDF…' : 'Baixar PDF'}
+            </Button>
+          )}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
