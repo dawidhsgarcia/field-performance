@@ -9,7 +9,8 @@ import { computeTechInsights, techActivitySlaRows, techMonthStats } from '@/util
 import { MomTechChart } from '@/components/dashboard/charts/MomTechChart'
 import { ActivitySlaTable } from './ActivitySlaTable'
 import { useAuthStore } from '@/stores/auth.store'
-import html2pdf from 'html2pdf.js'
+import html2canvas from 'html2canvas-pro'
+import { jsPDF } from 'jspdf'
 import type { Params, Region } from '@/types'
 
 interface MomModalProps {
@@ -109,16 +110,28 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
       clone.style.width = `${fonte.offsetWidth}px`
       document.body.appendChild(clone)
       try {
-        await html2pdf()
-          .set({
-            margin: 8,
-            filename: arquivo,
-            image: { type: 'jpeg', quality: 0.95 },
-            html2canvas: { scale: 2, useCORS: false, logging: false, backgroundColor: '#ffffff' },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          })
-          .from(clone)
-          .save()
+        const canvas = await html2canvas(clone, {
+          scale: 2,
+          useCORS: false,
+          logging: false,
+          backgroundColor: '#ffffff',
+        })
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
+        const imgData = canvas.toDataURL('image/jpeg', 0.95)
+        const pageW = pdf.internal.pageSize.getWidth()
+        const pageH = pdf.internal.pageSize.getHeight()
+        const imgW = canvas.width / 2
+        const imgH = canvas.height / 2
+        const ratio = imgH / imgW
+        const margin = 8
+        let w = pageW - margin * 2
+        let h = w * ratio
+        if (h > pageH - margin * 2) {
+          h = pageH - margin * 2
+          w = h / ratio
+        }
+        pdf.addImage(imgData, 'JPEG', margin, margin, w, h)
+        pdf.save(arquivo)
       } finally {
         clone.remove()
       }
