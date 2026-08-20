@@ -3,9 +3,9 @@ import { cn } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { fmtNum } from '@/utils/format'
-import { computeProjection, pointsToQ1 } from '@/utils/rules/projection'
+import { computeProjection, pointsAboveMeta } from '@/utils/rules/projection'
 import { computeTeamGoalsSummary } from '@/utils/rules/goals'
-import { quartilOf } from '@/utils/rules/quartis'
+import { MIN_SCORE, quartilOf } from '@/utils/rules/quartis'
 import { quartilBadgeClass } from '@/utils/quartilColors'
 import type { Params, Region, Week } from '@/types'
 
@@ -131,7 +131,6 @@ export function ProjectionSection({ region, weeks, params }: ProjectionSectionPr
               <TableRow>
                 <TableHead>Técnico</TableHead>
                 <TableHead className="text-center">Média Atual</TableHead>
-                <TableHead className="text-center">Tendência</TableHead>
                 <TableHead className="text-center">Média Proj.</TableHead>
                 <TableHead className="text-center">Quartil Proj.</TableHead>
                 <TableHead className="text-center">Gap</TableHead>
@@ -139,29 +138,20 @@ export function ProjectionSection({ region, weeks, params }: ProjectionSectionPr
             </TableHeader>
             <TableBody>
               {rows.map((r) => {
-                const gapQ1 = pointsToQ1(r, params.quartil.q1, remaining)
+                const metaDiaria = MIN_SCORE(params.dayMeta)
+                const gapQ1 = pointsAboveMeta(r, metaDiaria, params.quartil.q1, remaining)
                 const gapCls =
                   gapQ1 !== null && gapQ1 > 0
                     ? 'bg-warning/15 text-warning-dark'
                     : gapQ1 === 0
                       ? 'bg-success/15 text-success-dark'
                       : 'bg-muted text-muted-foreground'
-                const gapLabel =
-                  gapQ1 === null ? '—' : gapQ1 === 0 ? '✓' : `+${gapQ1}`
-                const trendCls =
-                  r.trendAvg !== null && r.currentAvg !== null && r.trendAvg > r.currentAvg
-                    ? 'text-success-dark'
-                    : r.trendAvg !== null && r.currentAvg !== null && r.trendAvg < r.currentAvg
-                      ? 'text-danger'
-                      : 'text-muted-foreground'
+                const gapLabel = gapQ1 === null ? '—' : gapQ1 === 0 ? '✓' : `+${fmtNum(gapQ1)}`
                 const q = quartilOf(r.projectedAvg, params.quartil)
                 return (
                   <TableRow key={r.tech.funci}>
                     <TableCell className="font-semibold">{r.tech.nome}</TableCell>
                     <TableCell className="text-center">{r.currentAvg !== null ? fmtNum(r.currentAvg) : '–'}</TableCell>
-                    <TableCell className={cn('text-center', trendCls)}>
-                      {r.trendAvg !== null ? fmtNum(r.trendAvg) : '–'}
-                    </TableCell>
                     <TableCell className="text-center">
                       {r.projectedAvg !== null ? fmtNum(r.projectedAvg) : '–'}
                     </TableCell>
