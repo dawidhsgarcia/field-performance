@@ -4,6 +4,7 @@ import { ALL_REGION, JUSTIFICATION_CODES } from '@/lib/constants'
 import { mutateEntry } from '@/services/state'
 import { useStateStore } from '@/stores/state.store'
 import { useAuthStore } from '@/stores/auth.store'
+import { isoToDate } from '@/utils/date'
 import { JustificationSelect } from './JustificationSelect'
 import type { EntryValue } from '@/types'
 
@@ -34,6 +35,10 @@ export function DayCell({
   const allDisabled = !data || data.currentRegion === ALL_REGION || !can('editarMatriz')
   const scoreDisabled = regionLocked || allDisabled
   const showInput = scoreMode || typeof value === 'number'
+
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const isPast = isoToDate(iso) < today
 
   function commitValue(next: EntryValue | null) {
     if (!data || data.currentRegion === ALL_REGION || !can('editarMatriz')) return
@@ -98,6 +103,7 @@ export function DayCell({
           funci={funci}
           iso={iso}
           currentCode={typeof value === 'string' ? value : null}
+          placeholder={isPast ? '0' : ''}
           allDisabled={allDisabled}
           scoreDisabled={scoreDisabled}
           onChange={(v) => {

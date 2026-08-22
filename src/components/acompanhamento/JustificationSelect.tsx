@@ -4,6 +4,7 @@ interface JustificationSelectProps {
   funci: string
   iso: string
   currentCode: string | null
+  placeholder?: string
   allDisabled: boolean
   scoreDisabled: boolean
   onChange: (value: string) => void
@@ -13,6 +14,7 @@ export function JustificationSelect({
   funci,
   iso,
   currentCode,
+  placeholder = '–',
   allDisabled,
   scoreDisabled,
   onChange,
@@ -31,7 +33,7 @@ export function JustificationSelect({
       defaultValue={currentCode ?? ''}
       onChange={(e) => onChange(e.target.value)}
     >
-      <option value="">–</option>
+      <option value="">{placeholder}</option>
       <option value="__SCORE__" disabled={scoreDisabled}>
         ✏️ Pontuação
       </option>
