@@ -12,10 +12,9 @@ export function IndisTable({ overview }: { overview: TeamOverview }) {
     <div className="space-y-3">
       <div className="flex flex-wrap gap-6 text-xs text-muted-foreground">
         <span>
-          🔴 <strong>{overview.totalJustified}</strong> dias justificados
+          <strong>{overview.totalJustified}</strong> dias justificados
         </span>
         <span>
-          📊{' '}
           <strong>{overview.unavailPct !== null ? Math.round(overview.unavailPct) + '%' : '–'}</strong> de
           indisponibilidade
         </span>
