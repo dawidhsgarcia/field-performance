@@ -51,7 +51,6 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
   const projectedPct = goals.totalExpected > 0 ? (teamProjectedSum / goals.totalExpected) * 100 : null
   const remainingForGoal = goals.totalExpected - teamProjectedSum
   const ptsPerDayNeeded = remaining > 0 ? Math.ceil(remainingForGoal / remaining) : null
-  const barPct = projectedPct !== null ? Math.min(projectedPct, 100) : 0
   const barCls =
     projectedPct !== null && projectedPct >= 100
       ? 'bg-success-dark'
@@ -131,9 +130,6 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
               </span>
             </span>
           </div>
-        </div>
-        <div className="h-2 overflow-hidden rounded-full bg-muted">
-          <div className={cn('h-full rounded-full', barCls)} style={{ width: `${barPct}%` }} />
         </div>
         <div className="text-xs text-muted-foreground">
           Projeção:{' '}

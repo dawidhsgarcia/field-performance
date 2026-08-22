@@ -39,7 +39,7 @@ function KpiCard({
   title?: string
 }) {
   const cls = cn(
-    'group flex items-start gap-3 rounded-xl border bg-card p-5 text-left shadow-sm shadow-black/[0.03] transition-all',
+    'group flex items-center gap-3 rounded-xl border bg-card p-5 text-left shadow-sm shadow-black/[0.03] transition-all',
     onClick && 'cursor-pointer hover:border-accent hover:shadow-md hover:shadow-black/[0.05]',
   )
   if (onClick) {
