@@ -39,8 +39,8 @@ function KpiCard({
   title?: string
 }) {
   const cls = cn(
-    'flex items-start gap-3 rounded-xl border bg-card p-4 text-left',
-    onClick && 'cursor-pointer transition-transform hover:-translate-y-0.5',
+    'group flex items-start gap-3 rounded-xl border bg-card p-5 text-left shadow-sm shadow-black/[0.03] transition-all',
+    onClick && 'cursor-pointer hover:border-accent hover:shadow-md hover:shadow-black/[0.05]',
   )
   if (onClick) {
     return (
@@ -71,13 +71,15 @@ function KpiBody({
 }) {
   return (
     <>
-      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary">
+      <span className="flex size-10 shrink-0 items-center justify-center rounded-lg border bg-muted text-muted-foreground transition-colors group-hover:bg-accent/30 group-hover:text-accent-foreground">
         {icon}
       </span>
       <div className="min-w-0">
-        <div className="text-[11px] font-bold tracking-wide text-muted-foreground uppercase">{label}</div>
-        <div className={cn('font-display text-2xl font-bold tabular-nums', statusColor(status))}>{value}</div>
-        <div className="text-xs text-muted-foreground">{sub}</div>
+        <div className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">{label}</div>
+        <div className={cn('font-display text-3xl font-semibold tracking-tight tabular-nums', statusColor(status))}>
+          {value}
+        </div>
+        <div className="mt-0.5 text-xs text-muted-foreground">{sub}</div>
       </div>
     </>
   )

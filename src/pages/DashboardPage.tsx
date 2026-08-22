@@ -89,10 +89,10 @@ export function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-start justify-between gap-2">
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight">Dashboard</h1>
+          <h1 className="font-display text-3xl font-semibold tracking-tight">Dashboard</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Visão geral da produtividade das equipes: KPIs, alertas, evolução e projeção de fechamento.
           </p>
@@ -123,10 +123,13 @@ export function DashboardPage() {
             onOpenIndis={openIndis}
           />
           <AlertSection alerts={dash.alerts} />
-          <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
-            <div className="rounded-xl border bg-card p-4">
-              <h3 className="font-display text-base font-bold">Evolução Diária da Equipe</h3>
-              <div className="mt-2">
+          <div className="grid gap-5 lg:grid-cols-[2fr_1fr]">
+            <div className="rounded-xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="font-display text-base font-semibold">Evolução Diária da Equipe</h3>
+                <span className="text-xs text-muted-foreground">{monthLabel}</span>
+              </div>
+              <div className="mt-3">
                 <EvolucaoChart
                   region={region}
                   weeks={weeks}
@@ -136,9 +139,9 @@ export function DashboardPage() {
                 />
               </div>
             </div>
-            <div className="rounded-xl border bg-card p-4">
-              <h3 className="font-display text-base font-bold">Tendência e Projeção Semanal</h3>
-              <div className="mt-2">
+            <div className="rounded-xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
+              <h3 className="font-display text-base font-semibold">Tendência e Projeção Semanal</h3>
+              <div className="mt-3">
                 <TendenciaChart
                   region={region}
                   weeks={weeks}
@@ -150,8 +153,8 @@ export function DashboardPage() {
               </div>
             </div>
           </div>
-          <div className="rounded-xl border bg-card p-4">
-            <h3 className="font-display text-base font-bold">Desempenho Individual</h3>
+          <div className="rounded-xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
+            <h3 className="font-display text-base font-semibold">Desempenho Individual</h3>
             <div className="mt-3">
               <TechCards
                 params={params}

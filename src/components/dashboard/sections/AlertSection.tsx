@@ -24,7 +24,7 @@ export function AlertSection({ alerts }: { alerts: AlertItem[] }) {
               : a.type === 'warning'
                 ? 'border-l-warning bg-warning/5'
                 : a.type === 'empty'
-                  ? 'border-l-success bg-success/5'
+                  ? 'border-l-success-dark bg-success/5'
                   : 'border-l-primary bg-primary/5'
           const iconColor =
             a.type === 'critical'

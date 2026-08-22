@@ -4,36 +4,27 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 10px;
+  --radius: 0.5rem;
 
-  --background: #f6f7f9;
-  --foreground: #464c65;
-  --card: #feffff;
-  --card-foreground: #464c65;
-  --popover: #feffff;
-  --popover-foreground: #464c65;
-  --primary: #464c65;
-  --primary-foreground: #ffffff;
-  --secondary: #6a7f8b;
-  --secondary-foreground: #000000;
-  --muted: #eceff4;
-  --muted-foreground: #686c75;
-  --accent: #9fadc7;
-  --accent-foreground: #000000;
-  --destructive: #af6a65;
+  --background: #fafafa;
+  --foreground: #262626;
+  --card: #ffffff;
+  --card-foreground: #262626;
+  --popover: #ffffff;
+  --popover-foreground: #262626;
+  --primary: #b8e954;
+  --primary-foreground: #000000;
+  --secondary: #45807a;
+  --secondary-foreground: #ffffff;
+  --muted: #f5f5f5;
+  --muted-foreground: #525252;
+  --accent: #f5f5f5;
+  --accent-foreground: #262626;
+  --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-  --border: #e0e4eb;
-  --input: #c0c4ca;
-  --ring: #616882;
-
-  --chart-1: #61667d;
-  --chart-2: #6a7c9f;
-  --chart-3: #9a9fb0;
-  --chart-4: #3c4a65;
-  --chart-5: #353a50;
-
-  --q2: #9fadc7;
-  --q2-dark: color-mix(in oklab, var(--q2) 45%, var(--foreground));
+  --border: #e5e5e5;
+  --input: #d4d4d4;
+  --ring: #b8e954;
 
   --success: #39da8a;
   --warning: #fdac41;
@@ -68,33 +59,25 @@
 }
 
 .dark {
-  --background: #121212;
-  --foreground: #ffffff;
-  --card: #0c0c0c;
-  --card-foreground: #ffffff;
-  --popover: #0c0c0c;
-  --popover-foreground: #ffffff;
-  --primary: #99b6b2;
+  --background: #0d0e0c;
+  --foreground: #f2f2f0;
+  --card: #11120f;
+  --card-foreground: #f2f2f0;
+  --popover: #11120f;
+  --popover-foreground: #f2f2f0;
+  --primary: #b8e954;
   --primary-foreground: #000000;
-  --secondary: #799db1;
-  --secondary-foreground: #000000;
-  --muted: #1c1516;
-  --muted-foreground: #a5a2a2;
-  --accent: #3b5078;
-  --accent-foreground: #ffffff;
-  --destructive: #af6a65;
+  --secondary: #45807a;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1b19;
+  --muted-foreground: #9b9c98;
+  --accent: #1a1b19;
+  --accent-foreground: #f2f2f0;
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #272525;
-  --input: #2f2c2c;
-  --ring: #616882;
-
-  --chart-1: #99a4bc;
-  --chart-2: #799db1;
-  --chart-3: #5a6478;
-  --chart-4: #3b5078;
-  --chart-5: #aab2c4;
-
-  --q2: #9fadc7;
+  --border: #262a23;
+  --input: #2b2f26;
+  --ring: #b8e954;
 
   --success: #39da8a;
   --warning: #fdac41;
@@ -130,18 +113,11 @@
   --color-danger-dark: var(--danger-dark);
   --color-sba: var(--sba);
   --color-wa: var(--wa);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-q2: var(--q2);
-  --color-q2-dark: var(--q2-dark);
 
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: 'Inter', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
-  --font-serif: 'Inter', Georgia, serif;
+  --font-sans: 'Onest', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Host Grotesk', 'Onest', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+  --font-serif: 'Lora', Georgia, serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

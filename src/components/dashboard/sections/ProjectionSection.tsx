@@ -54,12 +54,12 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
   const barPct = projectedPct !== null ? Math.min(projectedPct, 100) : 0
   const barCls =
     projectedPct !== null && projectedPct >= 100
-      ? 'bg-success'
+      ? 'bg-success-dark'
       : projectedPct !== null && projectedPct >= 70
         ? 'bg-warning'
         : 'bg-danger'
   const projTextCls =
-    barCls === 'bg-success' ? 'text-success-dark' : barCls === 'bg-warning' ? 'text-warning-dark' : 'text-danger'
+    barCls === 'bg-success-dark' ? 'text-success-dark' : barCls === 'bg-warning' ? 'text-warning-dark' : 'text-danger'
 
   let gapHtml: React.ReactNode = null
   if (projectedPct !== null && projectedPct < 100) {
@@ -77,7 +77,7 @@ export function ProjectionSection({ region, weeks, params, colaboradores }: Proj
     )
   } else if (projectedPct !== null && projectedPct >= 100) {
     gapHtml = (
-      <div className="rounded-lg border-l-4 border-l-success bg-success/10 p-3 text-[13px] text-success-dark">
+      <div className="rounded-lg border-l-4 border-l-success-dark bg-success/10 p-3 text-[13px] text-success-dark">
         Projeção indica atingimento da meta ✓
       </div>
     )

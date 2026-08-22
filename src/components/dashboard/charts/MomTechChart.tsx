@@ -36,7 +36,7 @@ export function MomTechChart({ region, funci, pk, params, currentMonth }: MomTec
 
     const c = {
       primary: getCSSVar('--primary') || '#2794EB',
-      success: getCSSVar('--success') || '#198754',
+      success: getCSSVar('--success-dark') || '#4c8a78',
       warning: getCSSVar('--warning') || '#FFC107',
       danger: getCSSVar('--danger') || '#DC3545',
       textMut: getCSSVar('--text-mut') || '#7A8BAA',

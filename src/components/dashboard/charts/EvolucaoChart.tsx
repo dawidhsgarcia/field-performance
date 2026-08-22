@@ -37,7 +37,7 @@ export function EvolucaoChart({ region, weeks, params, currentMonth, colaborador
     if (pastBizDays.length === 0) return null
 
     const primary = getCSSVar('--primary') || '#2794EB'
-    const success = getCSSVar('--success') || '#198754'
+    const success = getCSSVar('--success-dark') || '#4c8a78'
     const danger = getCSSVar('--danger') || '#DC3545'
     const textMut = getCSSVar('--text-mut') || '#7A8BAA'
     const surface = getCSSVar('--surface') || '#FFFFFF'

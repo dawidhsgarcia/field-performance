@@ -11,13 +11,13 @@ export function Sparkline({ values, quartil, maxScore }: SparklineProps) {
   const sparkH = 28
 
   const palette: Record<number, string> = {
-    1: getCSSVar('--success') || '#198754',
-    2: getCSSVar('--primary') || '#2794EB',
+    1: getCSSVar('--success-dark') || '#4c8a78',
+    2: getCSSVar('--q2') || '#9fadc7',
     3: getCSSVar('--warning') || '#FFC107',
     4: getCSSVar('--danger') || '#DC3545',
   }
   const lineColor = palette[quartil] ?? '#9CA3AF'
-  const fillColor = lineColor + '18'
+  const fillColor = `color-mix(in srgb, ${lineColor} 10%, transparent)`
 
   if (values.length >= 2) {
     const maxVal = Math.max(...values, maxScore)
