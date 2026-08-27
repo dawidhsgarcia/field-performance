@@ -82,13 +82,10 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
     if (!fonte || gerando) return
     setGerando(true)
     try {
-      const capturas: Array<{ w: number; src: string }> = []
+      const capturas: string[] = []
       fonte.querySelectorAll('canvas').forEach((canvas) => {
         try {
-          capturas.push({
-            w: canvas.offsetWidth || canvas.clientWidth,
-            src: canvas.toDataURL('image/png'),
-          })
+          capturas.push(canvas.toDataURL('image/png'))
         } catch (e) {
           console.error('Falha ao exportar gráfico para imagem:', e)
         }
@@ -96,11 +93,11 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
 
       const clone = fonte.cloneNode(true) as HTMLDivElement
       clone.querySelectorAll('canvas').forEach((canvas, i) => {
-        const c = capturas[i]
-        if (!c) return
+        const src = capturas[i]
+        if (!src) return
         const img = document.createElement('img')
-        img.src = c.src
-        img.style.width = `${c.w}px`
+        img.src = src
+        img.style.width = '100%'
         img.style.maxWidth = '100%'
         canvas.parentNode?.replaceChild(img, canvas)
       })
