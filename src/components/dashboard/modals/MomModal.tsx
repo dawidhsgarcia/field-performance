@@ -1,5 +1,7 @@
-import { useMemo } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { useMemo, useRef, useState } from 'react'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Printer } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import { MONTHS } from '@/utils/date'
@@ -7,6 +9,7 @@ import { fmtHrs, fmtNum } from '@/utils/format'
 import { computeTechInsights, techActivitySlaRows, techMonthStats } from '@/utils/rules/kpis'
 import { MomTechChart } from '@/components/dashboard/charts/MomTechChart'
 import { ActivitySlaTable } from './ActivitySlaTable'
+import { useAuthStore } from '@/stores/auth.store'
 import type { Params, Region } from '@/types'
 
 interface MomModalProps {
@@ -20,6 +23,10 @@ interface MomModalProps {
 
 export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange }: MomModalProps) {
   const tech = region.technicians.find((t) => t.funci === funci)
+  const can = useAuthStore((s) => s.can)
+  const canImprimir = can('gerenciarColaboradores')
+  const printRef = useRef<HTMLDivElement | null>(null)
+  const [gerando, setGerando] = useState(false)
   const y = Number(pk.slice(0, 4))
   const m = Number(pk.slice(5, 7)) - 1
 
@@ -70,6 +77,64 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
           : '— igual'
       : '—'
 
+  function imprimir() {
+    const fonte = printRef.current
+    if (!fonte || gerando) return
+    setGerando(true)
+    try {
+      const capturas: Array<{ w: number; src: string }> = []
+      fonte.querySelectorAll('canvas').forEach((canvas) => {
+        try {
+          capturas.push({
+            w: canvas.offsetWidth || canvas.clientWidth,
+            src: canvas.toDataURL('image/png'),
+          })
+        } catch (e) {
+          console.error('Falha ao exportar gráfico para imagem:', e)
+        }
+      })
+
+      const clone = fonte.cloneNode(true) as HTMLDivElement
+      clone.querySelectorAll('canvas').forEach((canvas, i) => {
+        const c = capturas[i]
+        if (!c) return
+        const img = document.createElement('img')
+        img.src = c.src
+        img.style.width = `${c.w}px`
+        img.style.maxWidth = '100%'
+        canvas.parentNode?.replaceChild(img, canvas)
+      })
+
+      const titulo = document.createElement('h2')
+      titulo.textContent = `Detalhamento Técnico — ${tech?.nome ?? funci}`
+      titulo.style.fontSize = '18px'
+      titulo.style.fontWeight = '700'
+      titulo.style.marginBottom = '12px'
+      clone.prepend(titulo)
+
+      let area = document.getElementById('print-area') as HTMLDivElement | null
+      if (!area) {
+        area = document.createElement('div')
+        area.id = 'print-area'
+        document.body.appendChild(area)
+      }
+      area.innerHTML = ''
+      area.appendChild(clone)
+
+      window.print()
+
+      const limpar = () => {
+        area?.remove()
+        setGerando(false)
+      }
+      window.addEventListener('afterprint', limpar, { once: true })
+      setTimeout(limpar, 1000)
+    } catch (e) {
+      console.error('Erro ao imprimir o Detalhamento:', e)
+      setGerando(false)
+    }
+  }
+
   return (
     <Dialog open onOpenChange={onOpenChange}>
       <DialogContent>
@@ -77,7 +142,7 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
           <DialogTitle>Detalhamento Técnico — {tech?.nome ?? funci}</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div ref={printRef} className="space-y-4">
         <section>
           <h4 className="font-display text-base font-bold">Insights</h4>
           <p className="text-xs text-muted-foreground">Análise automática — {labelAtual}</p>
@@ -172,6 +237,14 @@ export function MomModal({ region, pk, funci, params, currentMonth, onOpenChange
           </div>
         </section>
         </div>
+        <DialogFooter className="print:hidden">
+          {canImprimir && (
+            <Button type="button" variant="outline" disabled={gerando} onClick={() => void imprimir()}>
+              <Printer />
+              {gerando ? 'Imprimindo…' : 'Imprimir'}
+            </Button>
+          )}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
