@@ -34,18 +34,18 @@ describe('computeDashboardKpis (paridade com o legado)', () => {
     expect(kpis.slaEval).toBe(10)
     expect(kpis.slaOn).toBe(8)
     expect(kpis.totalOS).toBe(12)
-    expect(kpis.teamAvg).toBeCloseTo(1.2, 5)
+    expect(kpis.teamAvg).toBeCloseTo(4, 5)
     expect(kpis.totalPts).toBe(12)
     expect(kpis.totalJustified).toBe(0)
     expect(kpis.unavailPct).toBe(0)
-    expect(kpis.quartilCounts).toEqual({ 1: 0, 2: 0, 3: 1, 4: 0 })
+    expect(kpis.quartilCounts).toEqual({ 1: 1, 2: 0, 3: 0, 4: 0 })
   })
 
   it('justificativa não conta na média nem na indisponibilidade', () => {
     const region = makeRegion({ '2026-07-01': 4, '2026-07-02': 'BH' })
     const kpis = computeDashboardKpis(region, weeks, DEFAULT_PARAMS, today)
     expect(kpis.totalJustified).toBe(1)
-    expect(kpis.teamAvg).toBeCloseTo(4 / 9, 5)
+    expect(kpis.teamAvg).toBeCloseTo(4, 5)
   })
 })
 

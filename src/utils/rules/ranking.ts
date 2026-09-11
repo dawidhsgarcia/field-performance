@@ -14,19 +14,17 @@ export function computeRanking(
   weeks.forEach((w) => w.forEach((d) => allDays.push(d)))
   const pk = weeks[0][0].iso.slice(0, 7)
 
-  const businessDays = allDays.filter((d) => {
-    if (d.dow === 0 || d.dow === 6) return false
-    return isoToDate(d.iso) < today
-  })
+  const pastDays = allDays.filter((d) => isoToDate(d.iso) < today)
 
   const rows: RankingRow[] = importedTechs(region, colaboradores).map((tech) => {
     let sum = 0
     let days = 0
-    businessDays.forEach((d) => {
+    pastDays.forEach((d) => {
       const raw = region.entries?.[pk]?.[tech.funci]?.[d.iso]
-      if (typeof raw === 'string') return
-      if (typeof raw === 'number') sum += raw
-      days++
+      if (typeof raw === 'number') {
+        sum += raw
+        days++
+      }
     })
     const avg = days > 0 ? sum / days : null
     return { tech, sum, days, avg, quartil: quartilOf(avg, params.quartil) }

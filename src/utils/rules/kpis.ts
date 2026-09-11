@@ -231,14 +231,15 @@ export function techMonthStats(
   weeks.forEach((w) => w.forEach((d) => allDays.push(d)))
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const bizDays = allDays.filter((d) => d.dow !== 0 && d.dow !== 6 && isoToDate(d.iso) < today)
+  const bizDays = allDays.filter((d) => isoToDate(d.iso) < today)
   let sum = 0
   let days = 0
   bizDays.forEach((d) => {
     const raw = region.entries?.[pk]?.[funci]?.[d.iso]
-    if (typeof raw === 'string') return
-    if (typeof raw === 'number') sum += raw
-    days++
+    if (typeof raw === 'number') {
+      sum += raw
+      days++
+    }
   })
   const avg = days > 0 ? sum / days : null
   const sla = region.sla?.[pk]?.techSla?.[funci] || null

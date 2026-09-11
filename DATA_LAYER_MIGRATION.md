@@ -82,8 +82,8 @@ Todas recebem parâmetros explícitos (`region`, `weeks`, `params`, `today`) —
 - **Original:** `computeRanking(region, weeks)` (render.js:294).
 - **Entrada:** `region`, `weeks` (dias com `{day,dow,iso}`), `params`, `today`.
 - **Saída:** `RankingRow[]` ordenadas por média desc.
-- **Regras:** dias úteis **até D-1** (`dateObj < today`); justificativa não entra no denominador; celas em branco **contam** no denominador; média = soma ÷ dias úteis decorridos.
-- **Exemplo:** jul/2026, today=15, entries `01=4, 02='BH'` → `sum=4`, `days=9`, `avg=0.444…`.
+- **Regras:** todos os dias **até D-1** (`dateObj < today`), **inclusive fins de semana**; só dias com pontuação numérica entram no cálculo (celas em branco e justificativas ficam fora do numerador e do denominador); média = soma ÷ dias com pontuação.
+- **Exemplo:** jul/2026, today=15, entries `01=4, 02='BH'` → `sum=4`, `days=1`, `avg=4`.
 
 ### 8.3 Metas da equipe — `goals.ts`
 - **Original:** `computeTeamGoalsSummary` (dashboard.js:799).
@@ -97,7 +97,7 @@ Todas recebem parâmetros explícitos (`region`, `weeks`, `params`, `today`) —
 
 ### 8.5 Projeção — `projection.ts`
 - **Original:** `computeProjection(region, weeks)` (dashboard.js:1073).
-- **Regras:** passado `< today`; **futuro `>= today` (o dia atual conta como restante)**; tendência = últimas pontuações numéricas até `trendWindow`; fallback tendência → média; `projectedSum = sum + fallback × remaining`; `projectedAvg = projectedSum ÷ (days + remaining)`; ordena por `projectedAvg` desc.
+- **Regras:** passado `< today` (média atual considera todos os dias com pontuação, inclusive fins de semana — mesmo critério do ranking); **futuro `>= today` (o dia atual conta como restante)**; tendência = últimas pontuações numéricas até `trendWindow` (dias úteis); fallback tendência → média; `projectedSum = sum + fallback × remaining`; `projectedAvg = projectedSum ÷ (days + remaining)`; ordena por `projectedAvg` desc.
 - **Saída:** `ProjectionResult {rows, remaining}`.
 
 ### 8.6 KPIs e alertas — `kpis.ts`

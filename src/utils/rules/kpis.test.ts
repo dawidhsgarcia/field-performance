@@ -57,20 +57,12 @@ function makeRegion(): Region {
 describe('techMonthStats', () => {
   const region = makeRegion()
 
-  it('calcula média (D-1, justificativa fora do denominador), SLA e MTTR', () => {
+  it('calcula média (só dias com pontuação), SLA e MTTR', () => {
     const stats = techMonthStats(region, 'T1', 2026, 6, DEFAULT_PARAMS)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    let businessDays = 0
-    for (let d = 1; d <= 31; d++) {
-      const date = new Date(2026, 6, d)
-      if (date.getDay() !== 0 && date.getDay() !== 6 && date < today) businessDays++
-    }
-    const expectedDays = businessDays - 1
     expect(stats.pk).toBe('2026-07')
     expect(stats.sum).toBe(8)
-    expect(stats.days).toBe(expectedDays)
-    expect(stats.avg).toBeCloseTo(8 / expectedDays, 5)
+    expect(stats.days).toBe(2)
+    expect(stats.avg).toBeCloseTo(4, 5)
     expect(stats.slaPct).toBe(75)
     expect(stats.slaEval).toBe(4)
     expect(stats.slaOn).toBe(3)

@@ -39,16 +39,16 @@ describe('computeProjection', () => {
     const region = makeRegion({ T1: { '2026-07-01': 2 } })
     const { rows, remaining } = computeProjection(region, weeks, DEFAULT_PARAMS, today)
     const r = rows[0]
-    expect(r.currentAvg).toBe(0.2)
+    expect(r.currentAvg).toBe(2)
     expect(r.trendAvg).toBe(2)
     expect(r.projectedSum).toBe(2 + 2 * remaining)
   })
 
-  it('sem nenhum lançamento: tendência nula e projeção nula', () => {
+  it('sem nenhum lançamento: média nula e projeção nula', () => {
     const region = makeRegion({ T1: {} })
     const { rows, remaining } = computeProjection(region, weeks, DEFAULT_PARAMS, today)
     const r = rows[0]
-    expect(r.currentAvg).toBe(0)
+    expect(r.currentAvg).toBeNull()
     expect(r.trendAvg).toBeNull()
     expect(r.projectedSum).toBe(0)
     expect(remaining).toBeGreaterThan(0)
