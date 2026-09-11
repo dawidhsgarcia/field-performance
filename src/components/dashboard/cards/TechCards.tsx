@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
-import { fmtHrs, fmtNum } from '@/utils/format'
+import { fmtHrs, fmtNum, fmtNum2 } from '@/utils/format'
 import { osDurationMin } from '@/utils/date'
 import { entryOf, periodKeyOf } from '@/services/state'
 import { useAcompanhamentoData } from '@/hooks/useAcompanhamentoData'
@@ -30,7 +30,7 @@ export function TechCards({ params, rankingRows, pastBusinessDays, onOpenMom, on
         onTime: 0,
         totalOS: 0,
       }
-      const slaPctTech = techSla.evaluated > 0 ? Math.round((techSla.onTime / techSla.evaluated) * 100) : null
+      const slaPctTech = techSla.evaluated > 0 ? (techSla.onTime / techSla.evaluated) * 100 : null
       const slaColor =
         slaPctTech !== null
           ? slaPctTech >= 90
@@ -130,7 +130,7 @@ export function TechCards({ params, rankingRows, pastBusinessDays, onOpenMom, on
               title="Ver OS executadas"
               onClick={() => onOpenOs(c.tech.funci)}
             >
-              SLA: {c.slaPctTech !== null ? c.slaPctTech + '%' : '–'}
+              SLA: {c.slaPctTech !== null ? fmtNum2(c.slaPctTech) + '%' : '–'}
               {c.slaEval > 0 ? ` (${c.slaOn}/${c.slaEval} OS)` : ''}
             </button>
             <span title="Tempo médio de reparo (só OS com avaliação de prazo)">

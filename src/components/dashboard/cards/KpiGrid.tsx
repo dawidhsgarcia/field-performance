@@ -1,6 +1,6 @@
 import { CalendarX2, ClipboardList, Flag, Gauge, Timer } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { fmtNum } from '@/utils/format'
+import { fmtNum, fmtNum2 } from '@/utils/format'
 import type { DashboardKpis, Params, TeamGoalsSummary } from '@/types'
 
 interface KpiGridProps {
@@ -118,7 +118,7 @@ export function KpiGrid({ kpis, goals, params, onOpenSla, onOpenTotalOs, onOpenI
       <KpiCard
         icon={<Timer className="size-5" />}
         label="SLA — % no Prazo"
-        value={kpis.slaPct !== null ? kpis.slaPct + '%' : '–'}
+        value={kpis.slaPct !== null ? fmtNum2(kpis.slaPct) + '%' : '–'}
         sub={kpis.slaEval > 0 ? `${kpis.slaOn}/${kpis.slaEval} OS` : 'sem dados de prazo'}
         status={slaStatus}
         onClick={onOpenSla}
@@ -135,7 +135,7 @@ export function KpiGrid({ kpis, goals, params, onOpenSla, onOpenTotalOs, onOpenI
         icon={<Gauge className="size-5" />}
         label="Média da Equipe"
         value={kpis.teamAvg !== null ? fmtNum(kpis.teamAvg) : '–'}
-        sub="pts/dia em média"
+        sub="média das médias (pts/dia)"
         status={avgStatus}
       />
       <KpiCard

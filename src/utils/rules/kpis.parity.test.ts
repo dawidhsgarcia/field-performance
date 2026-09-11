@@ -47,6 +47,61 @@ describe('computeDashboardKpis (paridade com o legado)', () => {
     expect(kpis.totalJustified).toBe(1)
     expect(kpis.teamAvg).toBeCloseTo(4, 5)
   })
+
+  it('teamAvg = média das médias dos técnicos (não pooled)', () => {
+    const region: Region = {
+      name: 'TESTE',
+      technicians: [
+        { funci: 'T1', nome: 'TEC 1', imported: true },
+        { funci: 'T2', nome: 'TEC 2', imported: true },
+      ],
+      entries: {
+        '2026-07': {
+          T1: { '2026-07-01': 8 },
+          T2: { '2026-07-01': 2, '2026-07-02': 4, '2026-07-03': 6 },
+        },
+      },
+      locked: true,
+      sla: {
+        '2026-07': {
+          activitySla: {},
+          slaCounts: { evaluated: 0, onTime: 0 },
+          totalOS: 0,
+          techSla: {},
+        },
+      },
+    }
+    const kpis = computeDashboardKpis(region, weeks, DEFAULT_PARAMS, today)
+    // T1 avg = 8/1 = 8, T2 avg = 12/3 = 4 → (8+4)/2 = 6
+    expect(kpis.teamAvg).toBeCloseTo(6, 5)
+  })
+
+  it('técnicos sem produção ficam fora do numerador e denominador da média', () => {
+    const region: Region = {
+      name: 'TESTE',
+      technicians: [
+        { funci: 'T1', nome: 'TEC 1', imported: true },
+        { funci: 'T2', nome: 'TEC 2', imported: true },
+      ],
+      entries: {
+        '2026-07': {
+          T1: { '2026-07-01': 4, '2026-07-02': 8 },
+        },
+      },
+      locked: true,
+      sla: {
+        '2026-07': {
+          activitySla: {},
+          slaCounts: { evaluated: 0, onTime: 0 },
+          totalOS: 0,
+          techSla: {},
+        },
+      },
+    }
+    const kpis = computeDashboardKpis(region, weeks, DEFAULT_PARAMS, today)
+    // T1 avg = 12/2 = 6; T2 avg = null (excluído)
+    expect(kpis.teamAvg).toBeCloseTo(6, 5)
+  })
 })
 
 describe('computeAlerts (paridade com o legado)', () => {

@@ -36,9 +36,11 @@ export function computeDashboardKpis(
   const overview = computeTeamOverview(region, weeks, today, techs)
   const pk = weeks[0][0].iso.slice(0, 7)
 
-  const totalSum = rankingRows.reduce((s, r) => s + (r.sum || 0), 0)
-  const totalDays = rankingRows.reduce((s, r) => s + (r.days || 0), 0)
-  const teamAvg = totalDays > 0 ? totalSum / totalDays : null
+  const techsWithAvg = rankingRows.filter((r) => r.avg !== null)
+  const teamAvg =
+    techsWithAvg.length > 0
+      ? techsWithAvg.reduce((s, r) => s + (r.avg as number), 0) / techsWithAvg.length
+      : null
   const totalPts = goals.totalAchieved
   const quartilCounts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0 }
   rankingRows.forEach((r) => {
@@ -48,7 +50,7 @@ export function computeDashboardKpis(
   const slaPeriod = region.sla?.[pk]
   const totalOS = slaPeriod?.totalOS || 0
   const slaCounts = slaPeriod?.slaCounts || { evaluated: 0, onTime: 0 }
-  const slaPct = slaCounts.evaluated > 0 ? Math.round((slaCounts.onTime / slaCounts.evaluated) * 100) : null
+  const slaPct = slaCounts.evaluated > 0 ? (slaCounts.onTime / slaCounts.evaluated) * 100 : null
 
   return {
     slaPct,

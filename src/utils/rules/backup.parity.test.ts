@@ -30,13 +30,16 @@ describe('Paridade com backup real (somente leitura)', () => {
     expect(kpis.totalOS).toBe(sla?.totalOS || 0)
 
     if (sla?.slaCounts && sla.slaCounts.evaluated > 0) {
-      expect(kpis.slaPct).toBe(Math.round((sla.slaCounts.onTime / sla.slaCounts.evaluated) * 100))
+      expect(kpis.slaPct).toBeCloseTo(
+        (sla.slaCounts.onTime / sla.slaCounts.evaluated) * 100,
+        5,
+      )
     }
 
-    const totalDays = ranking.reduce((s, r) => s + r.days, 0)
-    const totalSum = ranking.reduce((s, r) => s + r.sum, 0)
-    if (totalDays > 0) {
-      expect(kpis.teamAvg).toBeCloseTo(totalSum / totalDays, 5)
+    const avgs = ranking.map((r) => r.avg).filter((a): a is number => a !== null)
+    if (avgs.length > 0) {
+      const mean = avgs.reduce((s, a) => s + a, 0) / avgs.length
+      expect(kpis.teamAvg).toBeCloseTo(mean, 5)
     }
   })
 })

@@ -3,6 +3,11 @@ export function fmtNum(value: number | null | undefined): string {
   return value.toLocaleString('pt-BR', { maximumFractionDigits: 2 })
 }
 
+export function fmtNum2(value: number | null | undefined): string {
+  if (value === null || value === undefined || Number.isNaN(value)) return ''
+  return value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
+
 export function fmtHrs(min: number | null | undefined): string {
   if (min == null || !isFinite(min)) return '—'
   const h = Math.round((min / 60) * 10) / 10

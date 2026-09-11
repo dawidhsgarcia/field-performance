@@ -102,7 +102,7 @@ Todas recebem parâmetros explícitos (`region`, `weeks`, `params`, `today`) —
 
 ### 8.6 KPIs e alertas — `kpis.ts`
 - **Original:** bloco de KPIs (dashboard.js:37-101) e 4 regras de alerta (dashboard.js:196-273).
-- **KPIs:** SLA `% = round(onTime/evaluated*100)` (≥90 ok, <70 crítico); Meta da Equipe `%` (≥100 ok, < `alertTeam.belowPct` crítico); Média da Equipe (`≥q1` ok, `<alertTech.below` crítico); Total de OS; Total de Pontos; Indisponibilidade Técnica (≥20 crítico, ≥10 aviso).
+- **KPIs:** SLA `% = round(onTime/evaluated*100)` (≥90 ok, <70 crítico); Meta da Equipe `%` (≥100 ok, < `alertTeam.belowPct` crítico); **Média da Equipe** `= média das médias dos técnicos` (só técnicos com produção; `≥q1` ok, `<alertTech.below` crítico); Total de OS; Total de Pontos; Indisponibilidade Técnica (≥20 crítico, ≥10 aviso).
 - **Alertas:** (1) técnico `< alertTech.below` pts por `streak`+ dias consecutivos (crítico); (2) equipe `< alertTeam.belowPct`% por `streak`+ dias (aviso, dias sem lançamento não quebram a sequência); (3) projeção `< alertProjection.belowPct`% (aviso); (4) sem alertas → "Tudo certo!".
 - **Saída:** `DashboardKpis`, `AlertItem[]`.
 
