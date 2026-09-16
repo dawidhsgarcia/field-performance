@@ -29,6 +29,21 @@ npm run test:watch   # Vitest (watch)
 - **Vercel:** as mesmas 6 variáveis `VITE_FIREBASE_*` são aplicadas em Production/Preview/Development.
 - **Backup diário do Firestore:** mantido neste repositório (`.github/workflows/backup-firestore.yml`), autenticado com credenciais dedicadas (secrets `FIREBASE_BACKUP_*`), salvando em `backups/estado-*.json` (retenção de 90 dias).
 
+## PWA / Instalação
+
+A aplicação é uma **PWA instalável** (`vite-plugin-pwa` + Workbox):
+
+- Instale pelo navegador (Chrome/Edge/Android: menu ⋮ → *Instalar*; iOS Safari: Compartilhar → *Adicionar à Tela de Início*).
+- `npm run pwa:assets` regenera os ícones a partir de `public/pwa/logo.svg` (config em `pwa-assets.config.ts`).
+- O build gera `manifest.webmanifest` e `sw.js` no `dist/` com **auto-update** silencioso e cache do app shell.
+- Offline: o app shell, fontes e ícones ficam disponíveis sem rede; dados já carregados são servidos pelo cache local do Firestore (IndexedDB). **Login e dados novos exigem conexão** — tráfego autenticado (Auth/Firestore) não é interceptado pelo service worker.
+
+```bash
+npm run pwa:assets   # gera PNG/ICO em public/pwa/ (uma vez; já commitados)
+npm run build        # gera dist/ com manifest.webmanifest + sw.js
+npm run preview      # testa o PWA localmente (DevTools → Application)
+```
+
 ## Segurança
 
 - Autenticação obrigatória (Firebase Auth) com perfis Admin / Gestor / Leitura.
