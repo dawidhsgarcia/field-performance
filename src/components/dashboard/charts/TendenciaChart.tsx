@@ -183,7 +183,7 @@ export function TendenciaChart({
   }
 
   return (
-    <div ref={wrapRef} className="h-[320px]">
+    <div ref={wrapRef} className="h-[320px] min-w-0 w-full">
       <Bar data={data} options={options} />
     </div>
   )

@@ -123,8 +123,8 @@ export function DashboardPage() {
             onOpenIndis={openIndis}
           />
           <AlertSection alerts={dash.alerts} />
-          <div className="grid gap-5 lg:grid-cols-[2fr_1fr]">
-            <div className="rounded-xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+            <div className="min-w-0 overflow-hidden rounded-xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
               <div className="flex items-center justify-between gap-2">
                 <h3 className="font-display text-base font-semibold">Evolução Diária da Equipe</h3>
                 <span className="text-xs text-muted-foreground">{monthLabel}</span>
@@ -139,7 +139,7 @@ export function DashboardPage() {
                 />
               </div>
             </div>
-            <div className="rounded-xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
+            <div className="min-w-0 overflow-hidden rounded-xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
               <h3 className="font-display text-base font-semibold">Tendência e Projeção Semanal</h3>
               <div className="mt-3">
                 <TendenciaChart

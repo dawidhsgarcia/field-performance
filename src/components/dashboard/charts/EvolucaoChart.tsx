@@ -136,7 +136,7 @@ export function EvolucaoChart({ region, weeks, params, currentMonth, colaborador
   }
 
   return (
-    <div ref={wrapRef} className="h-[320px]">
+    <div ref={wrapRef} className="h-[320px] min-w-0 w-full">
       <Line data={data} options={options} />
     </div>
   )

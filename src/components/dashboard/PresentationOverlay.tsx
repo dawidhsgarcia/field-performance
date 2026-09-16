@@ -65,12 +65,12 @@ export function PresentationOverlay({ dash, onClose }: PresentationOverlayProps)
     {
       h1: 'Evolução Diária da Equipe',
       sub: 'Média de pontos por dia útil',
-      body: evoImg ? <img src={evoImg} alt="Evolução Diária" className="max-h-[500px] w-auto" /> : VOID,
+      body: evoImg ? <img src={evoImg} alt="Evolução Diária" className="max-h-[500px] w-auto max-w-full" /> : VOID,
     },
     {
       h1: 'Tendência e Projeção Semanal',
       sub: 'Média realizada e projeção da semana em curso',
-      body: tendImg ? <img src={tendImg} alt="Tendência Semanal" className="max-h-[500px] w-auto" /> : VOID,
+      body: tendImg ? <img src={tendImg} alt="Tendência Semanal" className="max-h-[500px] w-auto max-w-full" /> : VOID,
     },
     {
       h1: 'OS no Prazo por Atividade',
