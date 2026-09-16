@@ -11,7 +11,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const toggleCollapsed = useAppStore((s) => s.toggleSidebarCollapsed)
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col overflow-x-clip bg-background">
       <a
         href="#conteudo"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
