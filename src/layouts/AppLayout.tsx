@@ -3,6 +3,7 @@ import { PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Header } from '@/components/layout/Header'
+import { ConflictDiscardPrompt } from '@/components/layout/ConflictDiscardPrompt'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { useAppStore } from '@/stores/app.store'
 
@@ -43,6 +44,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
           {children}
         </main>
       </div>
+      <ConflictDiscardPrompt />
       <footer className="border-t px-4 py-3 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} Alloha Fibra — Field Performance - Gestão de Desempenho Operacional
         <br />Desenvolvido por David Garcia

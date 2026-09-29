@@ -16,3 +16,17 @@ export function usersCollectionRef(): CollectionReference | null {
   if (!db) return null
   return collection(db, USERS_COLLECTION)
 }
+
+/**
+ * Lança em vez de devolver null quando não há Firestore.
+ *
+ * Um null silencioso fazia uma escrita impossível parecer bem-sucedida.
+ * Prefira requireRef() de persistence.ts no caminho de escrita; estas
+ * remain disponíveis para os caminhos de leitura que degradam com elegância.
+ */
+export function assertFirestoreReady(): void {
+  const { db } = getFirebase()
+  if (!db) {
+    throw new Error('Firestore indisponível: configuração do Firebase ausente ou inválida.')
+  }
+}

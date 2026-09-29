@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { useAppStore } from '@/stores/app.store'
 import { AppLogo } from './AppLogo'
+import { SaveStatusIndicator } from './SaveStatusIndicator'
 import { ThemeToggle } from './ThemeToggle'
 import { UserMenu } from './UserMenu'
 import { Sidebar } from './Sidebar'
@@ -33,6 +34,7 @@ export function Header() {
         <AppLogo />
       </div>
       <div className="flex-1" />
+      <SaveStatusIndicator />
       <ThemeToggle />
       <UserMenu />
     </header>

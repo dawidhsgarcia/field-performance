@@ -1,10 +1,12 @@
 import { create } from 'zustand'
+import { toast } from 'sonner'
 import { produce } from '@/lib/immutable'
 import { ALL_REGION } from '@/lib/constants'
 import { migrateState } from '@/lib/migrateState'
 import { subscribeState } from '@/services/firebase/realtime'
 import {
   ConflictError,
+  describePersistenceError,
   fetchState,
   hasStateDoc,
   saveToFirestore,
@@ -26,8 +28,10 @@ interface StateStore {
   status: LoadStatus
   saveStatus: SaveStatus
   dirty: boolean
-  confirmDiscard: () => boolean
-  setConfirmDiscard: (fn: () => boolean) => void
+  saveError: string | null
+  retrySave: () => void
+  confirmDiscard: () => boolean | Promise<boolean>
+  setConfirmDiscard: (fn: () => boolean | Promise<boolean>) => void
   loadState: () => Promise<void>
   refreshFromCloud: () => Promise<void>
   reset: () => void
@@ -54,76 +58,168 @@ let realtimeUnsub: (() => void) | null = null
 
 function startRealtime() {
   if (realtimeUnsub) return
-  realtimeUnsub = subscribeState((remoteRaw) => {
-    if (!remoteRaw) return
-    const store = useStateStore.getState()
-    const local = store.data
-    const remote = migrateState(remoteRaw)
-    if (!remote || !remote._meta) return
-    const localMeta = local?._meta || { version: 0, updatedAt: null }
-    const remoteMeta = remote._meta || { version: 0, updatedAt: null }
-    const localAt = localMeta.updatedAt ? new Date(localMeta.updatedAt).getTime() : 0
-    const remoteAt = remoteMeta.updatedAt ? new Date(remoteMeta.updatedAt).getTime() : 0
-    if (remoteAt <= localAt && (remoteMeta.version || 0) <= (localMeta.version || 0)) return
-    if (store.dirty && !store.confirmDiscard()) return
-    useStateStore.setState((s) => {
-      const keepRegion = s.data?.currentRegion ?? ALL_REGION
-      const keepYear = s.data?.currentYear ?? new Date().getFullYear()
-      const keepMonth = s.data?.currentMonth ?? new Date().getMonth()
-      const merged = produce(remote, (d) => {
-        d.currentRegion = keepRegion
-        d.currentYear = keepYear
-        d.currentMonth = keepMonth
+  realtimeUnsub = subscribeState(
+    async (remoteRaw) => {
+      if (!remoteRaw) return
+      const store = useStateStore.getState()
+      const local = store.data
+      const remote = migrateState(remoteRaw)
+      if (!remote || !remote._meta) return
+      // A versão é a única autoridade de ordenação. updatedAt vem do relógio
+      // do cliente e diverge entre usuários, o que fazia atualizações
+      // legítimas serem descartadas sem aviso.
+      const localVer = local?._meta?.version ?? 0
+      const remoteVer = remote._meta.version ?? 0
+      if (remoteVer <= localVer) return
+      if (store.dirty && !(await store.confirmDiscard())) return
+      useStateStore.setState((s) => {
+        const keepRegion = s.data?.currentRegion ?? ALL_REGION
+        const keepYear = s.data?.currentYear ?? new Date().getFullYear()
+        const keepMonth = s.data?.currentMonth ?? new Date().getMonth()
+        const merged = produce(remote, (d) => {
+          d.currentRegion = keepRegion
+          d.currentYear = keepYear
+          d.currentMonth = keepMonth
+        })
+        return { data: merged, dirty: false, saveStatus: 'saved', saveError: null }
       })
-      return { data: merged, dirty: false, saveStatus: 'saved' }
-    })
-  })
+    },
+    (err) => {
+      useStateStore.setState({
+        saveError: describePersistenceError(err),
+        saveStatus: 'error',
+      })
+    },
+  )
 }
+
+/** Compara duas versões do documento de estado. */
+export function isRemoteNewer(remoteVer: number | undefined, localVer: number | undefined): boolean {
+  return (remoteVer ?? 0) > (localVer ?? 0)
+}
+
+/**
+ * Executa a gravação de verdade.
+ *
+ * Regra inviolável: só marcamos 'saved' quando o Firestore aceitou. Falha vira
+ * 'error' com o motivo visível, e o localStorage é apenas uma reserva local
+ * declarada — nunca um substituto silencioso do banco.
+ */
+async function flushSave(): Promise<void> {
+  const data = useStateStore.getState().data
+  if (!data) {
+    useStateStore.setState({ saveStatus: 'idle' })
+    return
+  }
+
+  if (!hasStateDoc()) {
+    await reserveLocally(data)
+    useStateStore.setState({
+      saveStatus: 'error',
+      dirty: true,
+      saveError:
+        'Sem Firestore configurado: os dados ficaram apenas neste navegador e NÃO foram salvos no banco.',
+    })
+    return
+  }
+
+  try {
+    await saveToFirestore(data)
+    // O store pode ter sido resetado (logout) enquanto a gravação corria.
+    if (!useStateStore.getState().data) return
+    useStateStore.setState({ saveStatus: 'saved', dirty: false, saveError: null })
+  } catch (e) {
+    console.error('Falha ao salvar no Firestore:', e)
+    const motivo = describePersistenceError(e)
+    await reserveLocally(data)
+    if (!useStateStore.getState().data) return
+    useStateStore.setState({ saveStatus: 'error', dirty: true, saveError: motivo })
+    toast.error(`Não foi possível salvar no banco. ${motivo}`, {
+      id: 'fp-save-error',
+      duration: Infinity,
+    })
+  }
+}
+
+/**
+ * Reserva local. NÃO substitui o banco: só evita que a edição em curso se
+ * perca se a aba recarregar antes de o Firestore voltar.
+ */
+async function reserveLocally(data: AppState): Promise<void> {
+  try {
+    await saveToStorage(data)
+  } catch (e) {
+    console.error('Falha ao gravar a reserva local:', e)
+  }
+}
+
 
 export const useStateStore = create<StateStore>((set, get) => ({
   data: null,
   status: 'idle',
   saveStatus: 'idle',
   dirty: false,
+  saveError: null,
   confirmDiscard: () => false,
 
   setConfirmDiscard: (fn) => set({ confirmDiscard: fn }),
 
+  retrySave: () => {
+    set({ saveError: null, saveStatus: 'saving', dirty: true })
+    void flushSave()
+  },
+
   loadState: async () => {
     set({ status: 'loading' })
     startRealtime()
-    const fromCloud = await fetchState()
+    let fromCloud: AppState | null = null
+    try {
+      fromCloud = await fetchState()
+    } catch (e) {
+      set({ saveError: describePersistenceError(e), saveStatus: 'error' })
+    }
     if (fromCloud) {
-      set({ data: fromCloud, status: 'ready', saveStatus: 'saved' })
+      set({ data: fromCloud, status: 'ready', saveStatus: 'saved', saveError: null })
       return
     }
     const fromStorage = await loadFromStorage()
     if (fromStorage) {
-      set({ data: fromStorage, status: 'ready', saveStatus: 'saved' })
+      set({ data: fromStorage, status: 'ready', saveStatus: 'idle', saveError: null })
       return
     }
     set({ data: seedState(), status: 'ready' })
   },
 
   refreshFromCloud: async () => {
-    const remote = await fetchState()
-    if (!remote) return
-    const local = get().data
-    const localMeta = local?._meta || { updatedAt: null }
-    const remoteMeta = remote._meta || { updatedAt: null }
-    if (
-      localMeta.updatedAt &&
-      remoteMeta.updatedAt &&
-      new Date(localMeta.updatedAt) > new Date(remoteMeta.updatedAt)
-    ) {
-      if (!get().confirmDiscard()) return
+    let remote: AppState | null = null
+    try {
+      remote = await fetchState()
+    } catch (e) {
+      set({ saveError: describePersistenceError(e), saveStatus: 'error' })
+      return
     }
-    set({ data: remote, dirty: false, status: 'ready', saveStatus: 'saved' })
+    if (!remote) return
+    const localVer = get().data?._meta?.version ?? 0
+    if (!isRemoteNewer(remote._meta?.version, localVer)) {
+      if (get().data) return
+    } else if (get().dirty && !(await get().confirmDiscard())) {
+      return
+    }
+    set({ data: remote, dirty: false, status: 'ready', saveStatus: 'saved', saveError: null })
   },
 
   reset: () => {
-    if (saveTimer) clearTimeout(saveTimer)
-    set({ data: null, status: 'idle', saveStatus: 'idle', dirty: false })
+    // Nunca descartar um save pendente: o usuário já viu "salvo".
+    if (saveTimer) {
+      clearTimeout(saveTimer)
+      saveTimer = null
+      void flushSave()
+    }
+    if (realtimeUnsub) {
+      realtimeUnsub()
+      realtimeUnsub = null
+    }
+    set({ data: null, status: 'idle', saveStatus: 'idle', dirty: false, saveError: null })
   },
 
   commit: (transform) => {
@@ -144,27 +240,9 @@ export const useStateStore = create<StateStore>((set, get) => ({
   scheduleSave: () => {
     set({ dirty: true, saveStatus: 'saving' })
     if (saveTimer) clearTimeout(saveTimer)
-    saveTimer = setTimeout(async () => {
-      const data = get().data
-      if (!data) {
-        set({ saveStatus: 'idle' })
-        return
-      }
-      let saved = false
-      if (hasStateDoc()) {
-        try {
-          await saveToFirestore(data)
-          saved = true
-        } catch (e) {
-          console.error('Falha ao salvar no Firestore, tentando reserva local:', e)
-        }
-      }
-      if (!saved) {
-        const res = await saveToStorage(data)
-        saved = res.saved
-      }
-      if (saved) set({ saveStatus: 'saved', dirty: false })
-      else set({ saveStatus: 'error', dirty: true })
+    saveTimer = setTimeout(() => {
+      saveTimer = null
+      void flushSave()
     }, 400)
   },
 
@@ -235,3 +313,27 @@ export const useStateStore = create<StateStore>((set, get) => ({
     return { ok: out.newState !== null, message: out.message }
   },
 }))
+
+/**
+ * Descarrega o save pendente quando a aba é fechada ou escondida.
+ *
+ * Sem isso, uma editação feita menos de 400 ms antes de fechar a aba se
+ * perdia — depois de o usuário ter visto "salvo". A reserva local é
+ * síncrona e não bloqueia; a gravação no Firestore segue em background.
+ */
+if (typeof window !== 'undefined') {
+  const flushOnHide = () => {
+    const s = useStateStore.getState()
+    if (!s.dirty || !s.data) return
+    if (saveTimer) {
+      clearTimeout(saveTimer)
+      saveTimer = null
+    }
+    void reserveLocally(s.data)
+    void flushSave()
+  }
+  window.addEventListener('pagehide', flushOnHide)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') flushOnHide()
+  })
+}
