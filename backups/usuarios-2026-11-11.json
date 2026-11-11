@@ -1,0 +1,26 @@
+[
+  {
+    "uid": "zhU9PRmAXaVVJPjQnO03t8EdfED2",
+    "email": "cleiton.cruz@alloha.com",
+    "nome": "Cleiton Cruz",
+    "perfil": "leitura"
+  },
+  {
+    "uid": "17ggjZxRezL3Ys082NiLHTzHki53",
+    "email": "david.garcia@alloha.com",
+    "nome": "David Garcia",
+    "perfil": "admin"
+  },
+  {
+    "uid": "SDoq7SMYXOaqRYj5JNOusY6Pwy43",
+    "email": "davidsgarcia.dev@gmail.com",
+    "nome": "David Garcia",
+    "perfil": "admin"
+  },
+  {
+    "uid": "kfKFflwe8OaH8v5jnHWoG8oDfGk2",
+    "email": "marcos.freitas@alloha.com",
+    "nome": "Marcos Davi",
+    "perfil": "gestor"
+  }
+]
